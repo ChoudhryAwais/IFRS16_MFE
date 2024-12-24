@@ -8,3 +8,12 @@ export const registerUser = async (userModal) => {
         return error
     }
 }
+
+export const loginUser = async (loginModal) => {
+    try {
+        const response = await callApi(`/Login`, "POST", loginModal)
+        return response
+    } catch (error) {
+        return error
+    }
+}

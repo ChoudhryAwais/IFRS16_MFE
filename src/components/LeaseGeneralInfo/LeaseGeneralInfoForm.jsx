@@ -1,6 +1,14 @@
 import React, { useState } from 'react'
+import { addNewLease } from '../../utils/Cruds/LeaseData';
+import { SwalPopup } from '../../middlewares/SwalPopup/SwalPopup';
+import { statusCodeMessage } from '../../utils/enums/statusCode';
+import LoadingSpinner from '../LoadingBar/LoadingBar';
+import { useNavigate } from 'react-router-dom';
+import { getUserInfo } from '../../utils/SessionStorage/sessionCrud';
 
 export default function LeaseGeneralInfoForm() {
+    const [loading, setLoading] = useState(false)
+    const navigate = useNavigate()
     const [formData, setFormData] = useState({
         leaseId: 0,
         leaseName: '',
@@ -13,10 +21,10 @@ export default function LeaseGeneralInfoForm() {
     });
     const handleChange = (e) => {
         const { name, value } = e.target;
-
+        const newValue = !isNaN(value) ? parseInt(value) : value
         setFormData((prevData) => ({
             ...prevData,
-            [name]: value,
+            [name]: newValue,
         }));
     };
     const CalculateTotalsYearsAndDays = () => {
@@ -148,7 +156,6 @@ export default function LeaseGeneralInfoForm() {
         return leaseTable
     }
     function XIRR(cashFlows, dates, guess = 0.1) {
-        debugger
         if (cashFlows.length !== dates.length) {
             throw new Error("Cash flows and dates arrays must have the same length.");
         }
@@ -214,9 +221,31 @@ export default function LeaseGeneralInfoForm() {
         allLeases.push(newLease)
         localStorage.setItem("allLeases", JSON.stringify(allLeases))
     }
+    const submitLease = async () => {
+        const userInfo = getUserInfo()
+        const leaseModal = { ...formData, userID: userInfo.userID }
+        setLoading(true)
+        const response = await addNewLease(leaseModal)
+        setLoading(false)
+        if (response?.leaseId) {
+            SwalPopup(
+                "Lease Added",
+                statusCodeMessage.userCreated,
+                "success",
+                () => navigate("/IFRS16Accounting")
+            )
+        } else {
+            SwalPopup(
+                "Try again",
+                statusCodeMessage.somethingWentWrong,
+                "error"
+            )
+        }
+    }
 
     return (
         <React.Fragment>
+            <LoadingSpinner isLoading={loading} />
             <form className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 {/* Lease Name */}
                 <div>
@@ -335,7 +364,7 @@ export default function LeaseGeneralInfoForm() {
 
             </form>
             <button
-                onClick={Calculate}
+                onClick={submitLease}
                 type="button"
                 className="py-2.5 mt-3 px-5 me-2 mb-2 text-sm w-full font-medium text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-blue-700 ">
                 Submit
