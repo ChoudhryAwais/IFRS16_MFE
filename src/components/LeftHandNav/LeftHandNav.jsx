@@ -3,6 +3,7 @@ import React from 'react'
 import { Link } from 'react-router-dom'
 
 export default function LeftHandNav() {
+    const [activeTab, setactiveTab] = useState('/Dashboard')
 
     return (
         <>

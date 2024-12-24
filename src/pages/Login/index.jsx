@@ -78,7 +78,6 @@ export default function Login() {
     useEffect(() => {
         const checkForLogin = () => {
             const jwtToken = JSON.parse(getSessionStorage({ key: sessionVariable.token }))
-            debugger
             if (jwtToken && jwtToken.length > 0) {
                 navigate("/Dashboard")
             }

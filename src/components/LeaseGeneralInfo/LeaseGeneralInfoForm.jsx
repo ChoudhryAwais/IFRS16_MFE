@@ -21,7 +21,7 @@ export default function LeaseGeneralInfoForm() {
     });
     const handleChange = (e) => {
         const { name, value } = e.target;
-        const newValue = !isNaN(value) ? parseInt(value) : value
+        const newValue = !isNaN(value) ? (parseInt(value) || value) : value
         setFormData((prevData) => ({
             ...prevData,
             [name]: newValue,
@@ -221,7 +221,27 @@ export default function LeaseGeneralInfoForm() {
         allLeases.push(newLease)
         localStorage.setItem("allLeases", JSON.stringify(allLeases))
     }
+    // validate the form 
+    const handleValidateForm = () => {
+        if (
+            formData.leaseName === '' ||
+            formData.rental === '' ||
+            formData.commencementDate === '' ||
+            formData.endDate === '' ||
+            formData.ibr === ''
+        ) {
+            return true
+        }
+        return false
+    }
+    // Submit the new lease
     const submitLease = async () => {
+        SwalPopup(
+            "Lease Added",
+            statusCodeMessage.userCreated,
+            "success",
+            () => navigate("/IFRS16Accounting")
+        )
         const userInfo = getUserInfo()
         const leaseModal = { ...formData, userID: userInfo.userID }
         setLoading(true)
@@ -242,7 +262,6 @@ export default function LeaseGeneralInfoForm() {
             )
         }
     }
-
     return (
         <React.Fragment>
             <LoadingSpinner isLoading={loading} />
@@ -364,9 +383,10 @@ export default function LeaseGeneralInfoForm() {
 
             </form>
             <button
+                disabled={handleValidateForm()}
                 onClick={submitLease}
                 type="button"
-                className="py-2.5 mt-3 px-5 me-2 mb-2 text-sm w-full font-medium text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-blue-700 ">
+                className={(handleValidateForm() ? "cursor-no-drop" : " ") + " py-2.5 mt-3 px-5 me-2 mb-2 text-sm w-full font-medium text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-blue-700 "}>
                 Submit
             </button>
         </React.Fragment>

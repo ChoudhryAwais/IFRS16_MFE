@@ -1,6 +1,6 @@
 import Swal from 'sweetalert2';
 export const SwalPopup = (title, text, type, callback = false) => {
-    if (!callback) {
+    if (typeof callback === 'function') {
         Swal.fire({
             title,
             text,
