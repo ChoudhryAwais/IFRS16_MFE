@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { loginUser } from '../../utils/Cruds/User';
+import { loginUser } from '../../apis/Cruds/User';
 import { emailRegex } from '../../utils/inputValidation';
 import { SwalPopup } from '../../middlewares/SwalPopup/SwalPopup';
 import { statusCode, statusCodeMessage } from '../../utils/enums/statusCode';

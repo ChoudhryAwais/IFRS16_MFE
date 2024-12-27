@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { emailRegex, numberRegex } from '../../utils/inputValidation';
-import { registerUser } from '../../utils/Cruds/User';
+import { registerUser } from '../../apis/Cruds/User';
 import { SwalPopup } from '../../middlewares/SwalPopup/SwalPopup';
 import { statusCodeMessage } from '../../utils/enums/statusCode';
 import LoadingSpinner from '../../components/LoadingBar/LoadingBar';

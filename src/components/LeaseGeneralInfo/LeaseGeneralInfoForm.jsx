@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { addNewLease } from '../../utils/Cruds/LeaseData';
+import { addNewLease } from '../../apis/Cruds/LeaseData';
 import { SwalPopup } from '../../middlewares/SwalPopup/SwalPopup';
 import { statusCodeMessage } from '../../utils/enums/statusCode';
 import LoadingSpinner from '../LoadingBar/LoadingBar';

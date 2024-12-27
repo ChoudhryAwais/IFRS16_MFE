@@ -1,4 +1,4 @@
-import { callApi } from "../callApi"
+import { callApi } from "./../callApi"
 
 export const registerUser = async (userModal) => {
     try {
