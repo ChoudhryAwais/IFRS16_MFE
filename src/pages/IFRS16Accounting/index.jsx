@@ -10,7 +10,7 @@ import LeaseDetail from '../Leases/LeaseDetail'
 export default function IFRS16Accounting() {
   const [allLeases, setAllLeases] = useState([])
   const [leasePopup, setLeasePopup] = useState(false)
-  const [selectedLeaseId, setSelectedLeaseId] = useState(null)
+  const [selectedLease, setSelectedLease] = useState(null)
 
   useEffect(() => {
     getLeases()
@@ -28,20 +28,19 @@ export default function IFRS16Accounting() {
     }
     setAllLeases(response)
   }
-  const getLeaseDetail = (leaseId) => {
-    setSelectedLeaseId(leaseId)
+  const getLeaseDetail = (leaseData) => {
+    setSelectedLease(leaseData)
     setLeasePopup(true)
   }
   const extandedTableFunc = {
-    primaryKey: "leaseId",
-    callBack: (leaseId) => getLeaseDetail(leaseId)
+    callBack: (leaseData) => getLeaseDetail(leaseData)
   }
 
   return (
     <div>
       <CustomModal
         mainContent={
-          <LeaseDetail selectedLeaseId={selectedLeaseId} />
+          <LeaseDetail selectedLease={selectedLease} />
         }
         openModal={leasePopup}
         closeModal={() => {

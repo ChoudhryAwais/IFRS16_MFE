@@ -1,20 +1,25 @@
+import { formatCurrency, formatDate } from "../FormateValues";
+
 export const leaseCols = {
     leaseName: "Lease Name",
-    rental: "Rental",
+    rental: [
+        "Rental",
+        (cell) => {
+            return formatCurrency(cell)
+        }
+    ],
     commencementDate:
         [
             "Commencement Date",
             (cell) => {
-                const formateDate = new Date(cell)
-                return (<div className="w-16">{formateDate.toLocaleDateString()}</div>)
+                return formatDate(cell)
             }
         ],
     endDate:
         [
             "End Date",
             (cell) => {
-                const formateDate = new Date(cell)
-                return (<div className="w-16">{formateDate.toLocaleDateString()}</div>)
+                formatDate(cell)
             }
         ],
 
@@ -24,9 +29,54 @@ export const leaseCols = {
     userID: "User ID",
 };
 
-export const initialRecognitionCols ={
+export const initialRecognitionCols = {
     serialNo: "No.",      // Equivalent to SerialNo (int)
-    paymentDate: "Payment Date",  // Equivalent to PaymentDate (string)
-    rental: "Rental",      // Equivalent to Rental (decimal)
-    npv: "NPV"          // Equivalent to NPV (decimal)
+    // Equivalent to PaymentDate (string)
+    paymentDate: [
+        "Payment Date",
+        (cell) => {
+            return <div className="w-28">{formatDate(cell)}</div>
+        }
+    ],
+    // Equivalent to Rental (decimal)
+    rental: [
+        "Rental",
+        (cell) => {
+            return formatCurrency(cell)
+        }
+    ],
+    // Equivalent to NPV (decimal)
+    npv: [
+        "NPV",
+        (cell) => {
+            return formatCurrency(cell)
+        }
+    ],
+};
+
+export const ROUScheduleCols = {
+    date: [
+        "Date",
+        (cell) => {
+            return formatDate(cell)
+        }
+    ],
+    opening: [
+        "Opening",
+        (cell) => {
+            return formatCurrency(cell)
+        }
+    ],
+    amortization: [
+        "Amortization",
+        (cell) => {
+            return formatCurrency(cell)
+        }
+    ],
+    closing: [
+        "Closing",
+        (cell) => {
+            return formatCurrency(cell)
+        }
+    ],
 };
