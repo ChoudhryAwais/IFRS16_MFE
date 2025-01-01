@@ -8,7 +8,10 @@ import { CustomModal } from '../../components/CustomModal/CustomModal'
 import LeaseDetail from '../Leases/LeaseDetail'
 
 export default function IFRS16Accounting() {
-  const [allLeases, setAllLeases] = useState([])
+  const [allLeases, setAllLeases] = useState({
+    data: [],
+    loading: false
+  })
   const [leasePopup, setLeasePopup] = useState(false)
   const [selectedLease, setSelectedLease] = useState(null)
 
@@ -17,16 +20,16 @@ export default function IFRS16Accounting() {
   }, [])
 
   const getLeases = async () => {
+    setAllLeases({
+      ...allLeases,
+      loading: true
+    })
     const response = await getAllLeases()
-    if (!(response.length > 0)) {
-      SwalPopup(
-        "Try again",
-        statusCode.somethingWentWrong,
-        "error"
-      )
-      return
-    }
-    setAllLeases(response)
+    setAllLeases({
+      ...allLeases,
+      loading: false,
+      data: response
+    })
   }
   const getLeaseDetail = (leaseData) => {
     setSelectedLease(leaseData)
@@ -42,6 +45,7 @@ export default function IFRS16Accounting() {
         mainContent={
           <LeaseDetail selectedLease={selectedLease} />
         }
+        modalTitle={"Lease Detail"}
         openModal={leasePopup}
         closeModal={() => {
           setLeasePopup(false)
@@ -49,9 +53,10 @@ export default function IFRS16Accounting() {
       />
       <Tables
         extandedTableFunc={extandedTableFunc}
-        data={allLeases}
+        data={allLeases.data}
         columns={leaseCols}
         calcHeight="45px"
+        isLoading={allLeases.loading}
       />
     </div>
   )

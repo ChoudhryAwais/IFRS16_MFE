@@ -2,15 +2,25 @@ import React, { useEffect, useState } from 'react'
 import Tabs from '../../../components/Tabs/Tabs'
 import { getInitialRecognitionForLease } from '../../../apis/Cruds/InitialRecognition';
 import Tables from '../../../components/Tables/Tables';
-import { SwalPopup } from '../../../middlewares/SwalPopup/SwalPopup';
-import { statusCode } from '../../../utils/enums/statusCode';
-import { initialRecognitionCols, ROUScheduleCols } from '../../../utils/tableCols/tableCols';
+import { initialRecognitionCols, leaseLiabilityCols, ROUScheduleCols } from '../../../utils/tableCols/tableCols';
 import { getRouScheduleForLease } from '../../../apis/Cruds/RouSchedule';
+import { getLeaseLiabilityForLease } from '../../../apis/Cruds/LeaseLiability';
 
 export default function LeaseDetail(props) {
     const { selectedLease } = props
-    const [InitialRecognitionData, setInitialRecognitionData] = useState({})
-    const [rouScheduleData, setRouScheduleData] = useState([])
+    const [InitialRecognition, setInitialRecognition] = useState({
+        data: {},
+        loading: false
+    })
+    const [rouSchedule, setRouSchedule] = useState({
+        data: [],
+        loading: false
+    })
+    const [leaseLiability, setLeaseLiability] = useState({
+        data: [],
+        loading: false
+    })
+
     const tabs = [
         {
             id: '1',
@@ -18,14 +28,24 @@ export default function LeaseDetail(props) {
             component: (
                 <Tables
                     columns={initialRecognitionCols}
-                    data={InitialRecognitionData?.initialRecognition || []}
+                    data={InitialRecognition.data?.initialRecognition || []}
                     calcHeight="240px"
+                    isLoading={InitialRecognition.loading}
                 />
             )
         },
         {
             id: '2',
             label: 'Lease Liability',
+            component: (
+                <Tables
+                    columns={leaseLiabilityCols}
+                    data={leaseLiability.data}
+                    calcHeight="240px"
+                    isLoading={leaseLiability.loading}
+                />
+            ),
+            callback: () => leaseLiabilityForLease()
         },
         {
             id: '3',
@@ -33,8 +53,9 @@ export default function LeaseDetail(props) {
             component: (
                 <Tables
                     columns={ROUScheduleCols}
-                    data={rouScheduleData}
+                    data={rouSchedule.data}
                     calcHeight="240px"
+                    isLoading={rouSchedule.loading}
                 />
             ),
             callback: () => rouScheduleForLease()
@@ -44,24 +65,55 @@ export default function LeaseDetail(props) {
     ];
 
     const InitialRecognitionForLease = async () => {
+        setInitialRecognition({
+            ...InitialRecognition,
+            loading: true
+        })
         const response = await getInitialRecognitionForLease(selectedLease)
-        if (!response?.initialRecognition) {
-            SwalPopup(
-                "Try again",
-                statusCode.somethingWentWrong,
-                "error"
-            )
-            return
-        }
-        setInitialRecognitionData(response)
+        setInitialRecognition({
+            ...InitialRecognition,
+            loading: false,
+            data: response
+        })
     }
     const rouScheduleForLease = async () => {
+        if (rouSchedule.data.length > 0)
+            return
         const requestModal = {
             leaseData: selectedLease,
-            totalNPV: InitialRecognitionData.totalNPV
+            totalNPV: InitialRecognition.data.totalNPV
         }
+        setRouSchedule({
+            ...rouSchedule,
+            loading: true,
+        })
         const response = await getRouScheduleForLease(requestModal)
-        setRouScheduleData(response)
+        setRouSchedule({
+            ...rouSchedule,
+            loading: false,
+            data: response
+        })
+    }
+    const leaseLiabilityForLease = async () => {
+        if (leaseLiability.data.length > 0)
+            return
+        const requestModal = {
+            totalNPV: InitialRecognition.data?.totalNPV,
+            cashFlow: InitialRecognition.data?.cashFlow,
+            dates: InitialRecognition.data?.dates,
+            leaseData: selectedLease,
+
+        }
+        setLeaseLiability({
+            ...leaseLiability,
+            loading: true,
+        })
+        const response = await getLeaseLiabilityForLease(requestModal)
+        setLeaseLiability({
+            ...leaseLiability,
+            loading: false,
+            data: response
+        })
     }
 
     useEffect(() => {

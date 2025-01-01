@@ -4,7 +4,7 @@ import { emailRegex, numberRegex } from '../../utils/inputValidation';
 import { registerUser } from '../../apis/Cruds/User';
 import { SwalPopup } from '../../middlewares/SwalPopup/SwalPopup';
 import { statusCodeMessage } from '../../utils/enums/statusCode';
-import LoadingSpinner from '../../components/LoadingBar/LoadingBar';
+import { LoadingSpinner } from '../../components/LoadingBar/LoadingBar';
 
 export default function Register() {
     const navigate = useNavigate()

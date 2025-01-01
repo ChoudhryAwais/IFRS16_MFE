@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import { addNewLease } from '../../apis/Cruds/LeaseData';
 import { SwalPopup } from '../../middlewares/SwalPopup/SwalPopup';
 import { statusCodeMessage } from '../../utils/enums/statusCode';
-import LoadingSpinner from '../LoadingBar/LoadingBar';
+import { LoadingSpinner } from '../LoadingBar/LoadingBar';
 import { useNavigate } from 'react-router-dom';
 import { getUserInfo } from '../../utils/SessionStorage/sessionCrud';
 
@@ -265,7 +265,7 @@ export default function LeaseGeneralInfoForm() {
     return (
         <React.Fragment>
             <LoadingSpinner isLoading={loading} />
-            <form className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <form className="grid grid-cols-1 md:grid-cols-3 gap-6 bg-white p-4 shadow-md rounded-lg">
                 {/* Lease Name */}
                 <div>
                     <label htmlFor="leaseName" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
@@ -386,7 +386,7 @@ export default function LeaseGeneralInfoForm() {
                 disabled={handleValidateForm()}
                 onClick={submitLease}
                 type="button"
-                className={(handleValidateForm() ? "cursor-no-drop" : " ") + " py-2.5 mt-3 px-5 me-2 mb-2 text-sm w-full font-medium text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-blue-700 "}>
+                className={(handleValidateForm() ? "cursor-no-drop" : " ") + " py-2.5 mt-3 px-5 me-2 mb-2 text-sm w-full font-medium text-white focus:outline-none bg-green-400 rounded-lg border border-gray-200 hover:bg-green-500 hover:text-white "}>
                 Submit
             </button>
         </React.Fragment>

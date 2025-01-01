@@ -19,13 +19,29 @@ export const leaseCols = {
         [
             "End Date",
             (cell) => {
-                formatDate(cell)
+                return formatDate(cell)
             }
         ],
 
-    annuity: "Annuity",
-    ibr: "IBR",
-    frequency: "Frequency",
+    annuity:
+        [
+            "Annuity",
+            (cell) => {
+                return cell.toUpperCase()
+            }
+        ],
+    ibr: [
+        "IBR",
+        (cell) => {
+            return (cell + "%")
+        }
+    ],
+    frequency: [
+        "Frequency",
+        (cell) => {
+            return cell.toUpperCase()
+        }
+    ],
     userID: "User ID",
 };
 
@@ -53,6 +69,40 @@ export const initialRecognitionCols = {
         }
     ],
 };
+
+export const leaseLiabilityCols =
+{
+    date: [
+        "Date",
+        (cell) => {
+            return <div className="w-32">{formatDate(cell)}</div>
+        }
+    ],
+    opening: [
+        "Opening",
+        (cell) => {
+            return formatCurrency(cell)
+        }
+    ],
+    interest: [
+        "Interest",
+        (cell) => {
+            return formatCurrency(cell)
+        }
+    ],
+    payment: [
+        "Payment",
+        (cell) => {
+            return formatCurrency(cell)
+        }
+    ],
+    closing: [
+        "Closing",
+        (cell) => {
+            return formatCurrency(cell)
+        }
+    ],
+}
 
 export const ROUScheduleCols = {
     date: [
