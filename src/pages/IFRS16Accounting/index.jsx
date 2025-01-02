@@ -31,6 +31,8 @@ export default function IFRS16Accounting() {
   };
 
   const getLeases = async () => {
+    if((allLeases?.data.length>0))
+      return
     setAllLeases({
       ...allLeases,
       loading: true

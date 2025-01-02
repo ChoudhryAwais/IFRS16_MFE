@@ -72,7 +72,7 @@ export const initialRecognitionCols = {
 
 export const leaseLiabilityCols =
 {
-    date: [
+    leaseLiability_Date: [
         "Date",
         (cell) => {
             return <div className="w-32">{formatDate(cell)}</div>
@@ -105,7 +105,7 @@ export const leaseLiabilityCols =
 }
 
 export const ROUScheduleCols = {
-    date: [
+    roU_Date: [
         "Date",
         (cell) => {
             return formatDate(cell)

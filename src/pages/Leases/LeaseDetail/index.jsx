@@ -21,6 +21,7 @@ export default function LeaseDetail(props) {
         loading: false
     })
 
+    // Specific lease tabs
     const tabs = [
         {
             id: '1',
@@ -32,7 +33,8 @@ export default function LeaseDetail(props) {
                     calcHeight="240px"
                     isLoading={InitialRecognition.loading}
                 />
-            )
+            ),
+            callback: () => InitialRecognitionForLease()
         },
         {
             id: '2',
@@ -63,52 +65,45 @@ export default function LeaseDetail(props) {
         { id: '4', label: 'Journal Entries' },
         { id: '5', label: 'Disclousure' },
     ];
-
+    // Method to get the initialRecognition for specific lease
     const InitialRecognitionForLease = async () => {
+        if (InitialRecognition?.data?.initialRecognition > 0)
+            return
         setInitialRecognition({
             ...InitialRecognition,
             loading: true
         })
-        const response = await getInitialRecognitionForLease(selectedLease)
+        const response = await getInitialRecognitionForLease(selectedLease.leaseId)
         setInitialRecognition({
             ...InitialRecognition,
             loading: false,
             data: response
         })
     }
+    // Method to get the rouSchedule for specific lease
     const rouScheduleForLease = async () => {
         if (rouSchedule.data.length > 0)
             return
-        const requestModal = {
-            leaseData: selectedLease,
-            totalNPV: InitialRecognition.data.totalNPV
-        }
         setRouSchedule({
             ...rouSchedule,
             loading: true,
         })
-        const response = await getRouScheduleForLease(requestModal)
+        const response = await getRouScheduleForLease(selectedLease.leaseId)
         setRouSchedule({
             ...rouSchedule,
             loading: false,
             data: response
         })
     }
+    // Method to get the leaseliability for specific lease
     const leaseLiabilityForLease = async () => {
         if (leaseLiability.data.length > 0)
             return
-        const requestModal = {
-            totalNPV: InitialRecognition.data?.totalNPV,
-            cashFlow: InitialRecognition.data?.cashFlow,
-            dates: InitialRecognition.data?.dates,
-            leaseData: selectedLease,
-
-        }
         setLeaseLiability({
             ...leaseLiability,
             loading: true,
         })
-        const response = await getLeaseLiabilityForLease(requestModal)
+        const response = await getLeaseLiabilityForLease(selectedLease.leaseId)
         setLeaseLiability({
             ...leaseLiability,
             loading: false,
