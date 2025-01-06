@@ -4,7 +4,7 @@ import { getAllLeases } from '../../apis/Cruds/LeaseData'
 import { leaseCols } from '../../utils/tableCols/tableCols'
 import { CustomModal } from '../../components/CustomModal/CustomModal'
 import LeaseDetail from '../Leases/LeaseDetail'
-import { CollapsibleFilterBox } from '../../components/FilterBox/FilterBox'
+// import { CollapsibleFilterBox } from '../../components/FilterBox/FilterBox'
 
 export default function IFRS16Accounting() {
   const [filterModal, setfilterModal] = useState({
@@ -13,13 +13,14 @@ export default function IFRS16Accounting() {
   })
   const [allLeases, setAllLeases] = useState({
     data: [],
+    totalRecord: null,
     loading: false
   })
   const [leasePopup, setLeasePopup] = useState(false)
   const [selectedLease, setSelectedLease] = useState(null)
 
   useEffect(() => {
-    getLeases()
+    getLeases(1, 10)
   }, [])
 
   const handleChange = (e) => {
@@ -30,18 +31,17 @@ export default function IFRS16Accounting() {
     }));
   };
 
-  const getLeases = async () => {
-    if((allLeases?.data.length>0))
-      return
+  const getLeases = async (pageNumber, pageSize) => {
     setAllLeases({
       ...allLeases,
       loading: true
     })
-    const response = await getAllLeases()
+    const response = await getAllLeases(pageNumber, pageSize)
     setAllLeases({
       ...allLeases,
       loading: false,
-      data: response
+      data: response.data,
+      totalRecord: response.totalRecords
     })
   }
   const getLeaseDetail = (leaseData) => {
@@ -116,10 +116,12 @@ export default function IFRS16Accounting() {
       />
       <Tables
         extandedTableFunc={extandedTableFunc}
-        data={allLeases.data}
+        data={allLeases?.data || []}
         columns={leaseCols}
         calcHeight="45px"
         isLoading={allLeases.loading}
+        totalRecord={allLeases.totalRecord}
+        getPaginatedData={getLeases}
       />
     </div>
   )

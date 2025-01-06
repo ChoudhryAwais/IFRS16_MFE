@@ -51,31 +51,15 @@ export default function LeaseGeneralInfoForm() {
         try {
             const leaseResponse = await addNewLease(leaseModal)
             if (leaseResponse?.leaseId) {
-                const initialRecognitionResponse = await postInitialRecognitionForLease(leaseResponse)
-                if (initialRecognitionResponse.initialRecognition.length > 0) {
-                    const requestModalForlease = {
-                        totalNPV: initialRecognitionResponse?.totalNPV,
-                        cashFlow: initialRecognitionResponse?.cashFlow,
-                        dates: initialRecognitionResponse?.dates,
-                        leaseData: leaseResponse,
-                    }
-                    const leaseLiabilityResponse = await postLeaseLiabilityForLease(requestModalForlease)
-                    if (leaseLiabilityResponse == true) {
-                        const requestModalForRou = {
-                            leaseData: leaseResponse,
-                            totalNPV: initialRecognitionResponse?.totalNPV,
-                        }
-                        const RouResponse = await postRouScheduleForLease(requestModalForRou)
-                        setLoading(false)
-                        if (RouResponse == true)
-                            SwalPopup(
-                                "Lease Added",
-                                statusCodeMessage.userCreated,
-                                "success",
-                                () => navigate("/IFRS16Accounting")
-                            )
-                    }
-                }
+                setLoading(false)
+                SwalPopup(
+                    "Lease Added",
+                    statusCodeMessage.userCreated,
+                    "success",
+                    () => navigate("/IFRS16Accounting")
+                )
+            } else {
+                setLoading(false)
             }
         } catch {
             setLoading(false)

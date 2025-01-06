@@ -1,8 +1,8 @@
 import { callApi } from "../callApi"
 
-export const getLeaseLiabilityForLease = async (leaseId) => {
+export const getLeaseLiabilityForLease = async (pageNumber, pageSize, leaseId) => {
     try {
-        const response = await callApi(`/LeaseLiability/${leaseId}`, "GET")
+        const response = await callApi(`/LeaseLiability?pageNumber=${pageNumber}&pageSize=${pageSize}&leaseId=${leaseId}`, "GET")
         return response
     } catch (error) {
         return error

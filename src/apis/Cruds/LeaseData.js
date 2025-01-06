@@ -9,9 +9,9 @@ export const addNewLease = async (leaseModal) => {
     }
 }
 
-export const getAllLeases = async () => {
+export const getAllLeases = async (pageNumber,pageSize) => {
     try {
-        const response = await callApi(`/LeaseFormData/GetAllLeases`, "GET")
+        const response = await callApi(`/LeaseFormData/GetAllLeases?pageNumber=${pageNumber}&pageSize=${pageSize}`, "GET")
         return response
     } catch (error) {
         return error

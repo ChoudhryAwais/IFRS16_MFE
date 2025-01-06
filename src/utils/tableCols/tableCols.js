@@ -42,7 +42,7 @@ export const leaseCols = {
             return cell.toUpperCase()
         }
     ],
-    userID: "User ID",
+    username: "User Name",
 };
 
 export const initialRecognitionCols = {

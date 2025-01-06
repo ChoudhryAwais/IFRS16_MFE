@@ -32,7 +32,7 @@ export default function Tabs({ tabs }) {
                     </li>
                 ))}
             </ul>
-            <div className="container mx-auto p-6">
+            <div className="container mx-auto px-2">
                 {currentTabContent()}
             </div>
 

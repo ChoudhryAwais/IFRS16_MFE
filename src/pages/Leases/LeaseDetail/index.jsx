@@ -10,16 +10,68 @@ export default function LeaseDetail(props) {
     const { selectedLease } = props
     const [InitialRecognition, setInitialRecognition] = useState({
         data: {},
+        totalRecord: null,
         loading: false
     })
     const [rouSchedule, setRouSchedule] = useState({
         data: [],
-        loading: false
+        loading: false,
+        totalRecord: null,
     })
     const [leaseLiability, setLeaseLiability] = useState({
         data: [],
-        loading: false
+        loading: false,
+        totalRecord: null,
     })
+
+    // Method to get the initialRecognition for specific lease
+    const InitialRecognitionForLease = async (pageNumber, pageSize) => {
+        setInitialRecognition({
+            ...InitialRecognition,
+            loading: true
+        })
+        const response = await getInitialRecognitionForLease(pageNumber, pageSize, selectedLease.leaseId)
+        setInitialRecognition({
+            ...InitialRecognition,
+            loading: false,
+            data: response?.initialRecognition || [],
+            totalRecord: response?.totalRecords || 0
+        })
+    }
+    // Method to get the rouSchedule for specific lease
+    const rouScheduleForLease = async (pageNumber, pageSize) => {
+        setRouSchedule({
+            ...rouSchedule,
+            loading: true,
+        })
+        const response = await getRouScheduleForLease(pageNumber, pageSize, selectedLease.leaseId)
+        setRouSchedule({
+            ...rouSchedule,
+            loading: false,
+            data: response?.data || [],
+            totalRecord: response?.totalRecords || 0
+        })
+    }
+    // Method to get the leaseliability for specific lease
+    const leaseLiabilityForLease = async (pageNumber, pageSize) => {
+        setLeaseLiability({
+            ...leaseLiability,
+            loading: true,
+        })
+        const response = await getLeaseLiabilityForLease(pageNumber, pageSize, selectedLease.leaseId)
+        setLeaseLiability({
+            ...leaseLiability,
+            loading: false,
+            data: response?.data || [],
+            totalRecord: response?.totalRecords || 0
+        })
+    }
+
+    useEffect(() => {
+        InitialRecognitionForLease(1, 10)
+    }, [selectedLease])
+
+
 
     // Specific lease tabs
     const tabs = [
@@ -29,12 +81,14 @@ export default function LeaseDetail(props) {
             component: (
                 <Tables
                     columns={initialRecognitionCols}
-                    data={InitialRecognition.data?.initialRecognition || []}
+                    data={InitialRecognition.data || []}
                     calcHeight="240px"
                     isLoading={InitialRecognition.loading}
+                    totalRecord={InitialRecognition.totalRecord}
+                    getPaginatedData={InitialRecognitionForLease}
                 />
             ),
-            callback: () => InitialRecognitionForLease()
+            callback: () => InitialRecognitionForLease(1, 10)
         },
         {
             id: '2',
@@ -45,9 +99,11 @@ export default function LeaseDetail(props) {
                     data={leaseLiability.data}
                     calcHeight="240px"
                     isLoading={leaseLiability.loading}
+                    totalRecord={leaseLiability.totalRecord}
+                    getPaginatedData={leaseLiabilityForLease}
                 />
             ),
-            callback: () => leaseLiabilityForLease()
+            callback: () => leaseLiabilityForLease(1, 10)
         },
         {
             id: '3',
@@ -58,62 +114,15 @@ export default function LeaseDetail(props) {
                     data={rouSchedule.data}
                     calcHeight="240px"
                     isLoading={rouSchedule.loading}
+                    totalRecord={rouSchedule.totalRecord}
+                    getPaginatedData={rouScheduleForLease}
                 />
             ),
-            callback: () => rouScheduleForLease()
+            callback: () => rouScheduleForLease(1, 10)
         },
         { id: '4', label: 'Journal Entries' },
         { id: '5', label: 'Disclousure' },
     ];
-    // Method to get the initialRecognition for specific lease
-    const InitialRecognitionForLease = async () => {
-        if (InitialRecognition?.data?.initialRecognition > 0)
-            return
-        setInitialRecognition({
-            ...InitialRecognition,
-            loading: true
-        })
-        const response = await getInitialRecognitionForLease(selectedLease.leaseId)
-        setInitialRecognition({
-            ...InitialRecognition,
-            loading: false,
-            data: response
-        })
-    }
-    // Method to get the rouSchedule for specific lease
-    const rouScheduleForLease = async () => {
-        if (rouSchedule.data.length > 0)
-            return
-        setRouSchedule({
-            ...rouSchedule,
-            loading: true,
-        })
-        const response = await getRouScheduleForLease(selectedLease.leaseId)
-        setRouSchedule({
-            ...rouSchedule,
-            loading: false,
-            data: response
-        })
-    }
-    // Method to get the leaseliability for specific lease
-    const leaseLiabilityForLease = async () => {
-        if (leaseLiability.data.length > 0)
-            return
-        setLeaseLiability({
-            ...leaseLiability,
-            loading: true,
-        })
-        const response = await getLeaseLiabilityForLease(selectedLease.leaseId)
-        setLeaseLiability({
-            ...leaseLiability,
-            loading: false,
-            data: response
-        })
-    }
-
-    useEffect(() => {
-        InitialRecognitionForLease()
-    }, [selectedLease])
 
     return (
         <Tabs tabs={tabs} />
