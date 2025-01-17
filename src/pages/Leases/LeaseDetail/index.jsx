@@ -8,6 +8,7 @@ import { getLeaseLiabilityForLease } from '../../../apis/Cruds/LeaseLiability';
 
 export default function LeaseDetail(props) {
     const { selectedLease } = props
+    const [activeTab, setActiveTab] = useState('1');
     const [InitialRecognition, setInitialRecognition] = useState({
         data: {},
         totalRecord: null,
@@ -23,7 +24,6 @@ export default function LeaseDetail(props) {
         loading: false,
         totalRecord: null,
     })
-
     // Method to get the initialRecognition for specific lease
     const InitialRecognitionForLease = async (pageNumber, pageSize) => {
         setInitialRecognition({
@@ -66,13 +66,9 @@ export default function LeaseDetail(props) {
             totalRecord: response?.totalRecords || 0
         })
     }
-
     useEffect(() => {
         InitialRecognitionForLease(1, 10)
     }, [selectedLease])
-
-
-
     // Specific lease tabs
     const tabs = [
         {
@@ -86,9 +82,13 @@ export default function LeaseDetail(props) {
                     isLoading={InitialRecognition.loading}
                     totalRecord={InitialRecognition.totalRecord}
                     getPaginatedData={InitialRecognitionForLease}
+                    tabChange={activeTab}
                 />
             ),
-            callback: () => InitialRecognitionForLease(1, 10)
+            callback: () => InitialRecognitionForLease(1, 10),
+            tabChange: (tab) => {
+                setActiveTab(tab)
+            }
         },
         {
             id: '2',
@@ -101,9 +101,13 @@ export default function LeaseDetail(props) {
                     isLoading={leaseLiability.loading}
                     totalRecord={leaseLiability.totalRecord}
                     getPaginatedData={leaseLiabilityForLease}
+                    tabChange={activeTab}
                 />
             ),
-            callback: () => leaseLiabilityForLease(1, 10)
+            callback: () => leaseLiabilityForLease(1, 10),
+            tabChange: (tab) => {
+                setActiveTab(tab)
+            }
         },
         {
             id: '3',
@@ -116,9 +120,13 @@ export default function LeaseDetail(props) {
                     isLoading={rouSchedule.loading}
                     totalRecord={rouSchedule.totalRecord}
                     getPaginatedData={rouScheduleForLease}
+                    tabChange={activeTab}
                 />
             ),
-            callback: () => rouScheduleForLease(1, 10)
+            callback: () => rouScheduleForLease(1, 10),
+            tabChange: (tab) => {
+                setActiveTab(tab)
+            }
         },
         { id: '4', label: 'Journal Entries' },
         { id: '5', label: 'Disclousure' },

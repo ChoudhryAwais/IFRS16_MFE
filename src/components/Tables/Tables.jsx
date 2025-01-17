@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { TableLoadingSpinner } from '../LoadingBar/LoadingBar'
 
 export default function Tables(props) {
-    const { data, columns, extandedTableFunc, calcHeight, isLoading, totalRecord, getPaginatedData } = props
+    const { data, columns, extandedTableFunc, calcHeight, isLoading, totalRecord, getPaginatedData, tabChange } = props
     const TableMaxHeight = `calc(100vh - ${calcHeight})`
     const [pageSize, setPageSize] = useState(10); // Default page size
     const [pageNumber, setPageNumber] = useState(1); // Default page number
@@ -27,6 +27,14 @@ export default function Tables(props) {
         const totalPage = (totalRecord % 1 === 0) ? (Math.floor(totalRecord / pageSize) + 1) : totalRecord / pageSize
         setTotalPages(totalPage)
     }, [data])
+
+    useEffect(() => {
+        if (tabChange) {
+            setPageSize(10);
+            setPageNumber(1)
+        }
+    }, [tabChange])
+
 
     return (
         <React.Fragment>

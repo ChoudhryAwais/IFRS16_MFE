@@ -118,7 +118,7 @@ export default function IFRS16Accounting() {
         extandedTableFunc={extandedTableFunc}
         data={allLeases?.data || []}
         columns={leaseCols}
-        calcHeight="45px"
+        calcHeight="75px"
         isLoading={allLeases.loading}
         totalRecord={allLeases.totalRecord}
         getPaginatedData={getLeases}

@@ -20,7 +20,6 @@ export const callApi = (endpoint, method, payload=null,username = "11214033", pa
     },
     ...(username && password ? { auth: { username, password } } : {}),
   };
-  debugger
   return new Promise((resolve, reject) => {
     axios(configaxios)
       .then((res) => {

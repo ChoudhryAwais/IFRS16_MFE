@@ -56,7 +56,7 @@ export const initialRecognitionCols = {
     ],
     // Equivalent to Rental (decimal)
     rental: [
-        "Rental",
+        "Rental / GRV",
         (cell) => {
             return formatCurrency(cell)
         }

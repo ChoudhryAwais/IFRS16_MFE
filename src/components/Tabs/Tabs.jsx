@@ -8,10 +8,12 @@ export default function Tabs({ tabs }) {
         return activeTabContent
     }
 
-    const handleHandleTabChange =(tab)=>{
+    const handleHandleTabChange = (tab) => {
         setActiveTab(tab.id)
-        if(tab.callback){
-            tab.callback() 
+        if (tab.callback) {
+            tab.callback()
+        } if (typeof tab.tabChange == "function") {
+            tab.tabChange(tab.id)
         }
     }
 
@@ -21,7 +23,7 @@ export default function Tabs({ tabs }) {
                 {tabs.map((tab) => (
                     <li key={tab.id} className="me-2">
                         <button
-                            onClick={()=>handleHandleTabChange(tab)}
+                            onClick={() => handleHandleTabChange(tab)}
                             className={`inline-block p-4 rounded-t-lg transition-all duration-300 ${activeTab === tab.id
                                 ? 'text-blue-600 bg-gray-100'
                                 : 'hover:text-gray-600 hover:bg-gray-50'

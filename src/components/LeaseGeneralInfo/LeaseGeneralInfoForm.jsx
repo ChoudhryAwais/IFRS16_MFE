@@ -1,15 +1,12 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { addNewLease } from '../../apis/Cruds/LeaseData';
 import { SwalPopup } from '../../middlewares/SwalPopup/SwalPopup';
 import { statusCodeMessage } from '../../utils/enums/statusCode';
 import { LoadingSpinner } from '../LoadingBar/LoadingBar';
 import { useNavigate } from 'react-router-dom';
 import { getUserInfo } from '../../utils/SessionStorage/sessionCrud';
-import { postInitialRecognitionForLease } from '../../apis/Cruds/InitialRecognition';
-import { postRouScheduleForLease } from '../../apis/Cruds/RouSchedule';
-import { postLeaseLiabilityForLease } from '../../apis/Cruds/LeaseLiability';
 
-export default function LeaseGeneralInfoForm() {
+export default function LeaseGeneralInfoForm({ otherTabs, increment }) {
     const [loading, setLoading] = useState(false)
     const navigate = useNavigate()
     const [formData, setFormData] = useState({
@@ -21,6 +18,10 @@ export default function LeaseGeneralInfoForm() {
         annuity: 'advance',
         ibr: '',
         frequency: 'annual',
+        idc: null,
+        grv: null,
+        increment: null
+
     });
     const handleChange = (e) => {
         const { name, value } = e.target;
@@ -32,12 +33,21 @@ export default function LeaseGeneralInfoForm() {
     };
     // validate the form 
     const handleValidateForm = () => {
+        if (otherTabs) {
+            if (formData.idc === null || formData.idc === '' || formData.grv === '' || formData.grv === null)
+                return true
+        }
+        if (increment) {
+            if (formData.increment === null || formData.increment === '')
+                return true
+        }
         if (
-            formData.leaseName === '' ||
-            formData.rental === '' ||
-            formData.commencementDate === '' ||
-            formData.endDate === '' ||
-            formData.ibr === ''
+            (formData.leaseName === '' ||
+                formData.rental === '' ||
+                formData.commencementDate === '' ||
+                formData.endDate === '' ||
+                formData.ibr === '')
+
         ) {
             return true
         }
@@ -54,7 +64,7 @@ export default function LeaseGeneralInfoForm() {
                 setLoading(false)
                 SwalPopup(
                     "Lease Added",
-                    statusCodeMessage.userCreated,
+                    statusCodeMessage.leaseAdded,
                     "success",
                     () => navigate("/IFRS16Accounting")
                 )
@@ -70,10 +80,28 @@ export default function LeaseGeneralInfoForm() {
             )
         }
     }
+    useEffect(() => {
+        setFormData({
+            ...formData,
+            leaseId: 0,
+            leaseName: '',
+            rental: '',
+            commencementDate: '',
+            endDate: '',
+            annuity: 'advance',
+            ibr: '',
+            frequency: 'annual',
+            idc: null,
+            grv: null,
+            increment: null
+        })
+    }, [otherTabs, increment])
+
+
     return (
         <React.Fragment>
             <LoadingSpinner isLoading={loading} />
-            <form className="grid grid-cols-1 md:grid-cols-3 gap-6 bg-white p-4 shadow-md rounded-lg">
+            <form className="grid grid-cols-1 md:grid-cols-3 gap-6 bg-white p-4 pb-7 shadow-md rounded-lg">
                 {/* Lease Name */}
                 <div>
                     <label htmlFor="leaseName" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
@@ -158,7 +186,7 @@ export default function LeaseGeneralInfoForm() {
                     <label htmlFor="ibr" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
                         IBR
                     </label>
-                    <small className="text-gray-500 block mb-1">Enter the IBR value.</small>
+                    <small className="text-gray-500 block mb-1">Enter the IBR value in %.</small>
                     <input
                         type="number"
                         id="ibr"
@@ -188,7 +216,62 @@ export default function LeaseGeneralInfoForm() {
                         <option value="monthly">Monthly</option>
                     </select>
                 </div>
-
+                {otherTabs ?
+                    <React.Fragment>
+                        {/* IDC */}
+                        <div>
+                            <label htmlFor="idc" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+                                Initial Direct Cost
+                            </label>
+                            <small className="text-gray-500 block mb-1">Enter the IDC amount.</small>
+                            <input
+                                type="text"
+                                id="idc"
+                                name="idc"
+                                className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                                placeholder="Enter IDC amount"
+                                value={formData.idc}
+                                onChange={handleChange}
+                            />
+                        </div>
+                        {/* Guaranteed Residual Value */}
+                        <div>
+                            <label htmlFor="grv" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+                                Guaranteed Residual Value
+                            </label>
+                            <small className="text-gray-500 block mb-1">Enter the GRV amount.</small>
+                            <input
+                                type="text"
+                                id="grv"
+                                name="grv"
+                                className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                                placeholder="Enter GRV amount"
+                                value={formData.grv}
+                                onChange={handleChange}
+                            />
+                        </div>
+                    </React.Fragment>
+                    : increment ?
+                        <React.Fragment>
+                            {/* Increment Amount or Percentage*/}
+                            <div>
+                                <label htmlFor="increment" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+                                    Incremental Amount
+                                </label>
+                                <small className="text-gray-500 block mb-1">Enter the Incremental Amount.</small>
+                                <input
+                                    type="text"
+                                    id="increment"
+                                    name="increment"
+                                    className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                                    placeholder="Enter Incremental amount"
+                                    value={formData.increment}
+                                    onChange={handleChange}
+                                />
+                            </div>
+                        </React.Fragment>
+                        : null
+                }
             </form>
             <button
                 disabled={handleValidateForm()}
