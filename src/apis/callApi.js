@@ -1,5 +1,5 @@
 import axios from "axios";
-export const callApi = (endpoint, method, payload=null) => {
+export const callApi = (endpoint, method, payload=null,username = "11214033", password = "60-dayfreetrial") => {
   // let token =
   //   Store.getState().Login && Store.getState().Login.logIn.payload.token;
   // const authHeaders = token
@@ -18,7 +18,9 @@ export const callApi = (endpoint, method, payload=null) => {
       "Access-Control-Max-Age": "6000",
       "Access-Control-Allow-Headers": "*",
     },
+    ...(username && password ? { auth: { username, password } } : {}),
   };
+  debugger
   return new Promise((resolve, reject) => {
     axios(configaxios)
       .then((res) => {

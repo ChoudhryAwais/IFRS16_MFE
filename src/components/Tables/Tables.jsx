@@ -5,8 +5,8 @@ export default function Tables(props) {
     const { data, columns, extandedTableFunc, calcHeight, isLoading, totalRecord, getPaginatedData } = props
     const TableMaxHeight = `calc(100vh - ${calcHeight})`
     const [pageSize, setPageSize] = useState(10); // Default page size
-    const [pageNumber, setPageNumber] = useState(1); // Default page size
-    const [totalPages, setTotalPages] = useState(0); // Default page size
+    const [pageNumber, setPageNumber] = useState(1); // Default page number
+    const [totalPages, setTotalPages] = useState(0); // Default total pages
 
     // handle page size
     const handlePageSizeChange = (event) => {
@@ -95,7 +95,12 @@ export default function Tables(props) {
                         </select>
                         <ul className="inline-flex -space-x-px text-sm">
                             <li>
-                                <i onClick={() => handlePageNumberChange(1)} className="cursor-pointer pt-2 flex items-center justify-center px-3 h-8 leading-tight text-gray-500 bg-white border border-gray-300 rounded-s-lg hover:bg-gray-100 hover:text-gray-700 fa fa-backward"></i>
+                                <button
+                                    onClick={() => handlePageNumberChange(1)}
+                                    className="flex items-center justify-center px-3 h-8 leading-tight text-gray-500 bg-white border border-gray-300 rounded-s-lg hover:bg-gray-100 hover:text-gray-700 fa fa-backward"
+                                    disabled={pageNumber === 1}
+                                >
+                                </button>
                             </li>
                             <li>
                                 <button
@@ -116,7 +121,12 @@ export default function Tables(props) {
                                 </button>
                             </li>
                             <li>
-                                <i onClick={() => handlePageNumberChange(totalPages)} className="cursor-pointer pt-2 flex items-center justify-center px-3 h-8 leading-tight text-gray-500 bg-white border border-gray-300 rounded-e-lg hover:bg-gray-100 hover:text-gray-700 fa fa-forward"></i>
+                                <button
+                                    onClick={() => handlePageNumberChange(totalPages)}
+                                    className="flex items-center justify-center px-3 h-8 leading-tight text-gray-500 bg-white border border-gray-300 rounded-e-lg hover:bg-gray-100 hover:text-gray-700 fa fa-forward"
+                                    disabled={pageNumber === totalPages}
+                                >
+                                </button>
                             </li>
 
                             <li>

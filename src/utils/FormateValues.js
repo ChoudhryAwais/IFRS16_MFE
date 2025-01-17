@@ -1,4 +1,7 @@
 export function formatCurrency(value) {
+    if (value<0){
+        return 0
+    }
     return value.toLocaleString('en-US');
 }
 
