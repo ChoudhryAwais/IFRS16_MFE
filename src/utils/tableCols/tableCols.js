@@ -130,3 +130,27 @@ export const ROUScheduleCols = {
         }
     ],
 };
+
+export const JournalEntires = {
+    JE_date: [
+        "Date",
+        (cell) => {
+            if (cell == "-")
+                return <div>{" "}</div>
+            return formatDate(cell)
+        }
+    ],
+    particular: "Particular",
+    debit: [
+        "Debit",
+        (cell) => {
+            return formatCurrency(cell)
+        }
+    ],
+    credit: [
+        "Credit",
+        (cell) => {
+            return formatCurrency(cell)
+        }
+    ],
+};

@@ -5,6 +5,7 @@ import { statusCodeMessage } from '../../utils/enums/statusCode';
 import { LoadingSpinner } from '../LoadingBar/LoadingBar';
 import { useNavigate } from 'react-router-dom';
 import { getUserInfo } from '../../utils/SessionStorage/sessionCrud';
+import { allowDecimalNumbers } from '../../helper/allowDecimalNum';
 
 export default function LeaseGeneralInfoForm({ otherTabs, increment }) {
     const [loading, setLoading] = useState(false)
@@ -31,6 +32,14 @@ export default function LeaseGeneralInfoForm({ otherTabs, increment }) {
             [name]: newValue,
         }));
     };
+    const handleNumericChange = (e) => {
+        const { name, value } = e.target;
+        const inputValue = allowDecimalNumbers(value)
+        setFormData((prevData) => ({
+            ...prevData,
+            [name]: inputValue,
+        }));
+    }
     // validate the form 
     const handleValidateForm = () => {
         if (otherTabs) {
@@ -125,13 +134,13 @@ export default function LeaseGeneralInfoForm({ otherTabs, increment }) {
                     </label>
                     <small className="text-gray-500 block mb-1">Enter the rental amount.</small>
                     <input
-                        type="number"
+                        type="text"
                         id="rental"
                         name="rental"
                         className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                         placeholder="Enter rental amount"
                         value={formData.rental}
-                        onChange={handleChange}
+                        onChange={handleNumericChange}
                     />
                 </div>
                 {/* Commencement Date */}
@@ -188,13 +197,13 @@ export default function LeaseGeneralInfoForm({ otherTabs, increment }) {
                     </label>
                     <small className="text-gray-500 block mb-1">Enter the IBR value in %.</small>
                     <input
-                        type="number"
+                        type="text"
                         id="ibr"
                         name="ibr"
                         className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                         placeholder="Enter IBR value"
                         value={formData.ibr}
-                        onChange={handleChange}
+                        onChange={handleNumericChange}
                     />
                 </div>
                 {/* Frequency */}

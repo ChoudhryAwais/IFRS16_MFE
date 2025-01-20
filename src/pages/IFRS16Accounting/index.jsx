@@ -108,7 +108,7 @@ export default function IFRS16Accounting() {
         mainContent={
           <LeaseDetail selectedLease={selectedLease} />
         }
-        modalTitle={"Lease Detail"}
+        modalTitle={selectedLease?.leaseName || "Lease Detail"}
         openModal={leasePopup}
         closeModal={() => {
           setLeasePopup(false)

@@ -2,9 +2,10 @@ import React, { useEffect, useState } from 'react'
 import Tabs from '../../../components/Tabs/Tabs'
 import { getInitialRecognitionForLease } from '../../../apis/Cruds/InitialRecognition';
 import Tables from '../../../components/Tables/Tables';
-import { initialRecognitionCols, leaseLiabilityCols, ROUScheduleCols } from '../../../utils/tableCols/tableCols';
+import { initialRecognitionCols, JournalEntires, leaseLiabilityCols, ROUScheduleCols } from '../../../utils/tableCols/tableCols';
 import { getRouScheduleForLease } from '../../../apis/Cruds/RouSchedule';
 import { getLeaseLiabilityForLease } from '../../../apis/Cruds/LeaseLiability';
+import { createJournalEntries } from '../../../helper/JournalEntries';
 
 export default function LeaseDetail(props) {
     const { selectedLease } = props
@@ -12,7 +13,8 @@ export default function LeaseDetail(props) {
     const [InitialRecognition, setInitialRecognition] = useState({
         data: {},
         totalRecord: null,
-        loading: false
+        loading: false,
+        datesArr: []
     })
     const [rouSchedule, setRouSchedule] = useState({
         data: [],
@@ -24,6 +26,12 @@ export default function LeaseDetail(props) {
         loading: false,
         totalRecord: null,
     })
+    const [journalEntries, setJournalEntries] = useState({
+        data: [],
+        loading: false,
+        totalRecord: null,
+    })
+
     // Method to get the initialRecognition for specific lease
     const InitialRecognitionForLease = async (pageNumber, pageSize) => {
         setInitialRecognition({
@@ -35,7 +43,8 @@ export default function LeaseDetail(props) {
             ...InitialRecognition,
             loading: false,
             data: response?.initialRecognition || [],
-            totalRecord: response?.totalRecords || 0
+            totalRecord: response?.totalRecords || 0,
+            datesArr: response?.dates || [],
         })
     }
     // Method to get the rouSchedule for specific lease
@@ -66,6 +75,7 @@ export default function LeaseDetail(props) {
             totalRecord: response?.totalRecords || 0
         })
     }
+
     useEffect(() => {
         InitialRecognitionForLease(1, 10)
     }, [selectedLease])
@@ -128,7 +138,28 @@ export default function LeaseDetail(props) {
                 setActiveTab(tab)
             }
         },
-        { id: '4', label: 'Journal Entries' },
+        {
+            id: '4',
+            label: 'Journal Entries',
+            component: (
+                <Tables
+                    columns={JournalEntires}
+                    data={journalEntries.data}
+                    calcHeight="240px"
+                    isLoading={journalEntries.loading}
+                    totalRecord={journalEntries.totalRecord}
+                    getPaginatedData={createJournalEntries}
+                    tabChange={activeTab}
+                />
+            ),
+            callback: () => createJournalEntries(selectedLease, (data) => {
+                setJournalEntries({
+                    ...journalEntries,
+                    data,
+                    totalRecord: data.length
+                })
+            })
+        },
         { id: '5', label: 'Disclousure' },
     ];
 
