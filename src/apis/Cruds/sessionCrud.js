@@ -1,7 +1,10 @@
-import { sessionVariable } from "../enums/sessionStorage";
+import { sessionVariable } from "../../utils/enums/sessionStorage";
 
 export const getUserInfo = () => {
     return JSON.parse(getSessionStorage({ key: sessionVariable.userInfo }))
+}
+export const getCompanyProfile = () => {
+    return JSON.parse(getSessionStorage({ key: sessionVariable.companyProfile }))
 }
 
 export const setSessionStorage = ({ key, value }) => {

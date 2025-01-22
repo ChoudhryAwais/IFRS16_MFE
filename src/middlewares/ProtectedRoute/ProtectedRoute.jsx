@@ -1,7 +1,7 @@
 import React from 'react'
 import LeftHandNav from '../../components/LeftHandNav/LeftHandNav'
 import Logout from '../../components/Logout/Logout'
-import { getSessionStorage } from '../../utils/SessionStorage/sessionCrud'
+import { getSessionStorage } from '../../apis/Cruds/sessionCrud'
 import { Navigate } from 'react-router-dom'
 import { sessionVariable } from '../../utils/enums/sessionStorage'
 

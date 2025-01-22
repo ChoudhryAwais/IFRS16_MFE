@@ -1,14 +1,15 @@
 import React from 'react'
-import { removeSessionStorageVariable } from '../../utils/SessionStorage/sessionCrud'
+import { removeSessionStorageVariable } from '../../apis/Cruds/sessionCrud'
 import { sessionVariable } from '../../utils/enums/sessionStorage'
 import { useNavigate } from 'react-router-dom'
 
 export default function Logout() {
     const navigate = useNavigate()
 
-    const logout=()=>{
-        removeSessionStorageVariable({key:sessionVariable.token})
-        removeSessionStorageVariable({key:sessionVariable.userInfo})
+    const logout = () => {
+        removeSessionStorageVariable({ key: sessionVariable.token })
+        removeSessionStorageVariable({ key: sessionVariable.userInfo })
+        removeSessionStorageVariable({ key: sessionVariable.companyProfile })
         navigate("/")
     }
 

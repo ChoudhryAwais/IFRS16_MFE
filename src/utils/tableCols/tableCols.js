@@ -132,7 +132,7 @@ export const ROUScheduleCols = {
 };
 
 export const JournalEntires = {
-    JE_date: [
+    jE_Date: [
         "Date",
         (cell) => {
             if (cell == "-")

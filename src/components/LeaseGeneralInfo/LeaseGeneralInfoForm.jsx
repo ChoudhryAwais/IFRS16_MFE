@@ -4,12 +4,15 @@ import { SwalPopup } from '../../middlewares/SwalPopup/SwalPopup';
 import { statusCodeMessage } from '../../utils/enums/statusCode';
 import { LoadingSpinner } from '../LoadingBar/LoadingBar';
 import { useNavigate } from 'react-router-dom';
-import { getUserInfo } from '../../utils/SessionStorage/sessionCrud';
+import { getCompanyProfile, getUserInfo } from '../../apis/Cruds/sessionCrud';
 import { allowDecimalNumbers } from '../../helper/allowDecimalNum';
 
 export default function LeaseGeneralInfoForm({ otherTabs, increment }) {
     const [loading, setLoading] = useState(false)
     const navigate = useNavigate()
+    const { leaseTypes } = getCompanyProfile()
+    const [incrementalFrequency, setincrementalFrequency] = useState([])
+    const frequencies = leaseTypes.split(",").map(item => item.trim().toLowerCase())
     const [formData, setFormData] = useState({
         leaseId: 0,
         leaseName: '',
@@ -21,8 +24,8 @@ export default function LeaseGeneralInfoForm({ otherTabs, increment }) {
         frequency: 'annual',
         idc: null,
         grv: null,
-        increment: null
-
+        increment: null,
+        incrementalFrequency: 'annual'
     });
     const handleChange = (e) => {
         const { name, value } = e.target;
@@ -65,7 +68,13 @@ export default function LeaseGeneralInfoForm({ otherTabs, increment }) {
     // Submit the new lease along with initialRecognition, LeaseLiability, ROUSchedule Table
     const submitLease = async () => {
         const userInfo = getUserInfo()
-        const leaseModal = { ...formData, userID: userInfo.userID }
+        const companyProfile = getCompanyProfile()
+        const leaseModal =
+        {
+            ...formData,
+            userID: userInfo.userID,
+            companyID: companyProfile.companyID
+        }
         setLoading(true)
         try {
             const leaseResponse = await addNewLease(leaseModal)
@@ -106,6 +115,15 @@ export default function LeaseGeneralInfoForm({ otherTabs, increment }) {
         })
     }, [otherTabs, increment])
 
+    useEffect(() => {
+        const indexOfFrequency = frequencies.indexOf(formData.frequency)
+        const incrementFreq = frequencies.filter((_, i) => i <= indexOfFrequency)
+        setincrementalFrequency(incrementFreq)
+        setFormData({
+            ...formData,
+            incrementalFrequency: "annual"
+        })
+    }, [formData.frequency])
 
     return (
         <React.Fragment>
@@ -219,10 +237,11 @@ export default function LeaseGeneralInfoForm({ otherTabs, increment }) {
                         value={formData.frequency}
                         onChange={handleChange}
                     >
-                        <option value="annual">Annual</option>
-                        <option value="bi-annual">Bi Annual</option>
-                        <option value="quarterly">Quarterly</option>
-                        <option value="monthly">Monthly</option>
+                        {frequencies.map(freq => {
+                            return (
+                                <option value={freq}>{freq.replace(/\b\w/g, (char) => char.toUpperCase())}</option>
+                            )
+                        })}
                     </select>
                 </div>
                 {otherTabs ?
@@ -239,7 +258,7 @@ export default function LeaseGeneralInfoForm({ otherTabs, increment }) {
                                 name="idc"
                                 className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                                 placeholder="Enter IDC amount"
-                                value={formData.idc}
+                                value={formData.idc || ""}
                                 onChange={handleChange}
                             />
                         </div>
@@ -255,7 +274,7 @@ export default function LeaseGeneralInfoForm({ otherTabs, increment }) {
                                 name="grv"
                                 className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                                 placeholder="Enter GRV amount"
-                                value={formData.grv}
+                                value={formData.grv || ""}
                                 onChange={handleChange}
                             />
                         </div>
@@ -274,9 +293,29 @@ export default function LeaseGeneralInfoForm({ otherTabs, increment }) {
                                     name="increment"
                                     className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                                     placeholder="Enter Incremental amount"
-                                    value={formData.increment}
+                                    value={formData.increment || ""}
                                     onChange={handleChange}
                                 />
+                            </div>
+                            {/* Incremental Frequency */}
+                            <div>
+                                <label htmlFor="frequency" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+                                    Incremental Frequency
+                                </label>
+                                <small className="text-gray-500 block mb-1">Choose the frequency type.</small>
+                                <select
+                                    id="incrementalFrequency"
+                                    name="incrementalFrequency"
+                                    className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                                    value={formData.incrementalFrequency}
+                                    onChange={handleChange}
+                                >
+                                    {incrementalFrequency?.map(freq => {
+                                        return (
+                                            <option value={freq}>{freq.replace(/\b\w/g, (char) => char.toUpperCase())}</option>
+                                        )
+                                    })}
+                                </select>
                             </div>
                         </React.Fragment>
                         : null

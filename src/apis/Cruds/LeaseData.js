@@ -1,4 +1,6 @@
 import { callApi } from "../callApi"
+import { getCompanyProfile } from "./sessionCrud"
+
 
 export const addNewLease = async (leaseModal) => {
     try {
@@ -9,9 +11,10 @@ export const addNewLease = async (leaseModal) => {
     }
 }
 
-export const getAllLeases = async (pageNumber,pageSize) => {
+export const getAllLeases = async (pageNumber, pageSize) => {
+    const companyProfile = getCompanyProfile()
     try {
-        const response = await callApi(`/LeaseFormData/GetAllLeases?pageNumber=${pageNumber}&pageSize=${pageSize}`, "GET")
+        const response = await callApi(`/LeaseFormData/GetAllLeases?pageNumber=${pageNumber}&pageSize=${pageSize}&companyID=${companyProfile.companyID}`, "GET")
         return response
     } catch (error) {
         return error

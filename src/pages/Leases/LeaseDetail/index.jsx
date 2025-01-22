@@ -5,7 +5,7 @@ import Tables from '../../../components/Tables/Tables';
 import { initialRecognitionCols, JournalEntires, leaseLiabilityCols, ROUScheduleCols } from '../../../utils/tableCols/tableCols';
 import { getRouScheduleForLease } from '../../../apis/Cruds/RouSchedule';
 import { getLeaseLiabilityForLease } from '../../../apis/Cruds/LeaseLiability';
-import { createJournalEntries } from '../../../helper/JournalEntries';
+import { getJournalEntriesForLease } from '../../../apis/Cruds/JournalEntries';
 
 export default function LeaseDetail(props) {
     const { selectedLease } = props
@@ -70,6 +70,20 @@ export default function LeaseDetail(props) {
         const response = await getLeaseLiabilityForLease(pageNumber, pageSize, selectedLease.leaseId)
         setLeaseLiability({
             ...leaseLiability,
+            loading: false,
+            data: response?.data || [],
+            totalRecord: response?.totalRecords || 0
+        })
+    }
+    // Method to get the leaseliability for specific lease
+    const journalEntriesForLease = async (pageNumber, pageSize) => {
+        setJournalEntries({
+            ...journalEntries,
+            loading: true,
+        })
+        const response = await getJournalEntriesForLease(pageNumber, pageSize, selectedLease.leaseId)
+        setJournalEntries({
+            ...journalEntries,
             loading: false,
             data: response?.data || [],
             totalRecord: response?.totalRecords || 0
@@ -148,17 +162,14 @@ export default function LeaseDetail(props) {
                     calcHeight="240px"
                     isLoading={journalEntries.loading}
                     totalRecord={journalEntries.totalRecord}
-                    getPaginatedData={createJournalEntries}
+                    getPaginatedData={journalEntriesForLease}
                     tabChange={activeTab}
                 />
             ),
-            callback: () => createJournalEntries(selectedLease, (data) => {
-                setJournalEntries({
-                    ...journalEntries,
-                    data,
-                    totalRecord: data.length
-                })
-            })
+            callback: () => journalEntriesForLease(1, 10),
+            tabChange: (tab) => {
+                setActiveTab(tab)
+            }
         },
         { id: '5', label: 'Disclousure' },
     ];

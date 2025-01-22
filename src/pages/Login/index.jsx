@@ -5,7 +5,7 @@ import { emailRegex } from '../../utils/inputValidation';
 import { SwalPopup } from '../../middlewares/SwalPopup/SwalPopup';
 import { statusCode, statusCodeMessage } from '../../utils/enums/statusCode';
 import { sessionVariable } from '../../utils/enums/sessionStorage';
-import { getSessionStorage, setSessionStorage } from '../../utils/SessionStorage/sessionCrud';
+import { getSessionStorage, setSessionStorage } from '../../apis/Cruds/sessionCrud';
 import { LoadingSpinner } from '../../components/LoadingBar/LoadingBar';
 
 export default function Login() {
@@ -57,6 +57,10 @@ export default function Login() {
             setSessionStorage({
                 key: sessionVariable.userInfo,
                 value: response.user
+            })
+            setSessionStorage({
+                key: sessionVariable.companyProfile,
+                value: response.companyProfile
             })
 
             navigate("/Dashboard")
