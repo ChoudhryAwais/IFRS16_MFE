@@ -10,7 +10,7 @@ export default function ProtectedRoute({ component }) {
 
   return (
     <div className="flex h-screen">
-      <div className="w-1/5 bg-gray-100 dark:bg-gray-800 p-4 h-screen sticky top-0 flex flex-col">
+      <div className="w-1/5 bg-[#1D2E64] dark:bg-gray-800 p-4 h-screen sticky top-0 flex flex-col">
         <div className='flex-1'>
           <LeftHandNav />
         </div>

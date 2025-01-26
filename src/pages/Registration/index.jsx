@@ -90,7 +90,7 @@ export default function Register() {
     return (
         <>
             <LoadingSpinner isLoading={loading} />
-            <div className="flex items-center justify-center min-h-screen bg-gray-100">
+            <div className="flex items-center justify-center min-h-screen bg-gradient-to-r from-red-800 to-blue-900">
                 <div className="bg-white shadow-lg rounded-lg p-8 w-full max-w-4xl">
                     <h2 className="text-2xl font-bold text-center text-gray-800 mb-6">Register</h2>
                     <div className='flex gap-2'>
@@ -171,7 +171,7 @@ export default function Register() {
 
                     <button
                         type="submit"
-                        className={(handleValidateForm() ? "cursor-no-drop" : " ") + " w-full bg-blue-500 text-white py-2 px-4 rounded-lg hover:bg-blue-600 transition-colors"}
+                        className={(handleValidateForm() ? "cursor-no-drop" : " ") + " w-full bg-[#DB1118] text-white py-2 px-4 rounded-lg hover:bg-red-500 transition-colors"}
                         onClick={handleSubmit}
                         disabled={handleValidateForm()}
                     >

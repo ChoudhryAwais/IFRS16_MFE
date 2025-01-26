@@ -92,7 +92,7 @@ export default function Login() {
     return (
         <>
             <LoadingSpinner isLoading={loading} />
-            <div className="flex items-center justify-center min-h-screen bg-gray-100">
+            <div className="flex items-center justify-center min-h-screen bg-gradient-to-r from-red-800 to-blue-900">
                 <div className="bg-white shadow-lg rounded-lg p-8 w-full max-w-sm">
                     <h2 className="text-2xl font-bold text-center text-gray-800 mb-6">Login</h2>
 
@@ -143,7 +143,7 @@ export default function Login() {
 
                     <button
                         type="submit"
-                        className={(handleValidateForm() ? "cursor-no-drop" : " ") + " w-full bg-blue-500 text-white py-2 px-4 rounded-lg hover:bg-blue-600 transition-colors"}
+                        className={(handleValidateForm() ? "cursor-no-drop" : " ") + " w-full bg-[#DB1118] text-white py-2 px-4 rounded-lg hover:bg-red-500 transition-colors"}
                         onClick={handleSubmit}
                         disabled={handleValidateForm()}
                     >

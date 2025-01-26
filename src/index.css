@@ -19,10 +19,6 @@
   
   /* Handle */
   ::-webkit-scrollbar-thumb {
-    background: #1c94b3;
+    background: #DB1118;
   }
   
-  /* Handle on hover */
-  ::-webkit-scrollbar-thumb:hover {
-    background: #0bc1f8;
-  }

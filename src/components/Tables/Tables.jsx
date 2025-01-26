@@ -38,9 +38,9 @@ export default function Tables(props) {
 
     return (
         <React.Fragment>
-            <div className="shadow-md sm:rounded-lg overflow-auto" style={{ maxHeight: TableMaxHeight }}>
-                <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400">
-                    <thead className="text-xs text-white uppercase bg-cyan-900 dark:bg-blue-400 dark:text-white top-0 sticky ">
+            <div className="shadow-md sm:rounded-sm overflow-auto" style={{ maxHeight: TableMaxHeight }}>
+                <table className="w-full text-sm text-left text-gray-500">
+                    <thead className="text-xs text-white uppercase bg-[#97072A] top-0 sticky ">
                         <tr>
                             {Object.values(columns).map((col, i) => {
                                 return <th className="px-6 py-3" key={i}>{col}</th>
@@ -57,7 +57,7 @@ export default function Tables(props) {
                                 return (
                                     <tr
                                         key={`${index}_table`}
-                                        className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-blue-100 hover:text-blue-700 cursor-pointer"
+                                        className="bg-white border-b hover:bg-blue-100 hover:text-[#DB1118] cursor-pointer"
                                         onClick={() => extandedTableFunc ? extandedTableFunc.callBack(row) : () => { }}
                                     >
                                         {Object.keys(columns).map((rowObj, i) => {
@@ -93,7 +93,7 @@ export default function Tables(props) {
                             id="pageSize"
                             value={pageSize}
                             onChange={handlePageSizeChange}
-                            className="h-8 px-2 mr-1 text-sm text-gray-500 bg-white border border-gray-300 rounded-md dark:bg-gray-800 dark:text-gray-300 dark:border-gray-700"
+                            className="h-8 px-2 mr-1 text-sm text-gray-500 bg-white border border-gray-300 rounded-md"
                         >
                             <option value={10}>10</option>
                             <option value={20}>20</option>

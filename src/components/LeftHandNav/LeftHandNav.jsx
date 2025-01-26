@@ -13,7 +13,7 @@ export default function LeftHandNav() {
         const isActive = activeTab === tab;
         return [
             "flex items-center p-2 rounded-lg group",
-            isActive ? "bg-blue-500 text-white" : "text-gray-900 dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700  hover:bg-blue-200"
+            isActive ? "bg-[#97072A] text-white" : "text-gray-900 text-white hover:bg-[#97072A]"
         ].join(" ");
     };
 
@@ -25,8 +25,8 @@ export default function LeftHandNav() {
 
     return (
         <>
-            <div className="p-4 border-b border-gray-300">
-                <h1 className="text-xl font-bold">IFRS16 Solution</h1>
+            <div className="p-4 border-b rounded-lg bg-gradient-to-r from-red-800 to-blue-900">
+                <h1 className="text-xl font-bold text-white">IFRS16 Solution</h1>
             </div>
             <nav className="mt-4">
                 <ul className="space-y-4">

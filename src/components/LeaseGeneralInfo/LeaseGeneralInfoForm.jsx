@@ -5,7 +5,7 @@ import { statusCodeMessage } from '../../utils/enums/statusCode';
 import { LoadingSpinner } from '../LoadingBar/LoadingBar';
 import { useNavigate } from 'react-router-dom';
 import { getCompanyProfile, getUserInfo } from '../../apis/Cruds/sessionCrud';
-import { allowDecimalNumbers } from '../../helper/allowDecimalNum';
+import { allowDecimalNumbers } from '../../helper/checkForAllowVal';
 
 export default function LeaseGeneralInfoForm({ otherTabs, increment }) {
     const [loading, setLoading] = useState(false)
@@ -325,7 +325,7 @@ export default function LeaseGeneralInfoForm({ otherTabs, increment }) {
                 disabled={handleValidateForm()}
                 onClick={submitLease}
                 type="button"
-                className={(handleValidateForm() ? "cursor-no-drop" : " ") + " py-2.5 mt-3 px-5 me-2 mb-2 text-sm w-full font-medium text-white focus:outline-none bg-green-400 rounded-lg border border-gray-200 hover:bg-green-500 hover:text-white "}>
+                className={(handleValidateForm() ? "cursor-no-drop" : " ") + " py-2.5 mt-3 px-5 me-2 mb-2 text-sm w-full font-medium text-white focus:outline-none bg-indigo-600  rounded-lg border border-gray-200 hover:bg-indigo-700 hover:text-white "}>
                 Submit
             </button>
         </React.Fragment>

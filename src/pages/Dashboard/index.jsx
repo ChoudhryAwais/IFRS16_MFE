@@ -4,7 +4,7 @@ export default function Dashboard() {
     return (
         <div className="h-[120vh]">
             <div className="space-y-6">
-                <h1 className="text-4xl font-bold">Welcome to My Website</h1>
+                <h1 className="text-4xl font-bold">Welcome to IFRS 16 Solution</h1>
                 <p className="text-lg text-gray-700">
                     This is the main content area. Use it to display your page content.
                 </p>

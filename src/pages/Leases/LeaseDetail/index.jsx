@@ -171,7 +171,7 @@ export default function LeaseDetail(props) {
                 setActiveTab(tab)
             }
         },
-        { id: '5', label: 'Disclousure' },
+        // { id: '5', label: 'Disclousure' },
     ];
 
     return (

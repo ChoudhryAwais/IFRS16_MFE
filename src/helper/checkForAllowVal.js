@@ -6,3 +6,11 @@ export function allowDecimalNumbers(input) {
     }
     return input
 }
+
+export const allowFrequencies = (frequency) => {
+    return ['annual', 'bi-annual', 'quarterly', 'monthly'].includes(frequency)
+}
+
+export const allowAnnuity = (annuity) => {
+    return ['advance', 'arrears'].includes(annuity)
+}

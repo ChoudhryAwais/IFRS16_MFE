@@ -11,6 +11,16 @@ export const addNewLease = async (leaseModal) => {
     }
 }
 
+export const addBulkLeases = async (leases) => {
+    try {
+        const response = await callApi(`/LeaseFormData/BulkImport`, "POST", leases)
+        return response
+    } catch (error) {
+        return error
+    }
+}
+
+
 export const getAllLeases = async (pageNumber, pageSize) => {
     const companyProfile = getCompanyProfile()
     try {
