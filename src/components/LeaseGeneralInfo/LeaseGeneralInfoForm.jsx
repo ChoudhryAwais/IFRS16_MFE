@@ -284,9 +284,9 @@ export default function LeaseGeneralInfoForm({ otherTabs, increment }) {
                             {/* Increment Amount or Percentage*/}
                             <div>
                                 <label htmlFor="increment" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
-                                    Incremental Amount
+                                    Incremental Percentage
                                 </label>
-                                <small className="text-gray-500 block mb-1">Enter the Incremental Amount.</small>
+                                <small className="text-gray-500 block mb-1">Enter the Incremental Percentage.</small>
                                 <input
                                     type="text"
                                     id="increment"

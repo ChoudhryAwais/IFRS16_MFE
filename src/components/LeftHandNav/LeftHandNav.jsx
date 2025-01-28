@@ -22,11 +22,10 @@ export default function LeftHandNav() {
         getTabClasses(locationPath.pathname)
     }, [locationPath.pathname])
 
-
     return (
         <>
-            <div className="p-4 border-b rounded-lg bg-gradient-to-r from-red-800 to-blue-900">
-                <h1 className="text-xl font-bold text-white">IFRS16 Solution</h1>
+            <div className="p-4 border-b   bg-gradient-to-r from-red-600 to-white bg-clip-text text-transparent">
+                <h1 className="text-xl font-bold">IFRS16 Solution</h1>
             </div>
             <nav className="mt-4">
                 <ul className="space-y-4">
