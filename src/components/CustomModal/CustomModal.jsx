@@ -52,7 +52,7 @@ export const CustomModal = ({ mainContent, openModal, closeModal, modalTitle }) 
                             </div>
 
                             {/* Modal body */}
-                            <div className="p-4 md:p-5 space-y-4">
+                            <div className="p-4 md:p-4 space-y-4">
                                 {mainContent}
                             </div>
                         </div>

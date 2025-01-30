@@ -102,7 +102,7 @@ export default function LeaseDetail(props) {
                 <Tables
                     columns={initialRecognitionCols}
                     data={InitialRecognition.data || []}
-                    calcHeight="240px"
+                    calcHeight="230px"
                     isLoading={InitialRecognition.loading}
                     totalRecord={InitialRecognition.totalRecord}
                     getPaginatedData={InitialRecognitionForLease}
@@ -121,7 +121,7 @@ export default function LeaseDetail(props) {
                 <Tables
                     columns={leaseLiabilityCols}
                     data={leaseLiability.data}
-                    calcHeight="240px"
+                    calcHeight="230px"
                     isLoading={leaseLiability.loading}
                     totalRecord={leaseLiability.totalRecord}
                     getPaginatedData={leaseLiabilityForLease}
@@ -140,7 +140,7 @@ export default function LeaseDetail(props) {
                 <Tables
                     columns={ROUScheduleCols}
                     data={rouSchedule.data}
-                    calcHeight="240px"
+                    calcHeight="230px"
                     isLoading={rouSchedule.loading}
                     totalRecord={rouSchedule.totalRecord}
                     getPaginatedData={rouScheduleForLease}
@@ -159,7 +159,7 @@ export default function LeaseDetail(props) {
                 <Tables
                     columns={JournalEntires}
                     data={journalEntries.data}
-                    calcHeight="240px"
+                    calcHeight="230px"
                     isLoading={journalEntries.loading}
                     totalRecord={journalEntries.totalRecord}
                     getPaginatedData={journalEntriesForLease}

@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import LeftHandNav from '../../components/LeftHandNav/LeftHandNav'
 import Logout from '../../components/Logout/Logout'
 import { getSessionStorage } from '../../apis/Cruds/sessionCrud'
@@ -7,16 +7,21 @@ import { sessionVariable } from '../../utils/enums/sessionStorage'
 
 export default function ProtectedRoute({ component }) {
   const jwtToken = JSON.parse(getSessionStorage({ key: sessionVariable.token }))
+  const [isCollapsed, setIsCollapsed] = useState(false);
 
   return (
     <div className="flex h-screen">
-      <div className="w-1/5 bg-[#1D2E64] dark:bg-gray-800 p-4 h-screen sticky top-0 flex flex-col">
+      <div className={`${isCollapsed ? "w-16" : "w-1/5"
+        } bg-[#1D2E64] dark:bg-gray-800 p-4 h-screen sticky top-0 flex flex-col transition-all duration-300`}>
+
+        {/* Toggle Button */}
+
         <div className='flex-1'>
-          <LeftHandNav />
+          <LeftHandNav isCollapsed={isCollapsed} onCollapse={() => setIsCollapsed(!isCollapsed)}/>
         </div>
         <div>
           {/* Logout Button */}
-          <Logout />
+          <Logout isCollapsed={isCollapsed} />
         </div>
       </div>
       {/* Right Container */}
