@@ -1,5 +1,6 @@
 export const sessionVariable ={
     token:"jwtToken",
     userInfo: "userInfo",
-    companyProfile:"companyProfile"
+    companyProfile:"companyProfile",
+    selectLease:"selectLease"
 }

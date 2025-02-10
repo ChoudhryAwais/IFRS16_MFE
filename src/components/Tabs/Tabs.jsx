@@ -34,7 +34,7 @@ export default function Tabs({ tabs }) {
                     </li>
                 ))}
             </ul>
-            <div className="container mx-auto">
+            <div>
                 {currentTabContent()}
             </div>
 

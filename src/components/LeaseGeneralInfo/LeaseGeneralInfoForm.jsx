@@ -6,12 +6,14 @@ import { LoadingSpinner } from '../LoadingBar/LoadingBar';
 import { useNavigate } from 'react-router-dom';
 import { getCompanyProfile, getUserInfo } from '../../apis/Cruds/sessionCrud';
 import { allowDecimalNumbers } from '../../helper/checkForAllowVal';
+import { getAllCurrencies } from '../../apis/Cruds/Currencies';
 
 export default function LeaseGeneralInfoForm({ otherTabs, increment }) {
     const [loading, setLoading] = useState(false)
     const navigate = useNavigate()
     const { leaseTypes } = getCompanyProfile()
     const [incrementalFrequency, setincrementalFrequency] = useState([])
+    const [currencies, setCurrencies] = useState([])
     const frequencies = leaseTypes.split(",").map(item => item.trim().toLowerCase())
     const [formData, setFormData] = useState({
         leaseId: 0,
@@ -25,7 +27,8 @@ export default function LeaseGeneralInfoForm({ otherTabs, increment }) {
         idc: null,
         grv: null,
         increment: null,
-        incrementalFrequency: 'annual'
+        incrementalFrequency: 'annual',
+        currencyID: ""
     });
     const handleChange = (e) => {
         const { name, value } = e.target;
@@ -58,7 +61,8 @@ export default function LeaseGeneralInfoForm({ otherTabs, increment }) {
                 formData.rental === '' ||
                 formData.commencementDate === '' ||
                 formData.endDate === '' ||
-                formData.ibr === '')
+                formData.ibr === '' ||
+                formData.currencyID === '')
 
         ) {
             return true
@@ -125,6 +129,16 @@ export default function LeaseGeneralInfoForm({ otherTabs, increment }) {
         })
     }, [formData.frequency])
 
+
+    useEffect(() => {
+        const getCurrency = async () => {
+            const allCurrenciesRes = await getAllCurrencies()
+            setCurrencies(allCurrenciesRes)
+        }
+        getCurrency()
+    }, [])
+
+    console.log("formData", formData)
     return (
         <React.Fragment>
             <LoadingSpinner isLoading={loading} />
@@ -139,7 +153,7 @@ export default function LeaseGeneralInfoForm({ otherTabs, increment }) {
                         type="text"
                         id="leaseName"
                         name="leaseName"
-                        className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                        className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-sm focus:ring-blue-500 focus:border-blue-500 block w-full px-2.5 py-1.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                         placeholder="Enter the lease name"
                         value={formData.leaseName}
                         onChange={handleChange}
@@ -155,7 +169,7 @@ export default function LeaseGeneralInfoForm({ otherTabs, increment }) {
                         type="text"
                         id="rental"
                         name="rental"
-                        className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                        className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-sm focus:ring-blue-500 focus:border-blue-500 block w-full px-2.5 py-1.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                         placeholder="Enter rental amount"
                         value={formData.rental}
                         onChange={handleNumericChange}
@@ -171,7 +185,7 @@ export default function LeaseGeneralInfoForm({ otherTabs, increment }) {
                         type="date"
                         id="commencementDate"
                         name="commencementDate"
-                        className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                        className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-sm focus:ring-blue-500 focus:border-blue-500 block w-full px-2.5 py-1.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                         value={formData.commencementDate}
                         onChange={handleChange}
                     />
@@ -186,7 +200,7 @@ export default function LeaseGeneralInfoForm({ otherTabs, increment }) {
                         type="date"
                         id="endDate"
                         name="endDate"
-                        className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                        className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-sm focus:ring-blue-500 focus:border-blue-500 block w-full px-2.5 py-1.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                         value={formData.endDate}
                         onChange={handleChange}
                     />
@@ -200,7 +214,7 @@ export default function LeaseGeneralInfoForm({ otherTabs, increment }) {
                     <select
                         id="annuity"
                         name="annuity"
-                        className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                        className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-sm focus:ring-blue-500 focus:border-blue-500 block w-full px-2.5 py-1.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                         value={formData.annuity}
                         onChange={handleChange}
                     >
@@ -218,7 +232,7 @@ export default function LeaseGeneralInfoForm({ otherTabs, increment }) {
                         type="text"
                         id="ibr"
                         name="ibr"
-                        className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                        className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-sm focus:ring-blue-500 focus:border-blue-500 block w-full px-2.5 py-1.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                         placeholder="Enter IBR value"
                         value={formData.ibr}
                         onChange={handleNumericChange}
@@ -233,13 +247,34 @@ export default function LeaseGeneralInfoForm({ otherTabs, increment }) {
                     <select
                         id="frequency"
                         name="frequency"
-                        className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                        className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-sm focus:ring-blue-500 focus:border-blue-500 block w-full px-2.5 py-1.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                         value={formData.frequency}
                         onChange={handleChange}
                     >
                         {frequencies.map(freq => {
                             return (
                                 <option value={freq}>{freq.replace(/\b\w/g, (char) => char.toUpperCase())}</option>
+                            )
+                        })}
+                    </select>
+                </div>
+                {/* Currency */}
+                <div>
+                    <label htmlFor="currency" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+                        Currency
+                    </label>
+                    <small className="text-gray-500 block mb-1">Choose the Currency.</small>
+                    <select
+                        id="currencyID"
+                        name="currencyID"
+                        className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-sm focus:ring-blue-500 focus:border-blue-500 block w-full px-2.5 py-1.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                        value={formData.currencyID}
+                        onChange={handleChange}
+                    >
+                        <option value="">Select the currency</option>
+                        {currencies.map(currency => {
+                            return (
+                                <option value={currency.currencyID}>{currency.currencyCode}</option>
                             )
                         })}
                     </select>
@@ -256,7 +291,7 @@ export default function LeaseGeneralInfoForm({ otherTabs, increment }) {
                                 type="text"
                                 id="idc"
                                 name="idc"
-                                className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                                className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-sm focus:ring-blue-500 focus:border-blue-500 block w-full px-2.5 py-1.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                                 placeholder="Enter IDC amount"
                                 value={formData.idc || ""}
                                 onChange={handleChange}
@@ -272,7 +307,7 @@ export default function LeaseGeneralInfoForm({ otherTabs, increment }) {
                                 type="text"
                                 id="grv"
                                 name="grv"
-                                className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                                className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-sm focus:ring-blue-500 focus:border-blue-500 block w-full px-2.5 py-1.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                                 placeholder="Enter GRV amount"
                                 value={formData.grv || ""}
                                 onChange={handleChange}
@@ -291,7 +326,7 @@ export default function LeaseGeneralInfoForm({ otherTabs, increment }) {
                                     type="text"
                                     id="increment"
                                     name="increment"
-                                    className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                                    className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-sm focus:ring-blue-500 focus:border-blue-500 block w-full px-2.5 py-1.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                                     placeholder="Enter Incremental value in %"
                                     value={formData.increment || ""}
                                     onChange={handleChange}
@@ -306,7 +341,7 @@ export default function LeaseGeneralInfoForm({ otherTabs, increment }) {
                                 <select
                                     id="incrementalFrequency"
                                     name="incrementalFrequency"
-                                    className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                                    className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-sm focus:ring-blue-500 focus:border-blue-500 block w-full px-2.5 py-1.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                                     value={formData.incrementalFrequency}
                                     onChange={handleChange}
                                 >

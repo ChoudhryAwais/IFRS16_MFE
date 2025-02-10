@@ -6,6 +6,9 @@ export const getUserInfo = () => {
 export const getCompanyProfile = () => {
     return JSON.parse(getSessionStorage({ key: sessionVariable.companyProfile }))
 }
+export const getSelectLease = () => {
+    return JSON.parse(getSessionStorage({ key: sessionVariable.selectLease }))
+}
 
 export const setSessionStorage = ({ key, value }) => {
     sessionStorage.setItem(key, JSON.stringify(value));

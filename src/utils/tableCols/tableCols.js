@@ -1,4 +1,4 @@
-import { formatCurrency, formatDate } from "../FormateValues";
+import { exchangeGainLoss, formatCurrency, formatDate, IRformatCurrency, PercentageValue } from "../FormateValues";
 
 export const leaseCols = {
     leaseName: "Lease Name",
@@ -42,9 +42,14 @@ export const leaseCols = {
             return cell.toUpperCase()
         }
     ],
+    currencyCode: [
+        "Currency",
+        (cell) => {
+            return cell.toUpperCase()
+        }
+    ],
     username: "User Name",
 };
-
 export const initialRecognitionCols = {
     serialNo: "No.",      // Equivalent to SerialNo (int)
     // Equivalent to PaymentDate (string)
@@ -58,24 +63,23 @@ export const initialRecognitionCols = {
     rental: [
         "Rental / GRV",
         (cell) => {
-            return formatCurrency(cell)
+            return IRformatCurrency(cell)
         }
     ],
     // Equivalent to NPV (decimal)
     npv: [
         "NPV",
         (cell) => {
-            return formatCurrency(cell)
+            return IRformatCurrency(cell)
         }
     ],
 };
-
 export const leaseLiabilityCols =
 {
     leaseLiability_Date: [
         "Date",
         (cell) => {
-            return <div className="w-32">{formatDate(cell)}</div>
+            return <div className="w-20">{formatDate(cell)}</div>
         }
     ],
     opening: [
@@ -87,7 +91,7 @@ export const leaseLiabilityCols =
     interest: [
         "Interest",
         (cell) => {
-            return formatCurrency(cell)
+            return PercentageValue(cell)
         }
     ],
     payment: [
@@ -102,8 +106,40 @@ export const leaseLiabilityCols =
             return formatCurrency(cell)
         }
     ],
+    exchange_Gain_Loss: [
+        "Exchange Gain/Loss",
+        (cell) => {
+            return exchangeGainLoss(cell)
+        }
+    ],
 }
-
+export const leaseLiabilityAggregationCols =
+{
+    openingAtStartDate: [
+        "Opening",
+        (cell) => {
+            return formatCurrency(cell)
+        }
+    ],
+    totalInterest: [
+        "Interest",
+        (cell) => {
+            return formatCurrency(cell)
+        }
+    ],
+    totalPayment: [
+        "Payment",
+        (cell) => {
+            return formatCurrency(cell)
+        }
+    ],
+    closingAtEndDate: [
+        "Closing",
+        (cell) => {
+            return formatCurrency(cell)
+        }
+    ],
+}
 export const ROUScheduleCols = {
     roU_Date: [
         "Date",
@@ -130,7 +166,26 @@ export const ROUScheduleCols = {
         }
     ],
 };
-
+export const ROUScheduleAggregationCols = {
+    openingAtStartDate: [
+        "Opening",
+        (cell) => {
+            return formatCurrency(cell)
+        }
+    ],
+    totalAmmortization: [
+        "Amortization",
+        (cell) => {
+            return formatCurrency(cell)
+        }
+    ],
+    closingAtEndDate: [
+        "Closing",
+        (cell) => {
+            return formatCurrency(cell)
+        }
+    ],
+};
 export const JournalEntires = {
     jE_Date: [
         "Date",

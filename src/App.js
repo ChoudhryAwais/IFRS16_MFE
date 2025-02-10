@@ -13,12 +13,12 @@ function App() {
     <div>
       <Router>
         <Routes>
-          <Route path='/' element={<Login />} />
-          <Route path='/Registration' element={<Register />} />
-          <Route path='/Dashboard' element={<ProtectedRoute component={<Dashboard />} />} />
-          <Route path='/Leases' element={<ProtectedRoute component={<Leases />} />} />
-          <Route path='/IFRS16Accounting' element={<ProtectedRoute component={<IFRS16Accounting />} />} />
-          <Route path='/BulkImport' element={<ProtectedRoute component={<BulkImport />} />} />
+          <Route path='/' element={Login} />
+          <Route path='/Registration' element={Register} />
+          <Route path='/Dashboard' element={<ProtectedRoute Component={Dashboard} />} />
+          <Route path='/Leases' element={<ProtectedRoute Component={Leases} />} />
+          <Route path='/IFRS16Accounting' element={<ProtectedRoute Component={IFRS16Accounting} />} />
+          <Route path='/BulkImport' element={<ProtectedRoute Component={BulkImport} />} />
         </Routes>
       </Router>
     </div>

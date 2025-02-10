@@ -1,31 +1,17 @@
 import React, { useState } from "react";
 
 export const CollapsibleFilterBox = (props) => {
-    const { filterBoxContent } = props
     const [isOpen, setIsOpen] = useState(false);
 
     return (
-        <div className="w-full mb-6">
+        <div className="w-full mb-2">
             {/* Filter Header */}
             <div
-                className={"border p-4 rounded-md shadow-md cursor-pointer flex justify-between items-center"}
+                className={"border p-2 shadow-md cursor-pointer flex justify-between items-center"}
                 onClick={() => setIsOpen(!isOpen)}
             >
                 <div className="flex items-center gap-2">
-                    <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        className="h-3 w-3"
-                        fill="none"
-                        viewBox="0 0 24 24"
-                        stroke="currentColor"
-                    >
-                        <path
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                            strokeWidth={2}
-                            d="M3 4a1 1 0 011-1h16a1 1 0 011 1v2a1 1 0 01-.293.707L13 14.414V19a1 1 0 01-.553.894l-4 2A1 1 0 017 21v-6.586l-6.707-6.707A1 1 0 010 6V4a1 1 0 011-1z"
-                        />
-                    </svg>
+                    <i className="fa fa-filter text-gray-600"></i>
                     <h2 className="text-sm font-semibold">Filters</h2>
                 </div>
                 <svg
@@ -46,11 +32,12 @@ export const CollapsibleFilterBox = (props) => {
             </div>
             {/* Collapsible Filter Content */}
             <div
-                className={`overflow-hidden transition-all duration-500 ease-in-out ${isOpen ? "max-h-screen" : "max-h-0"
+                className={`overflow-hidden transition-all ease-in-out ${isOpen ? "max-h-screen" : "max-h-0"
                     }`}
             >
-                <div className=" bg-white p-4 shadow-md rounded-lg mt-3 border">
-                    {filterBoxContent()}
+                <div className=" bg-white p-4 shadow-md border">
+                    {/* {filterBoxContent()} */}
+                    {props.children}
                 </div>
 
             </div>

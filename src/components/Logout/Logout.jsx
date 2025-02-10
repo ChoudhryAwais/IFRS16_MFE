@@ -10,6 +10,7 @@ export default function Logout({ isCollapsed }) {
         removeSessionStorageVariable({ key: sessionVariable.token })
         removeSessionStorageVariable({ key: sessionVariable.userInfo })
         removeSessionStorageVariable({ key: sessionVariable.companyProfile })
+        removeSessionStorageVariable({ key: sessionVariable.selectLease })
         navigate("/")
     }
 

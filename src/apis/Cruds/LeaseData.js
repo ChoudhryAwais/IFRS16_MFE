@@ -30,3 +30,13 @@ export const getAllLeases = async (pageNumber, pageSize) => {
         return error
     }
 }
+
+export const getAllLeasesforCompany = async () => {
+    const companyProfile = getCompanyProfile()
+    try {
+        const response = await callApi(`/LeaseFormData/GetAllLeasesForCompany?companyId=${companyProfile.companyID}`, "GET")
+        return response
+    } catch (error) {
+        return error
+    }
+}

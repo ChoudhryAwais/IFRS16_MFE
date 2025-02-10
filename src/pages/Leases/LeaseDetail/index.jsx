@@ -53,7 +53,7 @@ export default function LeaseDetail(props) {
             ...rouSchedule,
             loading: true,
         })
-        const response = await getRouScheduleForLease(pageNumber, pageSize, selectedLease.leaseId)
+        const response = await getRouScheduleForLease(pageNumber, pageSize, selectedLease)
         setRouSchedule({
             ...rouSchedule,
             loading: false,
@@ -67,7 +67,7 @@ export default function LeaseDetail(props) {
             ...leaseLiability,
             loading: true,
         })
-        const response = await getLeaseLiabilityForLease(pageNumber, pageSize, selectedLease.leaseId)
+        const response = await getLeaseLiabilityForLease(pageNumber, pageSize, selectedLease)
         setLeaseLiability({
             ...leaseLiability,
             loading: false,
