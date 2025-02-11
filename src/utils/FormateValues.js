@@ -21,6 +21,12 @@ export function UnsignedformatCurrency(value) {
     const thresholdCheck = Math.abs(value) < threshold;
     return `${thresholdCheck ? "0" : Math.abs(value).toLocaleString('en-US')} ${(value && !thresholdCheck) ? (companyProfile?.reportingCurrencyCode || "") : ""}`;
 }
+export function SimpleformatCurrency(value) {
+    if (value < 0) {
+        return 0
+    }
+    return `${(value?.toLocaleString('en-US') || "")}`;
+}
 
 export function exchangeGainLoss(value) {
     const companyProfile = getCompanyProfile()

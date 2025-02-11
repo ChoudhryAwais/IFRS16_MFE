@@ -1,11 +1,11 @@
-import { exchangeGainLoss, formatCurrency, formatDate, IRformatCurrency, UnsignedformatCurrency } from "../FormateValues";
+import { exchangeGainLoss, formatCurrency, formatDate, IRformatCurrency, SimpleformatCurrency, UnsignedformatCurrency } from "../FormateValues";
 
 export const leaseCols = {
     leaseName: "Lease Name",
     rental: [
         "Rental",
         (cell) => {
-            return UnsignedformatCurrency(cell)
+            return SimpleformatCurrency(cell)
         }
     ],
     commencementDate:
