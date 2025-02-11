@@ -81,7 +81,7 @@ export default function LeaseDetail(props) {
             ...journalEntries,
             loading: true,
         })
-        const response = await getJournalEntriesForLease(pageNumber, pageSize, selectedLease.leaseId)
+        const response = await getJournalEntriesForLease(pageNumber, pageSize, selectedLease)
         setJournalEntries({
             ...journalEntries,
             loading: false,

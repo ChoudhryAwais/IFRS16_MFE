@@ -1,11 +1,11 @@
-import { exchangeGainLoss, formatCurrency, formatDate, IRformatCurrency, PercentageValue, SimpleformatCurrency } from "../FormateValues";
+import { exchangeGainLoss, formatCurrency, formatDate, IRformatCurrency, UnsignedformatCurrency } from "../FormateValues";
 
 export const leaseCols = {
     leaseName: "Lease Name",
     rental: [
         "Rental",
         (cell) => {
-            return SimpleformatCurrency(cell)
+            return UnsignedformatCurrency(cell)
         }
     ],
     commencementDate:
@@ -22,7 +22,6 @@ export const leaseCols = {
                 return formatDate(cell)
             }
         ],
-
     annuity:
         [
             "Annuity",
@@ -91,7 +90,7 @@ export const leaseLiabilityCols =
     interest: [
         "Interest",
         (cell) => {
-            return PercentageValue(cell)
+            return formatCurrency(cell)
         }
     ],
     payment: [
@@ -199,13 +198,13 @@ export const JournalEntires = {
     debit: [
         "Debit",
         (cell) => {
-            return formatCurrency(cell)
+            return UnsignedformatCurrency(cell)
         }
     ],
     credit: [
         "Credit",
         (cell) => {
-            return formatCurrency(cell)
+            return UnsignedformatCurrency(cell)
         }
     ],
 };

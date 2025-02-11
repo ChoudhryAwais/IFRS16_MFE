@@ -1,12 +1,5 @@
 import { getCompanyProfile, getSelectLease } from "../apis/Cruds/sessionCrud";
 
-export function PercentageValue(value) {
-    if (value < 0) {
-        return 0
-    }
-    return `${(value?.toLocaleString('en-US') || "")} %`;
-}
-
 export function IRformatCurrency(value) {
     const selectedLease = getSelectLease()
     if (value < 0) {
@@ -22,11 +15,11 @@ export function formatCurrency(value) {
     return `${(value?.toLocaleString('en-US') || "")} ${value ? (companyProfile?.reportingCurrencyCode || "") : ""}`;
 }
 
-export function SimpleformatCurrency(value) {
-    if (value < 0) {
-        return 0
-    }
-    return `${(value?.toLocaleString('en-US') || "")}`;
+export function UnsignedformatCurrency(value) {
+    const companyProfile = getCompanyProfile()
+    const threshold = 1e-7; // Adjust this based on precision requirements
+    const thresholdCheck = Math.abs(value) < threshold;
+    return `${thresholdCheck ? "0" : Math.abs(value).toLocaleString('en-US')} ${(value && !thresholdCheck) ? (companyProfile?.reportingCurrencyCode || "") : ""}`;
 }
 
 export function exchangeGainLoss(value) {
