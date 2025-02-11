@@ -22,6 +22,13 @@ export function formatCurrency(value) {
     return `${(value?.toLocaleString('en-US') || "")} ${value ? (companyProfile?.reportingCurrencyCode || "") : ""}`;
 }
 
+export function SimpleformatCurrency(value) {
+    if (value < 0) {
+        return 0
+    }
+    return `${(value?.toLocaleString('en-US') || "")}`;
+}
+
 export function exchangeGainLoss(value) {
     const companyProfile = getCompanyProfile()
     const threshold = 1e-8; // Adjust this based on precision requirements
