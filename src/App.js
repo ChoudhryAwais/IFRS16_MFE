@@ -13,8 +13,8 @@ function App() {
     <div>
       <Router>
         <Routes>
-          <Route path='/' element={Login} />
-          <Route path='/Registration' element={Register} />
+          <Route path='/' element={<Login/>} />
+          <Route path='/Registration' element={<Register/>} />
           <Route path='/Dashboard' element={<ProtectedRoute Component={Dashboard} />} />
           <Route path='/Leases' element={<ProtectedRoute Component={Leases} />} />
           <Route path='/IFRS16Accounting' element={<ProtectedRoute Component={IFRS16Accounting} />} />
