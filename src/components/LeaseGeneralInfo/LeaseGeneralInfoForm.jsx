@@ -133,12 +133,13 @@ export default function LeaseGeneralInfoForm({ otherTabs, increment }) {
     useEffect(() => {
         const getCurrency = async () => {
             const allCurrenciesRes = await getAllCurrencies()
-            setCurrencies(allCurrenciesRes)
+            if (allCurrenciesRes.length)
+                setCurrencies(allCurrenciesRes)
         }
         getCurrency()
     }, [])
 
-    console.log("formData", formData)
+    console.log("currencies", currencies)
     return (
         <React.Fragment>
             <LoadingSpinner isLoading={loading} />
