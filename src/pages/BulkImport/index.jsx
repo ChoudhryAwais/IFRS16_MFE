@@ -8,6 +8,7 @@ import { addBulkLeases } from '../../apis/Cruds/LeaseData';
 import { SwalPopup } from '../../middlewares/SwalPopup/SwalPopup';
 import { statusCodeMessage } from '../../utils/enums/statusCode';
 import { LoadingSpinner } from '../../components/LoadingBar/LoadingBar';
+import { handleExcelExport } from '../../utils/exportService/excelExportService';
 
 export default function BulkImport() {
     const [loading, setLoading] = useState(false)
@@ -21,7 +22,6 @@ export default function BulkImport() {
     const handleFileChange = (event) => {
         const file = event.target.files[0]; // Get the selected file
         const validExtensions = ['.xlsx', '.csv', '.xls']; // Allowed extensions
-        debugger
         if (file && validExtensions.some((ext) => file.name.toLowerCase().endsWith(ext))) {
             setFileName(file.name);
             setError(''); // Clear any previous error
@@ -38,7 +38,6 @@ export default function BulkImport() {
                 // Remove the first row (headers)
                 for (let i = 1; i < data.length; i++) { // Start from index 1 to skip the header
                     const row = data[i];
-                    debugger
                     if (allowFrequencies(row[6]) && (allowFrequencies(row[10]) || row[10] === undefined) && allowAnnuity(row[4])) {
                         formattedData.push({
                             leaseName: row[0],
@@ -75,15 +74,7 @@ export default function BulkImport() {
         event.target.value = null;
     };
     const handleDownload = () => {
-        // Convert JSON to a worksheet
-        const worksheet = XLSX.utils.json_to_sheet(leaseTemp);
-
-        // Create a workbook and append the worksheet
-        const workbook = XLSX.utils.book_new();
-        XLSX.utils.book_append_sheet(workbook, worksheet, 'Leases');
-
-        // Create a binary Excel file and trigger the download
-        XLSX.writeFile(workbook, 'LeaseTemplate.xlsx');
+        handleExcelExport({ payload: leaseTemp, workSheetName: "Leases", fileName: "LeaseTemplate" })
     };
     const handleSubmit = async () => {
         setLoading(true)
@@ -109,7 +100,6 @@ export default function BulkImport() {
             )
         }
     }
-    console.log("leasesData", leasesData)
     return (
         <React.Fragment>
             <LoadingSpinner isLoading={loading} />

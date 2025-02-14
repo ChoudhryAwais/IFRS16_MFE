@@ -18,7 +18,7 @@ export const CustomModal = ({ mainContent, openModal, closeModal, modalTitle }) 
                         }`}
                 >
                     <div
-                        className={`relative p-4 w-full max-w-6xl max-h-full transition-transform duration-300 transform ${isModalVisible ? "scale-100" : "scale-95"
+                        className={`relative p-4 w-full max-w-[95%] max-h-full transition-transform duration-300 transform ${isModalVisible ? "scale-100" : "scale-95"
                             }`}
                     >
                         {/* Modal content */}

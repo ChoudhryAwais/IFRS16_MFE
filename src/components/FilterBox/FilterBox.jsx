@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 
 export const CollapsibleFilterBox = (props) => {
+    const { heading } = props
     const [isOpen, setIsOpen] = useState(false);
 
     return (
@@ -12,7 +13,7 @@ export const CollapsibleFilterBox = (props) => {
             >
                 <div className="flex items-center gap-2">
                     <i className="fa fa-filter text-gray-600"></i>
-                    <h2 className="text-sm font-semibold">Filters</h2>
+                    <h2 className="text-sm font-semibold">{heading}</h2>
                 </div>
                 <svg
                     xmlns="http://www.w3.org/2000/svg"

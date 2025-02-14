@@ -138,8 +138,23 @@ export default function LeaseGeneralInfoForm({ otherTabs, increment }) {
         }
         getCurrency()
     }, [])
+    // handle dates 
+    const handleDatesOnBlur = (e) => {
+        const { name, value } = e.target;
+        let newValue = value
+        if (name === "commencementDate" && formData.endDate && value > formData.endDate) {
+            newValue = ""
+        }
+        if (name === "endDate" && formData.commencementDate && value < formData.commencementDate) {
+            newValue = ""
+        }
+        setFormData({
+            ...formData,
+            [name]: newValue
+        });
+    };
 
-    console.log("currencies", currencies)
+
     return (
         <React.Fragment>
             <LoadingSpinner isLoading={loading} />
@@ -189,6 +204,8 @@ export default function LeaseGeneralInfoForm({ otherTabs, increment }) {
                         className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-sm focus:ring-blue-500 focus:border-blue-500 block w-full px-2.5 py-1.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                         value={formData.commencementDate}
                         onChange={handleChange}
+                        min={formData.endDate}
+                        onBlur={handleDatesOnBlur}
                     />
                 </div>
                 {/* End Date */}
@@ -204,6 +221,9 @@ export default function LeaseGeneralInfoForm({ otherTabs, increment }) {
                         className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-sm focus:ring-blue-500 focus:border-blue-500 block w-full px-2.5 py-1.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                         value={formData.endDate}
                         onChange={handleChange}
+                        max={formData.commencementDate}
+                        onBlur={handleDatesOnBlur}
+                        disabled={formData.commencementDate == ""}
                     />
                 </div>
                 {/* Annuity */}
@@ -252,9 +272,9 @@ export default function LeaseGeneralInfoForm({ otherTabs, increment }) {
                         value={formData.frequency}
                         onChange={handleChange}
                     >
-                        {frequencies.map(freq => {
+                        {frequencies.map((freq, i) => {
                             return (
-                                <option value={freq}>{freq.replace(/\b\w/g, (char) => char.toUpperCase())}</option>
+                                <option key={i} value={freq}>{freq.replace(/\b\w/g, (char) => char.toUpperCase())}</option>
                             )
                         })}
                     </select>
@@ -273,9 +293,9 @@ export default function LeaseGeneralInfoForm({ otherTabs, increment }) {
                         onChange={handleChange}
                     >
                         <option value="">Select the currency</option>
-                        {currencies.map(currency => {
+                        {currencies.map((currency, i) => {
                             return (
-                                <option value={currency.currencyID}>{currency.currencyCode}</option>
+                                <option key={i} value={currency.currencyID}>{currency.currencyCode}</option>
                             )
                         })}
                     </select>
@@ -346,9 +366,9 @@ export default function LeaseGeneralInfoForm({ otherTabs, increment }) {
                                     value={formData.incrementalFrequency}
                                     onChange={handleChange}
                                 >
-                                    {incrementalFrequency?.map(freq => {
+                                    {incrementalFrequency?.map((freq, i) => {
                                         return (
-                                            <option value={freq}>{freq.replace(/\b\w/g, (char) => char.toUpperCase())}</option>
+                                            <option key={i} value={freq}>{freq.replace(/\b\w/g, (char) => char.toUpperCase())}</option>
                                         )
                                     })}
                                 </select>

@@ -1,4 +1,4 @@
-import { exchangeGainLoss, formatCurrency, formatDate, IRformatCurrency, SimpleformatCurrency, UnsignedformatCurrency } from "../FormateValues";
+import { exchangeGainLoss, formatCurrency, formatDate, IRformatCurrency, SimpleformatCurrency, UnsignedformatCurrency } from "../../helper/FormateValues";
 
 export const leaseCols = {
     leaseName: "Lease Name",
@@ -112,33 +112,6 @@ export const leaseLiabilityCols =
         }
     ],
 }
-export const leaseLiabilityAggregationCols =
-{
-    openingAtStartDate: [
-        "Opening",
-        (cell) => {
-            return formatCurrency(cell)
-        }
-    ],
-    totalInterest: [
-        "Interest",
-        (cell) => {
-            return formatCurrency(cell)
-        }
-    ],
-    totalPayment: [
-        "Payment",
-        (cell) => {
-            return formatCurrency(cell)
-        }
-    ],
-    closingAtEndDate: [
-        "Closing",
-        (cell) => {
-            return formatCurrency(cell)
-        }
-    ],
-}
 export const ROUScheduleCols = {
     roU_Date: [
         "Date",
@@ -159,26 +132,6 @@ export const ROUScheduleCols = {
         }
     ],
     closing: [
-        "Closing",
-        (cell) => {
-            return formatCurrency(cell)
-        }
-    ],
-};
-export const ROUScheduleAggregationCols = {
-    openingAtStartDate: [
-        "Opening",
-        (cell) => {
-            return formatCurrency(cell)
-        }
-    ],
-    totalAmmortization: [
-        "Amortization",
-        (cell) => {
-            return formatCurrency(cell)
-        }
-    ],
-    closingAtEndDate: [
         "Closing",
         (cell) => {
             return formatCurrency(cell)
@@ -208,3 +161,120 @@ export const JournalEntires = {
         }
     ],
 };
+export const leaseReportCol = {
+    leaseName: "Lease Name",
+    rental: [
+        "Rental",
+        (cell) => {
+            return SimpleformatCurrency(cell)
+        }
+    ],
+    frequency: [
+        "Frequency",
+        (cell) => {
+            return cell.toUpperCase()
+        }
+    ],
+    commencementDate:
+        [
+            "Commencement Date",
+            (cell) => {
+                return formatDate(cell)
+            }
+        ],
+    endDate:
+        [
+            "End Date",
+            (cell) => {
+                return formatDate(cell)
+            }
+        ],
+
+    openingLL: [
+        "Opening LL",
+        (cell) => {
+            return formatCurrency(cell)
+        }
+    ],
+    interest: [
+        "Interest",
+        (cell) => {
+            return formatCurrency(cell)
+        }
+    ],
+    payment: [
+        "Payment",
+        (cell) => {
+            return formatCurrency(cell)
+        }
+    ],
+    closingLL: [
+        "Closing LL",
+        (cell) => {
+            return formatCurrency(cell)
+        }
+    ],
+    openingROU: [
+        "Opening ROU",
+        (cell) => {
+            return formatCurrency(cell)
+        }
+    ],
+    amortization: [
+        "Amortization",
+        (cell) => {
+            return formatCurrency(cell)
+        }
+    ],
+    closingROU: [
+        "Closing ROU",
+        (cell) => {
+            return formatCurrency(cell)
+        }
+    ],
+};
+export const leaseReportSummaryCol = {
+    openingLL: [
+        "Opening LL",
+        (cell) => {
+            return formatCurrency(cell)
+        }
+    ],
+    interest: [
+        "Interest",
+        (cell) => {
+            return formatCurrency(cell)
+        }
+    ],
+    payment: [
+        "Payment",
+        (cell) => {
+            return formatCurrency(cell)
+        }
+    ],
+    closingLL: [
+        "Closing LL",
+        (cell) => {
+            return formatCurrency(cell)
+        }
+    ],
+    openingROU: [
+        "Opening ROU",
+        (cell) => {
+            return formatCurrency(cell)
+        }
+    ],
+    amortization: [
+        "Amortization",
+        (cell) => {
+            return formatCurrency(cell)
+        }
+    ],
+    closingROU: [
+        "Closing ROU",
+        (cell) => {
+            return formatCurrency(cell)
+        }
+    ],
+};
+

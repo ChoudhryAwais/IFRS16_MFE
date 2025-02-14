@@ -2,11 +2,13 @@ import React, { useEffect, useState } from 'react'
 import { TableLoadingSpinner } from '../LoadingBar/LoadingBar'
 
 export default function Tables(props) {
-    const { data, columns, extandedTableFunc, calcHeight, isLoading, totalRecord, getPaginatedData, tabChange, pagination = true } = props
+    const { data, columns, extandedTableFunc, calcHeight, isLoading, totalRecord, getPaginatedData, tabChange, pagination = true, hideHorzScroll = false } = props
     const TableMaxHeight = `calc(100vh - ${calcHeight})`
     const [pageSize, setPageSize] = useState(10); // Default page size
     const [pageNumber, setPageNumber] = useState(1); // Default page number
     const [totalPages, setTotalPages] = useState(0); // Default total pages
+    const columnWidth = 15; // Each column takes 20% of the viewport
+    const tableWidth = Object.keys(columns).length * columnWidth; // Total table width in %
 
     // handle page size
     const handlePageSizeChange = (event) => {
@@ -34,54 +36,79 @@ export default function Tables(props) {
             setPageNumber(1)
         }
     }, [tabChange])
+
     return (
         <React.Fragment>
-            <div className="shadow-md sm:rounded-sm overflow-auto" style={{ maxHeight: TableMaxHeight }}>
-                <table className="w-full text-sm text-left text-gray-500">
-                    <thead className="text-xs text-white uppercase bg-[#97072A] top-0 sticky ">
-                        <tr>
-                            {Object.values(columns).map((col, i) => {
-                                return <th className="px-6 py-3" key={i}>{col}</th>
-                            })}
-                            {/* <th className="px-6 py-3">
+            <div
+                className={`shadow-md sm:rounded-sm overflow-auto`}
+                style={{ maxHeight: TableMaxHeight }}
+            >
+                <div className={`min-w-[${tableWidth}%]`}>
+                    <table className="w-full text-sm text-left text-gray-500">
+                        <thead
+                            className="text-xs text-white uppercase bg-[#97072A] sticky top-0 z-20"
+                            style={{ minWidth: `${columnWidth}vw` }}
+                        >
+                            <tr>
+                                {Object.values(columns).map((col, i) => {
+                                    return (
+                                        <th
+                                            key={i}
+                                            className={`p-2 px-4 border border-gray-300 text-left " ${(i === 0 && !hideHorzScroll) ? "sticky bg-[#97072A] left-0 z-10 shadow-md" : ""
+                                                }`}
+                                            style={{ minWidth: `${columnWidth}vw` }} // Set column width dynamically
+                                        >
+                                            {col}
+                                        </th>
+                                    )
+                                })}
+                                {/* <th className="px-6 py-3">
                                     Action
                                 </th> */}
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {isLoading === true ? <tr><td colSpan={Object.keys(columns).length} className="p-3" > <TableLoadingSpinner /></td></tr>
-                            :
-                            data.length > 0 ? (data || {}).map((row, index) => {
-                                return (
-                                    <tr
-                                        key={`${index}_table`}
-                                        className="bg-white border-b hover:bg-blue-100 hover:text-[#DB1118] cursor-pointer"
-                                        onClick={() => extandedTableFunc ? extandedTableFunc.callBack(row) : () => { }}
-                                    >
-                                        {Object.keys(columns).map((rowObj, i) => {
-                                            const columnValue = columns[rowObj]
-                                            //check for extra value in column object 
-                                            const extraObj = Array.isArray(columns[rowObj])
-                                            const cellValue = extraObj ? columnValue[1](row[rowObj]) : row[rowObj]
-                                            const finalCellValue = (!isNaN(cellValue)) ? Math.round((cellValue * 100)) / 100 : cellValue
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {isLoading === true ? <tr><td colSpan={Object.keys(columns).length} className="p-3" > <TableLoadingSpinner /></td></tr>
+                                :
+                                data.length > 0 ? (data || {}).map((row, index) => {
+                                    return (
+                                        <tr
+                                            key={`${index}_table`}
+                                            className=" border hover:bg-blue-100 hover:text-[#DB1118] cursor-pointer"
+                                            onClick={() => extandedTableFunc ? extandedTableFunc.callBack(row) : () => { }}
+                                        >
+                                            {Object.keys(columns).map((rowObj, i) => {
+                                                const columnValue = columns[rowObj]
+                                                //check for extra value in column object 
+                                                const extraObj = Array.isArray(columns[rowObj])
+                                                const cellValue = extraObj ? columnValue[1](row[rowObj]) : row[rowObj]
+                                                const finalCellValue = (!isNaN(cellValue)) ? Math.round((cellValue * 100)) / 100 : cellValue
 
-                                            return (
-                                                <td key={i} className="px-6 py-4">{finalCellValue}</td>
-                                            )
-                                        })}
-                                        {/* {deleteRow &&
+                                                return (
+                                                    <td
+                                                        key={i}
+                                                        className={`py-3 px-4 bg-white " ${(i === 0 && !hideHorzScroll) ? "sticky bg-white left-0 z-10 shadow-md" : ""
+                                                            }`}
+                                                        style={{ minWidth: `${columnWidth}vw` }} // Apply same column width to cells
+                                                    >
+                                                        {finalCellValue}
+                                                    </td>
+                                                )
+                                            })}
+                                            {/* {deleteRow &&
                                                 <td className="px-6 py-4">
                                                     <button onClick={() => deleteRow(row)} className='btn btn-danger'>Delete</button>
                                                 </td>
                                             } */}
 
-                                    </tr>
-                                )
-                            }) :
-                                <tr> <td className='italic p-3'>No Record found</td></tr>
-                        }
-                    </tbody>
-                </table>
+                                        </tr>
+                                    )
+                                }) :
+                                    <tr> <td className='italic p-3'>No Record found</td></tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
 
             </div>
             <React.Fragment>

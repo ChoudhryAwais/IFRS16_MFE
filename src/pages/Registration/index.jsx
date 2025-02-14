@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { emailRegex, numberRegex } from '../../utils/inputValidation';
+import { emailRegex, numberRegex } from '../../helper/inputValidation';
 import { registerUser } from '../../apis/Cruds/User';
 import { SwalPopup } from '../../middlewares/SwalPopup/SwalPopup';
 import { statusCodeMessage } from '../../utils/enums/statusCode';

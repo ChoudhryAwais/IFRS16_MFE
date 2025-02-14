@@ -3,8 +3,8 @@ import { CollapsibleFilterBox } from "./FilterBox";
 import { getAllLeasesforCompany } from "../../apis/Cruds/LeaseData";
 import Select from 'react-select'
 
-export const GeneralFilter = ({ onApplyFilter }) => {
-    const [filterModal, setfilterModal] = useState({
+export const GeneralFilter = ({ onApplyFilter, leaseSelection }) => {
+    const [filterModal, setFilterModal] = useState({
         startDate: '',
         endDate: '',
         leaseIdList: ''
@@ -36,14 +36,14 @@ export const GeneralFilter = ({ onApplyFilter }) => {
     }, [])
     const handleChange = (e) => {
         const { name, value } = e.target;
-        setfilterModal((prevData) => ({
+        setFilterModal((prevData) => ({
             ...prevData,
             [name]: value,
         }));
     };
     // validate the form 
     const handleValidateForm = () => {
-        if (filterModal.startDate === "" || filterModal.endDate === '' || filterModal.leaseIdList === '')
+        if (filterModal.startDate === "" || filterModal.endDate === '' || (leaseSelection && filterModal.leaseIdList === ''))
             return true
         return false
     }
@@ -59,30 +59,57 @@ export const GeneralFilter = ({ onApplyFilter }) => {
             overflowY: "auto", // Ensure scrolling works
         }),
     };
+
+    const handleDatesOnBlur = (e) => {
+        const { name, value } = e.target;
+        let newValue = value
+        if (name === "startDate" && filterModal.endDate && value > filterModal.endDate) {
+            newValue = ""
+        }
+        if (name === "endDate" && filterModal.startDate && value < filterModal.startDate) {
+            newValue = ""
+        }
+        setFilterModal({
+            ...filterModal,
+            [name]: newValue
+        });
+    };
+
+    const handleRestore = () => {
+        setFilterModal({
+            ...filterModal,
+            startDate: "",
+            endDate: "",
+            leaseIdList: ""
+        });
+    }
+
     return (
-        <CollapsibleFilterBox>
+        <CollapsibleFilterBox heading="Report">
             <div className='bg-white'>
-                <div>
-                    <label htmlFor="startDate" className="block mb-1 text-sm font-medium text-gray-900 dark:text-white">
-                        Select Leases
-                    </label>
-                    <Select
-                        name='leases'
-                        options={allLeases.data}
-                        isMulti
-                        isDisabled={allLeases.loading}
-                        closeMenuOnSelect={false}
-                        onChange={(value) => {
-                            const leasesId = value.map(item => item.value).join(",")
-                            setfilterModal({
-                                ...filterModal,
-                                leaseIdList: leasesId
-                            })
-                        }}
-                        styles={customStyles}
-                    />
-                </div>
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-4">
+                {leaseSelection ?
+                    <div>
+                        <label htmlFor="startDate" className="block mb-1 text-sm font-medium text-gray-900 dark:text-white">
+                            Select Leases
+                        </label>
+                        <Select
+                            name='leases'
+                            options={allLeases.data}
+                            isMulti
+                            isDisabled={allLeases.loading}
+                            closeMenuOnSelect={false}
+                            onChange={(value) => {
+                                const leasesId = value.map(item => item.value).join(",")
+                                setFilterModal({
+                                    ...filterModal,
+                                    leaseIdList: leasesId
+                                })
+                            }}
+                            styles={customStyles}
+                        />
+                    </div> : null}
+
+                <div className={`grid grid-cols-1 md:grid-cols-2 gap-6 ${leaseSelection ? "mt-4" : ""}`}>
                     {/* Commencement Date */}
                     <div>
                         <label htmlFor="startDate" className="block mb-1 text-sm font-medium text-gray-900 dark:text-white">
@@ -96,6 +123,7 @@ export const GeneralFilter = ({ onApplyFilter }) => {
                             value={filterModal.startDate}
                             onChange={handleChange}
                             max={filterModal.endDate}
+                            onBlur={handleDatesOnBlur}
                         />
                     </div>
                     {/* End Date */}
@@ -103,7 +131,6 @@ export const GeneralFilter = ({ onApplyFilter }) => {
                         <label htmlFor="endDate" className="block mb-1 text-sm font-medium text-gray-900 dark:text-white">
                             End Date
                         </label>
-
                         <input
                             type="date"
                             id="endDate"
@@ -112,15 +139,23 @@ export const GeneralFilter = ({ onApplyFilter }) => {
                             value={filterModal.endDate}
                             onChange={handleChange}
                             min={filterModal.startDate}
+                            disabled={filterModal.startDate == ""}
+                            onBlur={handleDatesOnBlur}
                         />
                     </div>
                 </div>
                 <div className="flex justify-end">
                     <button
+                        onClick={handleRestore}
+                        type="button"
+                        className={"py-2 mt-3 me-1 px-3 mb-2 text-sm font-sm text-white focus:outline-none bg-gray-800 hover:bg-gray-900  rounded-sm border border-gray-200 hover:text-white "}>
+                        Restore Default
+                    </button>
+                    <button
                         disabled={handleValidateForm()}
                         onClick={() => onApplyFilter(filterModal)}
                         type="button"
-                        className={(handleValidateForm() ? "cursor-no-drop" : " ") + " py-2.5 mt-5 px-5 me-2 mb-2 text-sm font-medium text-white focus:outline-none bg-indigo-600  rounded-lg border border-gray-200 hover:bg-indigo-700 hover:text-white "}>
+                        className={(handleValidateForm() ? "cursor-no-drop" : " ") + " py-2 mt-3 px-3 mb-2 text-sm font-sm text-white focus:outline-none bg-indigo-600  rounded-sm border border-gray-200 hover:bg-indigo-700 hover:text-white "}>
                         Generate Report
                     </button>
                 </div>
