@@ -44,7 +44,7 @@ export default function Dashboard() {
                 leaseSelection={true}
             />
             <div className="bg-white border rounded-md overflow-hidden p-3 mt-3">
-                <h2 className="text-md font-semibold mb-3">Lease Liability</h2>
+                <h2 className="text-md font-semibold mb-3">Summarize Report</h2>
                 <Tables
                     hideHorzScroll={true}
                     columns={leaseReportSummaryCol}
