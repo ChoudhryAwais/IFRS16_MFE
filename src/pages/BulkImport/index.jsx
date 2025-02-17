@@ -9,6 +9,7 @@ import { SwalPopup } from '../../middlewares/SwalPopup/SwalPopup';
 import { statusCodeMessage } from '../../utils/enums/statusCode';
 import { LoadingSpinner } from '../../components/LoadingBar/LoadingBar';
 import { handleExcelExport } from '../../utils/exportService/excelExportService';
+import { excelDateToJSDate } from '../../helper/getDate';
 
 export default function BulkImport() {
     const [loading, setLoading] = useState(false)
@@ -43,8 +44,8 @@ export default function BulkImport() {
                         formattedData.push({
                             leaseName: row[0],
                             rental: row[1],
-                            commencementDate: row[2],
-                            endDate: row[3],
+                            commencementDate: excelDateToJSDate(row[2]),
+                            endDate: excelDateToJSDate(row[3]),
                             annuity: row[4],
                             ibr: row[5],
                             frequency: row[6],
