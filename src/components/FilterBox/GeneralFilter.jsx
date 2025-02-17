@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { CollapsibleFilterBox } from "./FilterBox";
 import { getAllLeasesforCompany } from "../../apis/Cruds/LeaseData";
-import Select from 'react-select'
+import MultiSelectDropdown from "../MultiSelect/MultiSelect";
 
 export const GeneralFilter = ({ onApplyFilter, leaseSelection }) => {
     const [filterModal, setFilterModal] = useState({
@@ -47,18 +47,6 @@ export const GeneralFilter = ({ onApplyFilter, leaseSelection }) => {
             return true
         return false
     }
-    const customStyles = {
-        menu: (provided) => ({
-            ...provided,
-            maxHeight: "130px", // Limit height
-            overflowY: "auto", // Enable scrolling
-        }),
-        menuList: (provided) => ({
-            ...provided,
-            maxHeight: "130px", // Apply height restriction here too
-            overflowY: "auto", // Ensure scrolling works
-        }),
-    };
 
     const handleDatesOnBlur = (e) => {
         const { name, value } = e.target;
@@ -83,31 +71,22 @@ export const GeneralFilter = ({ onApplyFilter, leaseSelection }) => {
             leaseIdList: ""
         });
     }
-
+    const handleLeaseSelect = (value) => {
+        const leasesId = value?.map(item => item.value).join(",")
+        setFilterModal({
+            ...filterModal,
+            leaseIdList: leasesId
+        })
+    }
     return (
         <CollapsibleFilterBox heading="Report">
             <div className='bg-white'>
+
                 {leaseSelection ?
-                    <div>
-                        <label htmlFor="startDate" className="block mb-1 text-sm font-medium text-gray-900 dark:text-white">
-                            Select Leases
-                        </label>
-                        <Select
-                            name='leases'
-                            options={allLeases.data}
-                            isMulti
-                            isDisabled={allLeases.loading}
-                            closeMenuOnSelect={false}
-                            onChange={(value) => {
-                                const leasesId = value.map(item => item.value).join(",")
-                                setFilterModal({
-                                    ...filterModal,
-                                    leaseIdList: leasesId
-                                })
-                            }}
-                            styles={customStyles}
-                        />
-                    </div> : null}
+                    <MultiSelectDropdown
+                        options={allLeases.data}
+                        handleChange={(value) => handleLeaseSelect(value)}
+                    /> : null}
 
                 <div className={`grid grid-cols-1 md:grid-cols-2 gap-6 ${leaseSelection ? "mt-4" : ""}`}>
                     {/* Commencement Date */}
