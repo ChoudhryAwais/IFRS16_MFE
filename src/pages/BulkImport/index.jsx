@@ -52,7 +52,9 @@ export default function BulkImport() {
                             grv: row[9] ?? null,  // Null if empty
                             incrementalFrequency: row[10] ?? null,  // Null if empty
                             companyID: company.companyID,
-                            userID: user.userID
+                            currencyID: company.reportingCurrencyId,
+                            userID: user.userID,
+                            rouOpening: row[11] ?? null // Null if empty
                         });
                     } else {
                         setError("Incorrect Format");
