@@ -80,20 +80,16 @@ export default function LeaseGeneralInfoForm({ otherTabs, increment }) {
             companyID: companyProfile.companyID
         }
         setLoading(true)
-        try {
-            const leaseResponse = await addNewLease(leaseModal)
-            if (leaseResponse?.leaseId) {
-                setLoading(false)
-                SwalPopup(
-                    "Lease Added",
-                    statusCodeMessage.leaseAdded,
-                    "success",
-                    () => navigate("/IFRS16Accounting")
-                )
-            } else {
-                setLoading(false)
-            }
-        } catch {
+        const leaseResponse = await addNewLease(leaseModal)
+        if (leaseResponse?.leaseId) {
+            setLoading(false)
+            SwalPopup(
+                "Lease Added",
+                statusCodeMessage.leaseAdded,
+                "success",
+                () => navigate("/IFRS16Accounting")
+            )
+        } else {
             setLoading(false)
             SwalPopup(
                 "Try again",

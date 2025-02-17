@@ -38,6 +38,7 @@ export default function BulkImport() {
                 // Remove the first row (headers)
                 for (let i = 1; i < data.length; i++) { // Start from index 1 to skip the header
                     const row = data[i];
+                    if (row.length == 0) return
                     if (allowFrequencies(row[6]) && (allowFrequencies(row[10]) || row[10] === undefined) && allowAnnuity(row[4])) {
                         formattedData.push({
                             leaseName: row[0],
@@ -80,26 +81,22 @@ export default function BulkImport() {
     };
     const handleSubmit = async () => {
         setLoading(true)
-        try {
-            const leaseResponse = await addBulkLeases(leasesData)
-            if (leaseResponse.length > 0) {
-                setLoading(false)
-                SwalPopup(
-                    "Imported Successfully",
-                    statusCodeMessage.bulkleasesAdded,
-                    "success",
-                    () => navigate("/IFRS16Accounting")
-                )
-            } else {
-                setLoading(false)
-            }
-        } catch {
+        const leaseResponse = await addBulkLeases(leasesData)
+        if (leaseResponse.length > 0) {
             setLoading(false)
+            SwalPopup(
+                "Imported Successfully",
+                statusCodeMessage.bulkleasesAdded,
+                "success",
+                () => navigate("/IFRS16Accounting")
+            )
+        } else {
             SwalPopup(
                 "Try again",
                 statusCodeMessage.somethingWentWrong,
                 "error"
             )
+            setLoading(false)
         }
     }
     return (
