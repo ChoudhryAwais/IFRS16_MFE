@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 
 import Tables from '../../components/Tables/Tables';
-import { leaseLiabilityAggregationCols, leaseReportSummaryCol, ROUScheduleAggregationCols } from '../../utils/tableCols/tableCols';
+import { leaseReportSummaryCol } from '../../utils/tableCols/tableCols';
 import { getLeaseReportSummary } from '../../apis/Cruds/leaseReport';
 import { GeneralFilter } from '../../components/FilterBox/GeneralFilter';
 import DashboardCards from '../../components/DashboardCard/DashboardCards';

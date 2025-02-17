@@ -93,24 +93,9 @@ export default function IFRS16Accounting() {
 
   return (
     <div>
+      {/* This loader is for lease report */}
       <LoadingSpinner isLoading={leaseReport.loading} />
-
-      <GeneralFilter
-        onApplyFilter={(filterModal) => allLeaseReport(filterModal)}
-        leaseSelection={false}
-      />
-      <CustomModal
-        mainContent={
-          <LeaseDetail selectedLease={selectedLease} />
-        }
-        modalTitle={selectedLease?.leaseName || "Lease Detail"}
-        openModal={leasePopup}
-        closeModal={() => {
-          setLeasePopup(false)
-          removeSessionStorageVariable({ key: sessionVariable.selectLease })
-        }}
-      />
-
+      {/* This modal is for lease report */}
       <CustomModal
         mainContent={
           <div>
@@ -118,7 +103,9 @@ export default function IFRS16Accounting() {
               <button
                 onClick={handleExport}
                 type="button"
-                className={" py-2 px-3 mb-2 text-sm font-sm text-white focus:outline-none bg-green-600  rounded-sm border border-gray-200 hover:bg-green-700 hover:text-white "}>
+                className={" py-2 px-3 mb-2 text-sm font-sm text-white focus:outline-none bg-green-600  rounded-sm border border-gray-200 hover:bg-green-700 hover:text-white "}
+                disabled={leaseReport?.data.length==0}
+                >
                 Export <i class="fa fa-download ml-2"></i>
               </button>
             </div>
@@ -138,6 +125,22 @@ export default function IFRS16Accounting() {
         closeModal={() => {
           setLeaseReportPopup(false)
         }}
+      />
+      {/* This modal is for lease detail which include IR,LL,ROU... */}
+      <CustomModal
+        mainContent={
+          <LeaseDetail selectedLease={selectedLease} />
+        }
+        modalTitle={selectedLease?.leaseName || "Lease Detail"}
+        openModal={leasePopup}
+        closeModal={() => {
+          setLeasePopup(false)
+          removeSessionStorageVariable({ key: sessionVariable.selectLease })
+        }}
+      />
+      <GeneralFilter
+        onApplyFilter={(filterModal) => allLeaseReport(filterModal)}
+        leaseSelection={false}
       />
 
       <Tables
