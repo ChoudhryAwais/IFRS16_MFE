@@ -39,7 +39,7 @@ export default function BulkImport() {
                 // Remove the first row (headers)
                 for (let i = 1; i < data.length; i++) { // Start from index 1 to skip the header
                     const row = data[i];
-                    if (row.length == 0) return
+                    if (row.length == 0) break;
                     if (allowFrequencies(row[6]) && (allowFrequencies(row[10]) || row[10] === undefined) && allowAnnuity(row[4])) {
                         formattedData.push({
                             leaseName: row[0],
