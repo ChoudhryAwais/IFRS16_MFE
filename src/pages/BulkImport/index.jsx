@@ -38,7 +38,6 @@ export default function BulkImport() {
                 let formattedData = []
                 // Remove the first row (headers)
                 for (let i = 1; i < data.length; i++) { // Start from index 1 to skip the header
-                    debugger
                     const row = data[i];
                     if (row.length == 0) return
                     if (allowFrequencies(row[6]) && (allowFrequencies(row[10]) || row[10] === undefined) && allowAnnuity(row[4])) {
@@ -142,13 +141,13 @@ export default function BulkImport() {
                             {fileName || 'Choose a file'}
                         </span>
                     </label>
-                    <button
-                        className="bg-indigo-600 mt-4 text-white py-2 px-4 rounded-lg shadow-lg hover:bg-indigo-700"
-                        disabled={leasesData.length === 0}
-                        onClick={handleSubmit}
-                    >
-                        Submit Leases
-                    </button>
+                    {leasesData.length === 0 ? null :
+                        <button
+                            className="bg-indigo-600 mt-4 text-white py-2 px-4 rounded-lg shadow-lg hover:bg-indigo-700"
+                            onClick={handleSubmit}
+                        >
+                            Submit Leases
+                        </button>}
                     {/* Error message */}
                     {error && (
                         <p className="text-sm text-red-600 mt-2">
