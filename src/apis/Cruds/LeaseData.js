@@ -40,3 +40,11 @@ export const getAllLeasesforCompany = async () => {
         return error
     }
 }
+export const deleteLeases = async (leasesId) => {
+    try {
+        const response = await callApi(`/LeaseFormData/Delete`, "POST", leasesId)
+        return response
+    } catch (error) {
+        return error
+    }
+}

@@ -11,6 +11,5 @@ export const statusCodeMessage = {
     userCreated: "New user has been created!",
     leaseAdded: "New lease has been added!",
     bulkleasesAdded: "Leases Imported Successfully!",
-
-
+    leasesDeleted: "Leases Deleted Successfully!",
 }

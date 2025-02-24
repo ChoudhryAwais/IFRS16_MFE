@@ -2,7 +2,23 @@ import React, { useEffect, useState } from 'react'
 import { TableLoadingSpinner } from '../LoadingBar/LoadingBar'
 
 export default function Tables(props) {
-    const { data, columns, extandedTableFunc, calcHeight, isLoading, totalRecord, getPaginatedData, tabChange, pagination = true, hideHorzScroll = false } = props
+    const {
+        data,
+        columns,
+        extandedTableFunc,
+        calcHeight,
+        isLoading,
+        totalRecord,
+        getPaginatedData,
+        tabChange,
+        pagination = true,
+        hideHorzScroll = false,
+        selectableRows = false,
+        selectableRowsFunc = () => { },
+        selectableAllRowsFunc = () => { },
+        selectItem = "",
+        selectedRows = []
+    } = props
     const TableMaxHeight = `calc(100vh - ${calcHeight})`
     const [pageSize, setPageSize] = useState(10); // Default page size
     const [pageNumber, setPageNumber] = useState(1); // Default page number
@@ -50,6 +66,10 @@ export default function Tables(props) {
                             style={{ minWidth: `${columnWidth}vw` }}
                         >
                             <tr>
+                                {selectableRows ? <th className="p-2 px-4 border border-gray-300 text-left">
+                                    <input type="checkbox" onChange={(e) => selectableAllRowsFunc(e, data)} />
+                                </th> : null}
+
                                 {Object.values(columns).map((col, i) => {
                                     return (
                                         <th
@@ -75,8 +95,20 @@ export default function Tables(props) {
                                         <tr
                                             key={`${index}_table`}
                                             className=" border hover:bg-blue-100 hover:text-[#DB1118] cursor-pointer"
-                                            onClick={() => extandedTableFunc ? extandedTableFunc.callBack(row) : () => { }}
+                                            onClick={(e) => {
+                                                if (!e.target.closest('input[type="checkbox"]')) {
+                                                    return extandedTableFunc ? extandedTableFunc.callBack(row) : () => { }
+                                                }
+                                            }}
                                         >
+                                            {selectableRows ? <td className="py-3 px-4 bg-white">
+                                                <input
+                                                    type="checkbox"
+                                                    checked={selectedRows.includes(row[selectItem])}
+                                                    onChange={(event) => selectableRowsFunc(event, row[selectItem])}
+                                                />
+                                            </td> : null}
+
                                             {Object.keys(columns).map((rowObj, i) => {
                                                 const columnValue = columns[rowObj]
                                                 //check for extra value in column object 
@@ -87,7 +119,7 @@ export default function Tables(props) {
                                                 return (
                                                     <td
                                                         key={i}
-                                                        className={`py-3 px-4 bg-white " ${(i === 0 && !hideHorzScroll) ? "sticky bg-white left-0 z-10 shadow-md" : ""
+                                                        className={`py-3 px-4 " ${(i === 0 && !hideHorzScroll) ? "sticky bg-red-200 text-black left-0 z-10 shadow-md" : ""
                                                             }`}
                                                         style={{ minWidth: `${columnWidth}vw` }} // Apply same column width to cells
                                                     >

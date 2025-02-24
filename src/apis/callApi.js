@@ -1,5 +1,5 @@
 import axios from "axios";
-export const callApi = (endpoint, method, payload=null,username = "11214033", password = "60-dayfreetrial") => {
+export const callApi = (endpoint, method, payload = null, username = "11214033", password = "60-dayfreetrial") => {
   // let token =
   //   Store.getState().Login && Store.getState().Login.logIn.payload.token;
   // const authHeaders = token

@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import Tables from '../../components/Tables/Tables'
-import { getAllLeases } from '../../apis/Cruds/LeaseData'
+import { deleteLeases, getAllLeases } from '../../apis/Cruds/LeaseData'
 import { leaseCols, leaseReportCol } from '../../utils/tableCols/tableCols'
 import { CustomModal } from '../../components/CustomModal/CustomModal'
 import LeaseDetail from '../Leases/LeaseDetail'
@@ -11,8 +11,13 @@ import { getAllLeaseReport } from '../../apis/Cruds/leaseReport'
 import { LoadingSpinner } from '../../components/LoadingBar/LoadingBar'
 import { handleExcelExport } from '../../utils/exportService/excelExportService'
 import { leaseReportExcelCol } from '../../utils/tableCols/tableColForExcelExport'
+import { statusCodeMessage } from '../../utils/enums/statusCode'
+import { SwalPopup } from '../../middlewares/SwalPopup/SwalPopup';
+
 
 export default function IFRS16Accounting() {
+  const [loader, setloader] = useState(false)
+  const [selectedRows, setSelectedRows] = useState([]); // State to manage selected rows
   const [leaseReport, setLeaseReport] = useState({
     data: [],
     loading: false,
@@ -56,7 +61,6 @@ export default function IFRS16Accounting() {
   const extandedTableFunc = {
     callBack: (leaseData) => getLeaseDetail(leaseData)
   }
-
   // Method to get the aggregation report for lease
   const allLeaseReport = async (filterModal) => {
     setLeaseReport({
@@ -80,8 +84,6 @@ export default function IFRS16Accounting() {
     }
 
   }
-
-
   const handleExport = () => {
     handleExcelExport({
       payload: leaseReport.data,
@@ -90,11 +92,52 @@ export default function IFRS16Accounting() {
       fileName: "Report"
     })
   }
+  const handleSelectAll = (event, data) => {
+    if (event.target.checked) {
+      setSelectedRows(data.map(row => row.leaseId));
+    } else {
+      setSelectedRows([]);
+    }
+  };
+  const handleSelectRow = (event, rowId) => {
+    event.stopPropagation(); // Stop event propagation to prevent row click event
+    if (event.target.checked) {
+      setSelectedRows([...selectedRows, rowId]);
+    } else {
+      setSelectedRows(selectedRows.filter(id => id !== rowId));
+    }
+  };
+  const handleDeleteLeases = async () => {
+    setloader(true)
+    const selectedRowsObj = {
+      LeaseIds: selectedRows.join(",")
+    }
+    const response = await deleteLeases(selectedRowsObj)
+    if (response?.status == 200) {
+      setloader(false)
+      SwalPopup(
+        "Deleted",
+        statusCodeMessage.leasesDeleted,
+        "success",
+        () => {
+          getLeases(1, 10)
+          setSelectedRows([])
+        }
+      )
+      return
+    }
+    SwalPopup(
+      "Something went wrong",
+      statusCodeMessage.somethingWentWrong,
+      "error"
+    )
+    setloader(false)
+  }
 
   return (
     <div>
       {/* This loader is for lease report */}
-      <LoadingSpinner isLoading={leaseReport.loading} />
+      <LoadingSpinner isLoading={leaseReport.loading || loader} />
       {/* This modal is for lease report */}
       <CustomModal
         mainContent={
@@ -143,7 +186,15 @@ export default function IFRS16Accounting() {
         onApplyFilter={(filterModal) => allLeaseReport(filterModal)}
         leaseSelection={false}
       />
-
+      <div className="text-right">
+        <button
+          disabled={selectedRows.length == 0}
+          onClick={handleDeleteLeases}
+          type="button"
+          className={(selectedRows.length == 0 ? "cursor-no-drop" : " ") + " py-2 mt-1 px-3 mb-2 text-xs font-sm text-white focus:outline-none bg-red-600  rounded-sm border border-gray-200 hover:bg-red-700 hover:text-white "}>
+          <i class="fa fa-trash"></i>
+        </button>
+      </div>
       <Tables
         extandedTableFunc={extandedTableFunc}
         data={allLeases?.data || []}
@@ -152,6 +203,11 @@ export default function IFRS16Accounting() {
         isLoading={allLeases.loading}
         totalRecord={allLeases.totalRecord}
         getPaginatedData={getLeases}
+        selectableRows={true}
+        selectableRowsFunc={handleSelectRow}
+        selectableAllRowsFunc={handleSelectAll}
+        selectItem="leaseId"
+        selectedRows={selectedRows}
       />
     </div>
   )
