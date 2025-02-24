@@ -191,7 +191,7 @@ export default function IFRS16Accounting() {
           disabled={selectedRows.length == 0}
           onClick={handleDeleteLeases}
           type="button"
-          className={(selectedRows.length == 0 ? "cursor-no-drop" : " ") + " py-2 mt-1 px-3 mb-2 text-xs font-sm text-white focus:outline-none bg-red-600  rounded-sm border border-gray-200 hover:bg-red-700 hover:text-white "}>
+          className={(selectedRows.length == 0 ? "cursor-no-drop" : " ") + " py-2 mt-1 px-3 mb-1 text-xs font-sm text-white focus:outline-none bg-red-600  rounded-sm border border-gray-200 hover:bg-red-700 hover:text-white "}>
           <i class="fa fa-trash"></i>
         </button>
       </div>
@@ -199,7 +199,7 @@ export default function IFRS16Accounting() {
         extandedTableFunc={extandedTableFunc}
         data={allLeases?.data || []}
         columns={leaseCols}
-        calcHeight="150px"
+        calcHeight="170px"
         isLoading={allLeases.loading}
         totalRecord={allLeases.totalRecord}
         getPaginatedData={getLeases}
