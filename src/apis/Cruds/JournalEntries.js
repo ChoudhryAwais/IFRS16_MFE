@@ -1,8 +1,8 @@
 import { callApi } from "../callApi"
 
-export const getJournalEntriesForLease = async (pageNumber, pageSize, selectedLease) => {
+export const getJournalEntriesForLease = async (payload) => {
     try {
-        const response = await callApi(`/JournalEntries?pageNumber=${pageNumber}&pageSize=${pageSize}&leaseId=${selectedLease.leaseId}`, "GET")
+        const response = await callApi(`/JournalEntries/Get`, "POST", payload)
         return response
     } catch (error) {
         return error

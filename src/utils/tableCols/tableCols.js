@@ -50,7 +50,7 @@ export const leaseCols = {
     username: "User Name",
 };
 export const initialRecognitionCols = {
-    serialNo: "No.",      // Equivalent to SerialNo (int)
+    // serialNo: "No.",      // Equivalent to SerialNo (int)
     // Equivalent to PaymentDate (string)
     paymentDate: [
         "Payment Date",
@@ -78,7 +78,7 @@ export const leaseLiabilityCols =
     leaseLiability_Date: [
         "Date",
         (cell) => {
-            return <div className="w-20">{formatDate(cell)}</div>
+            return <div>{formatDate(cell)}</div>
         }
     ],
     opening: [
@@ -138,11 +138,11 @@ export const ROUScheduleCols = {
         }
     ],
 };
-export const JournalEntires = {
+export const JournalEntiresCols = {
     jE_Date: [
         "Date",
         (cell) => {
-            if (cell == "-")
+            if (cell === "-")
                 return <div>{" "}</div>
             return formatDate(cell)
         }

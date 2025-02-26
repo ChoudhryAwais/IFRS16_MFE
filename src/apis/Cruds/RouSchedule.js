@@ -1,9 +1,8 @@
 import { callApi } from "../callApi"
 
-export const getRouScheduleForLease = async (pageNumber, pageSize, selectedLease) => {
+export const getRouScheduleForLease = async (payload) => {
     try {
-        const response = await callApi(`/ROUSchedule?pageNumber=${pageNumber}&pageSize=${pageSize}&leaseId=${selectedLease.leaseId}`, "GET"
-        )
+        const response = await callApi(`/ROUSchedule/Get`, "POST", payload)
         return response
     } catch (error) {
         return error

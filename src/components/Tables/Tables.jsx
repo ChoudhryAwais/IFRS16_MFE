@@ -17,7 +17,8 @@ export default function Tables(props) {
         selectableRowsFunc = () => { },
         selectableAllRowsFunc = () => { },
         selectItem = "",
-        selectedRows = []
+        selectedRows = [],
+        resetTable = false
     } = props
     const TableMaxHeight = `calc(100vh - ${calcHeight})`
     const [pageSize, setPageSize] = useState(10); // Default page size
@@ -42,7 +43,8 @@ export default function Tables(props) {
     }
 
     useEffect(() => {
-        const totalPage = (totalRecord % 1 === 0) ? (Math.floor(totalRecord / pageSize) + 1) : totalRecord / pageSize
+        const divisionRes = totalRecord / pageSize
+        const totalPage = Number.isInteger(divisionRes) ? divisionRes : (Math.floor(divisionRes) + 1)
         setTotalPages(totalPage)
     }, [data])
 
@@ -51,7 +53,7 @@ export default function Tables(props) {
             setPageSize(10);
             setPageNumber(1)
         }
-    }, [tabChange])
+    }, [tabChange, resetTable])
 
     return (
         <React.Fragment>
@@ -145,60 +147,69 @@ export default function Tables(props) {
             </div>
             <React.Fragment>
                 {pagination && data.length > 0 ?
-                    <nav aria-label="Page navigation example" className='text-right mt-2'>
-                        <select
-                            id="pageSize"
-                            value={pageSize}
-                            onChange={handlePageSizeChange}
-                            className="h-8 px-2 mr-1 text-sm text-gray-500 bg-white border border-gray-300 rounded-md"
-                        >
-                            <option value={10}>10</option>
-                            <option value={20}>20</option>
-                            <option value={50}>50</option>
-                            <option value={100}>100</option>
+                    <div className="flex justify-between">
+                        <div className="text-right mt-2">
+                            <span className="text-sm text-gray-600 mt-2 p-2 mr-2">Total Records: {totalRecord}</span>
 
-                        </select>
-                        <ul className="inline-flex -space-x-px text-sm">
-                            <li>
-                                <button
-                                    onClick={() => handlePageNumberChange(1)}
-                                    className="flex items-center justify-center px-3 h-8 leading-tight text-gray-500 bg-white border border-gray-300 rounded-s-lg hover:bg-gray-100 hover:text-gray-700 fa fa-backward"
-                                    disabled={pageNumber === 1}
-                                >
-                                </button>
-                            </li>
-                            <li>
-                                <button
-                                    className="flex items-center justify-center px-3 h-8 ms-0 leading-tight text-gray-500 bg-white border border-e-0 border-gray-300 rounded-s-lg hover:bg-gray-100 hover:text-gray-700"
-                                    disabled={pageNumber === 1}
-                                    onClick={() => handlePageNumberChange(pageNumber - 1)}
-                                >
-                                    Previous
-                                </button>
-                            </li>
-                            <li>
-                                <button
-                                    className="flex items-center justify-center px-3 h-8 leading-tight text-gray-500 bg-white border border-gray-300 rounded-e-lg hover:bg-gray-100 hover:text-gray-700"
-                                    disabled={pageNumber === totalPages}
-                                    onClick={() => handlePageNumberChange(pageNumber + 1)}
-                                >
-                                    Next
-                                </button>
-                            </li>
-                            <li>
-                                <button
-                                    onClick={() => handlePageNumberChange(totalPages)}
-                                    className="flex items-center justify-center px-3 h-8 leading-tight text-gray-500 bg-white border border-gray-300 rounded-e-lg hover:bg-gray-100 hover:text-gray-700 fa fa-forward"
-                                    disabled={pageNumber === totalPages}
-                                >
-                                </button>
-                            </li>
+                        </div>
+                        <nav aria-label="Page navigation example" className='mt-2'>
+                            <ul className="inline-flex text-sm">
+                                <li>
+                                    <select
+                                        id="pageSize"
+                                        value={pageSize}
+                                        onChange={handlePageSizeChange}
+                                        className="h-8 px-2 mr-1 text-sm text-gray-500 bg-white border border-gray-300 rounded-sm"
+                                    >
+                                        <option value={10}>10</option>
+                                        <option value={20}>20</option>
+                                        <option value={50}>50</option>
+                                        <option value={100}>100</option>
+                                        <option value={500}>500</option>
 
-                            <li>
-                                <div className="ml-2 flex items-center justify-center px-5  h-8 leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700"> {pageNumber + ' / ' + totalPages}</div>
-                            </li>
-                        </ul>
-                    </nav> : null}
+                                    </select>
+                                </li>
+                                <li>
+                                    <button
+                                        onClick={() => handlePageNumberChange(1)}
+                                        className="flex items-center justify-center px-3 h-8 leading-tight text-gray-500 bg-white border border-gray-300 rounded-s-lg hover:bg-gray-100 hover:text-gray-700 fa fa-backward"
+                                        disabled={pageNumber === 1}
+                                    >
+                                    </button>
+                                </li>
+                                <li>
+                                    <button
+                                        className="flex items-center justify-center px-3 h-8 ms-0 leading-tight text-gray-500 bg-white border border-e-0 border-gray-300 rounded-s-lg hover:bg-gray-100 hover:text-gray-700"
+                                        disabled={pageNumber === 1}
+                                        onClick={() => handlePageNumberChange(pageNumber - 1)}
+                                    >
+                                        Previous
+                                    </button>
+                                </li>
+                                <li>
+                                    <button
+                                        className="flex items-center justify-center px-3 h-8 leading-tight text-gray-500 bg-white border border-gray-300 rounded-e-lg hover:bg-gray-100 hover:text-gray-700"
+                                        disabled={pageNumber === totalPages}
+                                        onClick={() => handlePageNumberChange(pageNumber + 1)}
+                                    >
+                                        Next
+                                    </button>
+                                </li>
+                                <li>
+                                    <button
+                                        onClick={() => handlePageNumberChange(totalPages)}
+                                        className="flex items-center justify-center px-3 h-8 leading-tight text-gray-500 bg-white border border-gray-300 rounded-e-lg hover:bg-gray-100 hover:text-gray-700 fa fa-forward"
+                                        disabled={pageNumber === totalPages}
+                                    >
+                                    </button>
+                                </li>
+
+                                <li>
+                                    <div className="ml-2 flex items-center justify-center px-5  h-8 leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700"> {pageNumber + ' / ' + totalPages}</div>
+                                </li>
+                            </ul>
+                        </nav>
+                    </div> : null}
 
             </React.Fragment>
         </React.Fragment>

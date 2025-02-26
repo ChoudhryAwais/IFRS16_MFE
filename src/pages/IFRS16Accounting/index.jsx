@@ -13,6 +13,7 @@ import { handleExcelExport } from '../../utils/exportService/excelExportService'
 import { leaseReportExcelCol } from '../../utils/tableCols/tableColForExcelExport'
 import { statusCodeMessage } from '../../utils/enums/statusCode'
 import { SwalPopup } from '../../middlewares/SwalPopup/SwalPopup';
+import { CollapsibleFilterBox } from '../../components/FilterBox/FilterBox'
 
 
 export default function IFRS16Accounting() {
@@ -182,10 +183,13 @@ export default function IFRS16Accounting() {
           removeSessionStorageVariable({ key: sessionVariable.selectLease })
         }}
       />
-      <GeneralFilter
-        onApplyFilter={(filterModal) => allLeaseReport(filterModal)}
-        leaseSelection={false}
-      />
+      <CollapsibleFilterBox heading="Report" >
+        <GeneralFilter
+          onApplyFilter={(filterModal) => allLeaseReport(filterModal)}
+          showLeaseSelection={false}
+          btnLabel="Generate Report"
+        />
+      </CollapsibleFilterBox>
       <div className="text-right">
         <button
           disabled={selectedRows.length == 0}

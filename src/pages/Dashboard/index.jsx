@@ -5,6 +5,7 @@ import { leaseReportSummaryCol } from '../../utils/tableCols/tableCols';
 import { getLeaseReportSummary } from '../../apis/Cruds/leaseReport';
 import { GeneralFilter } from '../../components/FilterBox/GeneralFilter';
 import DashboardCards from '../../components/DashboardCard/DashboardCards';
+import { CollapsibleFilterBox } from '../../components/FilterBox/FilterBox';
 
 export default function Dashboard() {
     const [leaseReport, setLeaseReport] = useState({
@@ -39,10 +40,13 @@ export default function Dashboard() {
             <div className='mb-5'>
                 <DashboardCards />
             </div>
-            <GeneralFilter
-                onApplyFilter={(filterModal) => aggregationForLease(filterModal)}
-                leaseSelection={true}
-            />
+            <CollapsibleFilterBox heading="Report">
+                <GeneralFilter
+                    onApplyFilter={(filterModal) => aggregationForLease(filterModal)}
+                    showLeaseSelection={true}
+                    btnLabel="Generate Report"
+                />
+            </CollapsibleFilterBox>
             <div className="bg-white border rounded-md overflow-hidden p-3 mt-3">
                 <h2 className="text-md font-semibold mb-3">Summarize Report</h2>
                 <Tables
