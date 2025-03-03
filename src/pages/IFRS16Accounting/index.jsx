@@ -12,7 +12,7 @@ import { LoadingSpinner } from '../../components/LoadingBar/LoadingBar'
 import { handleExcelExport } from '../../utils/exportService/excelExportService'
 import { leaseReportExcelCol } from '../../utils/tableCols/tableColForExcelExport'
 import { statusCodeMessage } from '../../utils/enums/statusCode'
-import { SwalPopup } from '../../middlewares/SwalPopup/SwalPopup';
+import { ConfirmationSwalPopup, SwalPopup } from '../../middlewares/SwalPopup/SwalPopup';
 import { CollapsibleFilterBox } from '../../components/FilterBox/FilterBox'
 
 
@@ -134,6 +134,15 @@ export default function IFRS16Accounting() {
     )
     setloader(false)
   }
+  const handleConfirmDelete = () => {
+    ConfirmationSwalPopup(
+      "Are you sure?",
+      "You want to delete the selected leases",
+      "warning",
+      "Yes, delete it!",
+      () => handleDeleteLeases()
+    )
+  }
 
   return (
     <div>
@@ -190,14 +199,19 @@ export default function IFRS16Accounting() {
           btnLabel="Generate Report"
         />
       </CollapsibleFilterBox>
-      <div className="text-right">
-        <button
-          disabled={selectedRows.length == 0}
-          onClick={handleDeleteLeases}
-          type="button"
-          className={(selectedRows.length == 0 ? "cursor-no-drop" : " ") + " py-2 mt-1 px-3 mb-1 text-xs font-sm text-white focus:outline-none bg-red-600  rounded-sm border border-gray-200 hover:bg-red-700 hover:text-white "}>
-          <i class="fa fa-trash"></i>
-        </button>
+      <div className='flex justify-end gap-3'>
+        <div className="text-xs font-xs mt-3 ml-2 text-gray-600">
+          {selectedRows.length == 0 ? "Select the Rows to perform the action" : "Selected Item: " + selectedRows.length}
+        </div>
+        <div className="text-right">
+          <button
+            disabled={selectedRows.length == 0}
+            onClick={handleConfirmDelete}
+            type="button"
+            className={(selectedRows.length == 0 ? "cursor-no-drop" : " ") + " py-2 mt-1 px-3 mb-1 text-xs font-sm text-white focus:outline-none bg-red-600  rounded-sm border border-gray-200 hover:bg-red-700 hover:text-white "}>
+            <i class="fa fa-trash"></i>
+          </button>
+        </div>
       </div>
       <Tables
         extandedTableFunc={extandedTableFunc}

@@ -68,7 +68,7 @@ export default function Tables(props) {
                             style={{ minWidth: `${columnWidth}vw` }}
                         >
                             <tr>
-                                {selectableRows ? <th className="p-2 px-4 border border-gray-300 text-left">
+                                {selectableRows && data.length > 0 ? <th className="p-2 px-4 border border-gray-300 text-left">
                                     <input type="checkbox" onChange={(e) => selectableAllRowsFunc(e, data)} />
                                 </th> : null}
 
@@ -76,7 +76,7 @@ export default function Tables(props) {
                                     return (
                                         <th
                                             key={i}
-                                            className={`p-2 px-4 border border-gray-300 text-left " ${(i === 0 && !hideHorzScroll) ? "sticky bg-[#97072A] left-0 z-10 shadow-md" : ""
+                                            className={`p-2 px-4 border border-gray-300 text-left " ${(i === 0 && !hideHorzScroll && data.length > 0) ? "sticky bg-[#97072A] left-0 z-10 shadow-md" : ""
                                                 }`}
                                             style={{ minWidth: `${columnWidth}vw` }} // Set column width dynamically
                                         >
@@ -84,9 +84,6 @@ export default function Tables(props) {
                                         </th>
                                     )
                                 })}
-                                {/* <th className="px-6 py-3">
-                                    Action
-                                </th> */}
                             </tr>
                         </thead>
                         <tbody>
@@ -103,7 +100,7 @@ export default function Tables(props) {
                                                 }
                                             }}
                                         >
-                                            {selectableRows ? <td className="py-3 px-4 bg-white">
+                                            {selectableRows && data.length > 0 ? <td className="py-3 px-4 bg-white">
                                                 <input
                                                     type="checkbox"
                                                     checked={selectedRows.includes(row[selectItem])}
@@ -121,7 +118,7 @@ export default function Tables(props) {
                                                 return (
                                                     <td
                                                         key={i}
-                                                        className={`py-3 px-4 " ${(i === 0 && !hideHorzScroll) ? "sticky bg-red-200 text-black left-0 z-10 shadow-md" : ""
+                                                        className={`py-3 px-4 " ${(i === 0 && !hideHorzScroll && data.length > 0) ? "sticky bg-red-200 text-black left-0 z-10 shadow-md" : ""
                                                             }`}
                                                         style={{ minWidth: `${columnWidth}vw` }} // Apply same column width to cells
                                                     >
@@ -129,12 +126,6 @@ export default function Tables(props) {
                                                     </td>
                                                 )
                                             })}
-                                            {/* {deleteRow &&
-                                                <td className="px-6 py-4">
-                                                    <button onClick={() => deleteRow(row)} className='btn btn-danger'>Delete</button>
-                                                </td>
-                                            } */}
-
                                         </tr>
                                     )
                                 }) :
