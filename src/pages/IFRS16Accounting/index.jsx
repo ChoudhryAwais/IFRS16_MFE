@@ -69,7 +69,6 @@ export default function IFRS16Accounting() {
       loading: true
     })
     try {
-      debugger
       const response = await getAllLeaseReport(filterModal)
       const jeResponse = await getJournalEntryReport(filterModal)
       setReport({
