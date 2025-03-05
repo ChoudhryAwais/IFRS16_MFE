@@ -1,26 +1,26 @@
 import React, { useEffect, useState } from 'react'
 import Tables from '../../components/Tables/Tables'
 import { deleteLeases, getAllLeases } from '../../apis/Cruds/LeaseData'
-import { leaseCols, leaseReportCol } from '../../utils/tableCols/tableCols'
+import { leaseCols } from '../../utils/tableCols/tableCols'
 import { CustomModal } from '../../components/CustomModal/CustomModal'
 import LeaseDetail from '../Leases/LeaseDetail'
 import { GeneralFilter } from '../../components/FilterBox/GeneralFilter'
 import { sessionVariable } from '../../utils/enums/sessionStorage'
 import { removeSessionStorageVariable, setSessionStorage } from '../../apis/Cruds/sessionCrud'
-import { getAllLeaseReport } from '../../apis/Cruds/leaseReport'
+import { getAllLeaseReport, getJournalEntryReport } from '../../apis/Cruds/Report'
 import { LoadingSpinner } from '../../components/LoadingBar/LoadingBar'
-import { handleExcelExport } from '../../utils/exportService/excelExportService'
-import { leaseReportExcelCol } from '../../utils/tableCols/tableColForExcelExport'
 import { statusCodeMessage } from '../../utils/enums/statusCode'
 import { ConfirmationSwalPopup, SwalPopup } from '../../middlewares/SwalPopup/SwalPopup';
 import { CollapsibleFilterBox } from '../../components/FilterBox/FilterBox'
+import Reports from './Reports'
 
 
 export default function IFRS16Accounting() {
   const [loader, setloader] = useState(false)
   const [selectedRows, setSelectedRows] = useState([]); // State to manage selected rows
-  const [leaseReport, setLeaseReport] = useState({
-    data: [],
+  const [report, setReport] = useState({
+    leaseReport: [],
+    jeReport: [],
     loading: false,
     totalRecord: null,
   })
@@ -64,34 +64,29 @@ export default function IFRS16Accounting() {
   }
   // Method to get the aggregation report for lease
   const allLeaseReport = async (filterModal) => {
-    setLeaseReport({
-      ...leaseReport,
+    setReport({
+      ...report,
       loading: true
     })
     try {
+      debugger
       const response = await getAllLeaseReport(filterModal)
-      setLeaseReport({
-        ...leaseReport,
+      const jeResponse = await getJournalEntryReport(filterModal)
+      setReport({
+        ...report,
         loading: false,
-        data: response.length > 0 ? response : [],
+        leaseReport: response.length > 0 ? response : [],
+        jeReport: jeResponse.length > 0 ? jeResponse : [],
         totalRecord: 0
       })
       setLeaseReportPopup(true)
     } catch {
-      setLeaseReport({
-        ...leaseReport,
+      setReport({
+        ...report,
         loading: false
       })
     }
 
-  }
-  const handleExport = () => {
-    handleExcelExport({
-      payload: leaseReport.data,
-      columnMapping: leaseReportExcelCol,
-      workSheetName: "Leases Report",
-      fileName: "Report"
-    })
   }
   const handleSelectAll = (event, data) => {
     if (event.target.checked) {
@@ -147,32 +142,11 @@ export default function IFRS16Accounting() {
   return (
     <div>
       {/* This loader is for lease report */}
-      <LoadingSpinner isLoading={leaseReport.loading || loader} />
+      <LoadingSpinner isLoading={report.loading || loader} />
       {/* This modal is for lease report */}
       <CustomModal
         mainContent={
-          <div>
-            <div className='text-right'>
-              {leaseReport?.data.length !== 0 ?
-                <button
-                  onClick={handleExport}
-                  type="button"
-                  className={" py-2 px-3 mb-2 text-sm font-sm text-white focus:outline-none bg-green-600  rounded-sm border border-gray-200 hover:bg-green-700 hover:text-white "}
-                  disabled={leaseReport?.data.length == 0}
-                >
-                  Export <i class="fa fa-download ml-2"></i>
-                </button> : null}
-            </div>
-            <Tables
-              data={leaseReport?.data || []}
-              columns={leaseReportCol}
-              calcHeight="150px"
-              isLoading={leaseReport.loading}
-              totalRecord={leaseReport.totalRecord}
-              getPaginatedData={getLeases}
-              pagination={false}
-            />
-          </div>
+          <Reports report={report} />
         }
         modalTitle={"Leases Report"}
         openModal={leaseReportPopup}

@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import CustomCard from './Card'
-import { getLeaseReportSummary } from '../../apis/Cruds/leaseReport';
+import { getLeaseReportSummary } from '../../apis/Cruds/Report';
 import { getDateForCards } from '../../helper/getDate';
 
 export default function DashboardCards() {

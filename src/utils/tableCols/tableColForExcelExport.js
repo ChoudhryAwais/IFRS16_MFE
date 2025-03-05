@@ -12,3 +12,8 @@ export const leaseReportExcelCol = {
     amortization: "Amortization",
     closingROU: "Closing ROU",
 };
+export const JEReportExcelCol = {
+    particular: "Particular",
+    debit: "Debit",
+    credit: "Credit",
+};

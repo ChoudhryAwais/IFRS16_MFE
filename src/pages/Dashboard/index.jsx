@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 
 import Tables from '../../components/Tables/Tables';
 import { leaseReportSummaryCol } from '../../utils/tableCols/tableCols';
-import { getLeaseReportSummary } from '../../apis/Cruds/leaseReport';
+import { getLeaseReportSummary } from '../../apis/Cruds/Report';
 import { GeneralFilter } from '../../components/FilterBox/GeneralFilter';
 import DashboardCards from '../../components/DashboardCard/DashboardCards';
 import { CollapsibleFilterBox } from '../../components/FilterBox/FilterBox';
