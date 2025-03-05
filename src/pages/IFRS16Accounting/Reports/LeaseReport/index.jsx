@@ -1,6 +1,7 @@
 import React from 'react'
 import { leaseReportCol } from '../../../../utils/tableCols/tableCols'
 import { leaseReportExcelCol } from '../../../../utils/tableCols/tableColForExcelExport'
+import Tables from '../../../../components/Tables/Tables'
 
 export default function LeaseReport({ data, loading, handleExport }) {
     return (
