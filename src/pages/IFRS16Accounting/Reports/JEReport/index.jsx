@@ -1,6 +1,7 @@
 import React from 'react'
 import { JEReportExcelCol } from '../../../../utils/tableCols/tableColForExcelExport'
 import Tables from '../../../../components/Tables/Tables'
+import { JEReportCol } from '../../../../utils/tableCols/tableCols'
 
 export default function JEReport({ data, loading, handleExport }) {
     return (
@@ -18,8 +19,8 @@ export default function JEReport({ data, loading, handleExport }) {
             </div>
             <Tables
                 data={data || []}
-                columns={JEReportExcelCol}
-                calcHeight="150px"
+                columns={JEReportCol}
+                calcHeight="240px"
                 isLoading={loading}
                 totalRecord={0}
                 pagination={false}

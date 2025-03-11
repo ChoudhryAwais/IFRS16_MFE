@@ -21,7 +21,7 @@ export default function LeaseReport({ data, loading, handleExport }) {
                 <Tables
                     data={data || []}
                     columns={leaseReportCol}
-                    calcHeight="150px"
+                    calcHeight="240px"
                     isLoading={loading}
                     totalRecord={0}
                     pagination={false}

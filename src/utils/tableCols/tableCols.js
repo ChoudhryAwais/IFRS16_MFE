@@ -208,6 +208,12 @@ export const leaseReportCol = {
             return formatCurrency(cell)
         }
     ],
+    exchange_Gain_Loss: [
+        "Exchange_Gain_Loss",
+        (cell) => {
+            return UnsignedformatCurrency(cell)
+        }
+    ],
     closingLL: [
         "Closing LL",
         (cell) => {
@@ -276,5 +282,21 @@ export const leaseReportSummaryCol = {
             return formatCurrency(cell)
         }
     ],
+};
+
+export const JEReportCol = {
+    particular: "Particular",
+    debit: [
+        "Debit",
+        (cell) => {
+            return UnsignedformatCurrency(cell)
+        }
+    ],
+    credit: [
+        "Credit",
+        (cell) => {
+            return UnsignedformatCurrency(cell)
+        }
+    ]
 };
 
