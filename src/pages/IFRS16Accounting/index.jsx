@@ -24,6 +24,7 @@ export default function IFRS16Accounting() {
     loading: false,
     totalRecord: null,
   })
+  const [filterModal, setFilterModal] = useState({})
   const [allLeases, setAllLeases] = useState({
     data: [],
     totalRecord: null,
@@ -64,6 +65,7 @@ export default function IFRS16Accounting() {
   }
   // Method to get the aggregation report for lease
   const allLeaseReport = async (filterModal) => {
+    setFilterModal(filterModal)
     setReport({
       ...report,
       loading: true
@@ -131,9 +133,9 @@ export default function IFRS16Accounting() {
   const handleConfirmDelete = () => {
     ConfirmationSwalPopup(
       "Are you sure?",
-      "You want to delete the selected leases",
+      statusCodeMessage.deleteConfirm,
       "warning",
-      "Yes, delete it!",
+      statusCodeMessage.yesDelete,
       () => handleDeleteLeases()
     )
   }
@@ -145,7 +147,7 @@ export default function IFRS16Accounting() {
       {/* This modal is for lease report */}
       <CustomModal
         mainContent={
-          <Reports report={report} />
+          <Reports report={report} filterModal={filterModal} />
         }
         modalTitle={"Leases Report"}
         openModal={leaseReportPopup}
