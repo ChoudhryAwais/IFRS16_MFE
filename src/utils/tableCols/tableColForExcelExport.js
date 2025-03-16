@@ -1,4 +1,5 @@
 export const leaseReportExcelCol = {
+    leaseId: "Lease Name",
     leaseName: "Lease Name",
     rental: "Rental",
     frequency: "Frequency",
@@ -6,6 +7,7 @@ export const leaseReportExcelCol = {
     endDate: "End Date",
     openingLL: "Opening LL",
     interest: "Interest",
+    exchange_Gain_Loss: "Exchange Gain/Loss",
     payment: "Payment",
     closingLL: "Closing LL",
     openingROU: "Opening ROU",

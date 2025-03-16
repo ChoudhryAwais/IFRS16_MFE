@@ -209,9 +209,9 @@ export const leaseReportCol = {
         }
     ],
     exchange_Gain_Loss: [
-        "Exchange_Gain_Loss",
+        "Exchange Gain/Loss",
         (cell) => {
-            return UnsignedformatCurrency(cell)
+            return exchangeGainLoss(cell)
         }
     ],
     closingLL: [

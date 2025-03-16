@@ -121,7 +121,7 @@ export const GeneralFilter = ({ onApplyFilter, showLeaseSelection, btnLabel, cal
                         value={filterModal.endDate}
                         onChange={handleChange}
                         min={filterModal.startDate}
-                        disabled={filterModal.startDate == ""}
+                        disabled={filterModal.startDate == "" && filterModal.endDate == ""}
                         onBlur={handleDatesOnBlur}
                     />
                 </div>
