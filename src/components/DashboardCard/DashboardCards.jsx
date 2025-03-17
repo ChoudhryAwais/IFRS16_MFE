@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import CustomCard from './Card'
 import { getLeaseReportSummary } from '../../apis/Cruds/Report';
 import { addOneDay, getDateForCards } from '../../helper/getDate';
-import { getCompanyProfile } from '../../apis/Cruds/sessionCrud';
+import { getCompanyProfile, getTotalLeases } from '../../apis/Cruds/sessionCrud';
 import { exchangeGainLoss } from '../../helper/FormateValues';
 
 export default function DashboardCards() {
@@ -41,6 +41,12 @@ export default function DashboardCards() {
 
     const cards = [
         {
+            title: "TOTAL LEASES",
+            color: "text-purple-600",
+            subTitle: currentDate,
+            value: ("" + getTotalLeases() || 0)
+        },
+        {
             title: "LEASE LIABILITY",
             color: "text-yellow-600",
             subTitle: currentDate,
@@ -59,6 +65,12 @@ export default function DashboardCards() {
             value: leaseSummary.data?.interest || 0
         },
         {
+            title: "AMMOITIZATION EXPENSE",
+            subTitle: 'Year to Date (YTD)',
+            color: "text-green-600",
+            value: leaseSummary.data?.amortization || 0
+        },
+        {
             title: "PAYMENTS DUE",
             subTitle: 'Year to Date (YTD)',
             color: "text-green-600",
@@ -70,18 +82,20 @@ export default function DashboardCards() {
             color: "text-green-600",
             value: exchangeGainLoss(leaseSummary.data?.exchange_Gain_Loss || 0) || 0
         },
+
     ]
 
     return (
-        <div className='flex gap-3 w-full'>
+        <div className='flex flex-wrap w-full'>
             {
                 cards.map((card, i) => {
                     return (
-                        <CustomCard card={card} loading={leaseSummary.loading} key={i} />
+                        <div className='w-full md:w-1/4 ' key={i}>
+                            <CustomCard card={card} loading={leaseSummary.loading} />
+                        </div>
                     )
                 })
             }
-
         </div>
     )
 }

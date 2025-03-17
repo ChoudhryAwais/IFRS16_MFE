@@ -110,7 +110,7 @@ export default function IFRS16Accounting() {
       LeaseIds: selectedRows.join(",")
     }
     const response = await deleteLeases(selectedRowsObj)
-    if (response?.status == 200) {
+    if (response?.status === 200) {
       setloader(false)
       SwalPopup(
         "Deleted",
@@ -176,14 +176,14 @@ export default function IFRS16Accounting() {
       </CollapsibleFilterBox>
       <div className='flex justify-end gap-3'>
         <div className="text-xs font-xs mt-3 ml-2 text-gray-600">
-          {selectedRows.length == 0 ? "Select the Rows to perform the action" : "Selected Item: " + selectedRows.length}
+          {selectedRows.length === 0 ? "Select the Rows to perform the action" : "Selected Item: " + selectedRows.length}
         </div>
         <div className="text-right">
           <button
-            disabled={selectedRows.length == 0}
+            disabled={selectedRows.length === 0}
             onClick={handleConfirmDelete}
             type="button"
-            className={(selectedRows.length == 0 ? "cursor-no-drop" : " ") + " py-2 mt-1 px-3 mb-1 text-xs font-sm text-white focus:outline-none bg-red-600  rounded-sm border border-gray-200 hover:bg-red-700 hover:text-white "}>
+            className={(selectedRows.length === 0 ? "cursor-no-drop" : " ") + " py-2 mt-1 px-3 mb-1 text-xs font-sm text-white focus:outline-none bg-red-600  rounded-sm border border-gray-200 hover:bg-red-700 hover:text-white "}>
             <i class="fa fa-trash"></i>
           </button>
         </div>
