@@ -1,11 +1,17 @@
 import { exchangeGainLoss, formatCurrency, formatDate, IRformatCurrency, SimpleformatCurrency, UnsignedformatCurrency } from "../../helper/FormateValues";
 
 export const leaseCols = {
-    leaseName: "Lease Name",
+    leaseName: "Lease ID",
     rental: [
         "Rental",
         (cell) => {
             return SimpleformatCurrency(cell)
+        }
+    ],
+    currencyCode: [
+        "Currency",
+        (cell) => {
+            return cell.toUpperCase()
         }
     ],
     commencementDate:
@@ -30,19 +36,13 @@ export const leaseCols = {
             }
         ],
     ibr: [
-        "IBR",
+        "Interest Rate",
         (cell) => {
             return (cell + "%")
         }
     ],
     frequency: [
-        "Frequency",
-        (cell) => {
-            return cell.toUpperCase()
-        }
-    ],
-    currencyCode: [
-        "Currency",
+        "Payment Frequency",
         (cell) => {
             return cell.toUpperCase()
         }
@@ -60,14 +60,14 @@ export const initialRecognitionCols = {
     ],
     // Equivalent to Rental (decimal)
     rental: [
-        "Rental / GRV",
+        "Rental",
         (cell) => {
             return IRformatCurrency(cell)
         }
     ],
     // Equivalent to NPV (decimal)
     npv: [
-        "NPV",
+        "NET PRESENT VALUE",
         (cell) => {
             return IRformatCurrency(cell)
         }
@@ -88,7 +88,7 @@ export const leaseLiabilityCols =
         }
     ],
     interest: [
-        "Interest",
+        "Interest Expense",
         (cell) => {
             return formatCurrency(cell)
         }
@@ -106,7 +106,7 @@ export const leaseLiabilityCols =
         }
     ],
     exchange_Gain_Loss: [
-        "Exchange Gain/Loss",
+        "Exchange Gain / (Loss)",
         (cell) => {
             return exchangeGainLoss(cell)
         }
@@ -162,7 +162,7 @@ export const JournalEntiresCols = {
     ],
 };
 export const leaseReportCol = {
-    leaseName: "Lease Name",
+    leaseName: "Lease ID",
     rental: [
         "Rental",
         (cell) => {
@@ -170,7 +170,7 @@ export const leaseReportCol = {
         }
     ],
     frequency: [
-        "Frequency",
+        "Payment Frequency",
         (cell) => {
             return cell.toUpperCase()
         }
@@ -191,13 +191,13 @@ export const leaseReportCol = {
         ],
 
     openingLL: [
-        "Opening LL",
+        "Opening Lease Liability",
         (cell) => {
             return formatCurrency(cell)
         }
     ],
     interest: [
-        "Interest",
+        "Interest Expense",
         (cell) => {
             return formatCurrency(cell)
         }
@@ -209,19 +209,19 @@ export const leaseReportCol = {
         }
     ],
     exchange_Gain_Loss: [
-        "Exchange Gain/Loss",
+        "Exchange Gain / (Loss)",
         (cell) => {
             return exchangeGainLoss(cell)
         }
     ],
     closingLL: [
-        "Closing LL",
+        "Closing Lease Liability",
         (cell) => {
             return formatCurrency(cell)
         }
     ],
     openingROU: [
-        "Opening ROU",
+        "Opening Right of Use Asset",
         (cell) => {
             return formatCurrency(cell)
         }
@@ -233,7 +233,7 @@ export const leaseReportCol = {
         }
     ],
     closingROU: [
-        "Closing ROU",
+        "Closing Right of Use Asset",
         (cell) => {
             return formatCurrency(cell)
         }
@@ -241,13 +241,13 @@ export const leaseReportCol = {
 };
 export const leaseReportSummaryCol = {
     openingLL: [
-        "Opening LL",
+        "Opening Lease Liability",
         (cell) => {
             return formatCurrency(cell)
         }
     ],
     interest: [
-        "Interest",
+        "Interest Expense",
         (cell) => {
             return formatCurrency(cell)
         }
@@ -259,13 +259,13 @@ export const leaseReportSummaryCol = {
         }
     ],
     closingLL: [
-        "Closing LL",
+        "Closing Lease Liability",
         (cell) => {
             return formatCurrency(cell)
         }
     ],
     openingROU: [
-        "Opening ROU",
+        "Opening Right of Use Asset",
         (cell) => {
             return formatCurrency(cell)
         }
@@ -277,7 +277,7 @@ export const leaseReportSummaryCol = {
         }
     ],
     closingROU: [
-        "Closing ROU",
+        "Closing Right of Use Asset",
         (cell) => {
             return formatCurrency(cell)
         }

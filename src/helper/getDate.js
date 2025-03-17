@@ -6,6 +6,11 @@ export function getDateForCards() {
 function formatDate(date) {
     return `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, '0')}-${String(date.getDate()).padStart(2, '0')}`;
 }
+export function addOneDay(date) {
+    const newDate = new Date(date);
+    newDate.setDate(newDate.getDate() + 1);
+    return formatDate(newDate); // Ensure the date is formatted correctly
+}
 export function excelDateToJSDate(input) {
     if (typeof input === "string" && /^\d{4}-\d{2}-\d{2}$/.test(input)) {
         // Already in YYYY-MM-DD format, return as is

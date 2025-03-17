@@ -102,16 +102,10 @@ export default function LeaseGeneralInfoForm({ otherTabs, increment }) {
         setFormData({
             ...formData,
             leaseId: 0,
-            leaseName: '',
-            rental: '',
-            commencementDate: '',
-            endDate: '',
-            annuity: 'advance',
-            ibr: '',
-            frequency: 'annual',
             idc: null,
             grv: null,
-            increment: null
+            increment: null,
+            incrementalFrequency: 'annual',
         })
     }, [otherTabs, increment])
 
@@ -158,15 +152,15 @@ export default function LeaseGeneralInfoForm({ otherTabs, increment }) {
                 {/* Lease Name */}
                 <div>
                     <label htmlFor="leaseName" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
-                        Lease Name
+                        Lease ID
                     </label>
-                    <small className="text-gray-500 block mb-1">Enter the lease name.</small>
+                    <small className="text-gray-500 block mb-1">Enter the lease ID</small>
                     <input
                         type="text"
                         id="leaseName"
                         name="leaseName"
                         className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-sm focus:ring-blue-500 focus:border-blue-500 block w-full px-2.5 py-1.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                        placeholder="Enter the lease name"
+                        placeholder="Enter the lease ID"
                         value={formData.leaseName}
                         onChange={handleChange}
                     />
@@ -176,7 +170,7 @@ export default function LeaseGeneralInfoForm({ otherTabs, increment }) {
                     <label htmlFor="rental" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
                         Rental
                     </label>
-                    <small className="text-gray-500 block mb-1">Enter the rental amount.</small>
+                    <small className="text-gray-500 block mb-1">Enter the rental amount</small>
                     <input
                         type="text"
                         id="rental"
@@ -192,7 +186,7 @@ export default function LeaseGeneralInfoForm({ otherTabs, increment }) {
                     <label htmlFor="commencementDate" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
                         Commencement Date
                     </label>
-                    <small className="text-gray-500 block mb-1">Select the start date.</small>
+                    <small className="text-gray-500 block mb-1">Select the lease commencement  date</small>
                     <input
                         type="date"
                         id="commencementDate"
@@ -209,7 +203,7 @@ export default function LeaseGeneralInfoForm({ otherTabs, increment }) {
                     <label htmlFor="endDate" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
                         End Date
                     </label>
-                    <small className="text-gray-500 block mb-1">Select the end date.</small>
+                    <small className="text-gray-500 block mb-1">Select the lease end date</small>
                     <input
                         type="date"
                         id="endDate"
@@ -227,7 +221,7 @@ export default function LeaseGeneralInfoForm({ otherTabs, increment }) {
                     <label htmlFor="annuity" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
                         Annuity
                     </label>
-                    <small className="text-gray-500 block mb-1">Choose annuity type.</small>
+                    <small className="text-gray-500 block mb-1">Choose annuity type</small>
                     <select
                         id="annuity"
                         name="annuity"
@@ -242,9 +236,9 @@ export default function LeaseGeneralInfoForm({ otherTabs, increment }) {
                 {/* IBR */}
                 <div>
                     <label htmlFor="ibr" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
-                        IBR
+                        Interest Rate Implicit in the Lease
                     </label>
-                    <small className="text-gray-500 block mb-1">Enter the IBR value in %.</small>
+                    <small className="text-gray-500 block mb-1">Enter the Interest Rate Implicit in the Lease, if not available use lessee's incremental borrowing rate in %</small>
                     <input
                         type="text"
                         id="ibr"
@@ -258,9 +252,9 @@ export default function LeaseGeneralInfoForm({ otherTabs, increment }) {
                 {/* Frequency */}
                 <div>
                     <label htmlFor="frequency" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
-                        Frequency
+                        Payment Frequency
                     </label>
-                    <small className="text-gray-500 block mb-1">Choose the frequency type.</small>
+                    <small className="text-gray-500 block mb-1">Choose the payment frequency type</small>
                     <select
                         id="frequency"
                         name="frequency"
@@ -280,7 +274,7 @@ export default function LeaseGeneralInfoForm({ otherTabs, increment }) {
                     <label htmlFor="currency" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
                         Currency
                     </label>
-                    <small className="text-gray-500 block mb-1">Choose the Currency.</small>
+                    <small className="text-gray-500 block mb-1">Choose the lease Currency</small>
                     <select
                         id="currencyID"
                         name="currencyID"
@@ -303,7 +297,7 @@ export default function LeaseGeneralInfoForm({ otherTabs, increment }) {
                             <label htmlFor="idc" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
                                 Initial Direct Cost
                             </label>
-                            <small className="text-gray-500 block mb-1">Enter the IDC amount.</small>
+                            <small className="text-gray-500 block mb-1">Enter the IDC amount</small>
                             <input
                                 type="text"
                                 id="idc"
@@ -319,7 +313,7 @@ export default function LeaseGeneralInfoForm({ otherTabs, increment }) {
                             <label htmlFor="grv" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
                                 Guaranteed Residual Value
                             </label>
-                            <small className="text-gray-500 block mb-1">Enter the GRV amount.</small>
+                            <small className="text-gray-500 block mb-1">Enter the GRV amount</small>
                             <input
                                 type="text"
                                 id="grv"
@@ -338,7 +332,7 @@ export default function LeaseGeneralInfoForm({ otherTabs, increment }) {
                                 <label htmlFor="increment" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
                                     Incremental Percentage
                                 </label>
-                                <small className="text-gray-500 block mb-1">Enter the Incremental Percentage.</small>
+                                <small className="text-gray-500 block mb-1">Enter the Incremental Percentage</small>
                                 <input
                                     type="text"
                                     id="increment"
@@ -354,7 +348,7 @@ export default function LeaseGeneralInfoForm({ otherTabs, increment }) {
                                 <label htmlFor="frequency" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
                                     Incremental Frequency
                                 </label>
-                                <small className="text-gray-500 block mb-1">Choose the frequency type.</small>
+                                <small className="text-gray-500 block mb-1">Choose the frequency type</small>
                                 <select
                                     id="incrementalFrequency"
                                     name="incrementalFrequency"

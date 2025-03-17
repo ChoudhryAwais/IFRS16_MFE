@@ -1,20 +1,23 @@
 import React, { useEffect, useState } from 'react'
 import CustomCard from './Card'
 import { getLeaseReportSummary } from '../../apis/Cruds/Report';
-import { getDateForCards } from '../../helper/getDate';
+import { addOneDay, getDateForCards } from '../../helper/getDate';
+import { getCompanyProfile } from '../../apis/Cruds/sessionCrud';
+import { exchangeGainLoss } from '../../helper/FormateValues';
 
 export default function DashboardCards() {
     const [leaseSummary, setLeaseSummary] = useState({
         data: [],
         loading: false
     })
-    const { currentDate, startDate } = getDateForCards();
+    const { currentDate } = getDateForCards();
 
     // Use it get the data on current date
     useEffect(() => {
         const cardsInfo = async () => {
+            const companyProfile = getCompanyProfile()
             const model = {
-                startDate: startDate,
+                startDate: addOneDay(companyProfile?.financialYearEnd),
                 endDate: currentDate,
             }
             setLeaseSummary({
@@ -38,28 +41,34 @@ export default function DashboardCards() {
 
     const cards = [
         {
-            title: "LL CLOSING",
+            title: "LEASE LIABILITY",
             color: "text-yellow-600",
             subTitle: currentDate,
             value: leaseSummary.data?.closingLL || 0
         },
         {
-            title: "ROU CLOSING",
+            title: "RIGHT OF USE ASSET",
             subTitle: currentDate,
             color: "text-yellow-600",
             value: leaseSummary.data?.closingROU || 0
         },
         {
-            title: "INTEREST",
+            title: "INTEREST EXPENSE",
             subTitle: 'Year to Date (YTD)',
             color: "text-blue-600",
             value: leaseSummary.data?.interest || 0
         },
         {
-            title: "PAYMENT",
+            title: "PAYMENTS DUE",
             subTitle: 'Year to Date (YTD)',
             color: "text-green-600",
             value: leaseSummary.data?.payment || 0
+        },
+        {
+            title: "EXCHANGE GAIN / (LOSS)",
+            subTitle: 'Year to Date (YTD)',
+            color: "text-green-600",
+            value: exchangeGainLoss(leaseSummary.data?.exchange_Gain_Loss || 0) || 0
         },
     ]
 

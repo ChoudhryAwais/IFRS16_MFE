@@ -33,7 +33,7 @@ export default function LeaseDetail(props) {
         },
         {
             id: '3',
-            label: 'ROU',
+            label: 'Right of Use Asset',
             component: (
                 <ROUSchedule selectedLease={selectedLease} activeTab={activeTab} />
             ),

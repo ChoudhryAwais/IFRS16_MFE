@@ -12,7 +12,7 @@ export function formatCurrency(value) {
     if (value < 0) {
         return 0
     }
-    return `${(value?.toLocaleString('en-US') || "")} ${value ? (companyProfile?.reportingCurrencyCode || "") : ""}`;
+    return `${(value?.toFixed(2)?.toLocaleString('en-US') || "")} ${value ? (companyProfile?.reportingCurrencyCode || "") : ""}`;
 }
 
 export function UnsignedformatCurrency(value) {
@@ -25,14 +25,14 @@ export function SimpleformatCurrency(value) {
     if (value < 0) {
         return 0
     }
-    return `${(value?.toLocaleString('en-US') || "")}`;
+    return `${(value?.toFixed(2)?.toLocaleString('en-US') || "")}`;
 }
 
 export function exchangeGainLoss(value) {
     const companyProfile = getCompanyProfile()
     const threshold = 1e-8; // Adjust this based on precision requirements
     const thresholdCheck = Math.abs(value) < threshold;
-    return `${thresholdCheck ? "0" : value.toLocaleString('en-US')} ${(value && !thresholdCheck) ? (companyProfile?.reportingCurrencyCode || "") : ""}`;
+    return `${thresholdCheck ? "0" : value?.toFixed(2).toLocaleString('en-US')} ${(value && !thresholdCheck) ? (companyProfile?.reportingCurrencyCode || "") : ""}`;
 }
 
 export function formatDate(dateString) {
