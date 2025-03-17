@@ -12,6 +12,7 @@ export const leaseTemp = [
         grv: null,
         incrementalFrequency: "annual/bi-annual/quarterly/monthly",
         rouOpening: null,
+        rouExRate: null,
         currencyID: 1
     },
     {
@@ -27,6 +28,7 @@ export const leaseTemp = [
         grv: null,
         incrementalFrequency: "annual/bi-annual/quarterly/monthly",
         rouOpening: null,
+        rouExRate: null,
         currencyID: 1
     }
 ];

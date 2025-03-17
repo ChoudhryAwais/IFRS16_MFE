@@ -1,6 +1,7 @@
 import { exchangeGainLoss, formatCurrency, formatDate, IRformatCurrency, SimpleformatCurrency, UnsignedformatCurrency } from "../../helper/FormateValues";
 
 export const leaseCols = {
+    leaseId: "ID",
     leaseName: "Lease ID",
     rental: [
         "Rental",
@@ -162,6 +163,7 @@ export const JournalEntiresCols = {
     ],
 };
 export const leaseReportCol = {
+    leaseId: "ID",
     leaseName: "Lease ID",
     rental: [
         "Rental",

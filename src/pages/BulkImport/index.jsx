@@ -10,6 +10,7 @@ import { statusCodeMessage } from '../../utils/enums/statusCode';
 import { LoadingSpinner } from '../../components/LoadingBar/LoadingBar';
 import { handleExcelExport } from '../../utils/exportService/excelExportService';
 import { excelDateToJSDate } from '../../helper/getDate';
+import { LeaseTemplateEnum as LTE } from '../../utils/enums/leaseTemplateEnum';
 
 export default function BulkImport() {
     const [loading, setLoading] = useState(false)
@@ -40,23 +41,24 @@ export default function BulkImport() {
                 for (let i = 1; i < data.length; i++) { // Start from index 1 to skip the header
                     const row = data[i];
                     if (row.length == 0) break;
-                    if (allowFrequencies(row[6].toLowerCase()) && (allowFrequencies(row[10]?.toLowerCase()) || row[10] === undefined) && allowAnnuity(row[4]?.toLowerCase())) {
+                    if (allowFrequencies(row[LTE.frequency].toLowerCase()) && (allowFrequencies(row[LTE.incrementalFrequency]?.toLowerCase()) || row[LTE.incrementalFrequency] === undefined) && allowAnnuity(row[LTE.annuity]?.toLowerCase())) {
                         formattedData.push({
-                            leaseName: row[0],
-                            rental: row[1],
-                            commencementDate: excelDateToJSDate(row[2]),
-                            endDate: excelDateToJSDate(row[3]),
-                            annuity: row[4],
-                            ibr: row[5],
-                            frequency: row[6],
-                            increment: row[7],
-                            idc: row[8] ?? null,  // Null if empty
-                            grv: row[9] ?? null,  // Null if empty
-                            incrementalFrequency: row[10] ?? null,  // Null if empty
+                            leaseName: row[LTE.leaseName],
+                            rental: row[LTE.rental],
+                            commencementDate: excelDateToJSDate(row[LTE.commencementDate]),
+                            endDate: excelDateToJSDate(row[LTE.endDate]),
+                            annuity: row[LTE.annuity],
+                            ibr: row[LTE.ibr],
+                            frequency: row[LTE.frequency],
+                            increment: row[LTE.increment],
+                            idc: row[LTE.idc] ?? null,  // Null if empty
+                            grv: row[LTE.grv] ?? null,  // Null if empty
+                            incrementalFrequency: row[LTE.incrementalFrequency] ?? null,  // Null if empty
                             companyID: company.companyID,
-                            currencyID: row[12] ?? company.reportingCurrencyId,
+                            currencyID: row[LTE.currencyID] ?? company.reportingCurrencyId,
                             userID: user.userID,
-                            rouOpening: row[11] ?? null // Null if empty
+                            rouOpening: row[LTE.rouOpening] ?? null, // Null if empty
+                            rouExRate: row[LTE.rouExRate] ?? null // Null if empty
                         });
                     } else {
                         setError("Incorrect Format");
