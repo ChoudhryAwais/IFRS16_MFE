@@ -169,6 +169,12 @@ export const leaseReportCol = {
             return SimpleformatCurrency(cell)
         }
     ],
+    currencyCode: [
+        "Currency",
+        (cell) => {
+            return cell.toUpperCase()
+        }
+    ],
     frequency: [
         "Payment Frequency",
         (cell) => {
@@ -283,7 +289,6 @@ export const leaseReportSummaryCol = {
         }
     ],
 };
-
 export const JEReportCol = {
     particular: "Particular",
     debit: [

@@ -12,7 +12,7 @@ export function formatCurrency(value) {
     if (value < 0) {
         return 0
     }
-    return `${(value?.toFixed(2)?.toLocaleString('en-US') || "")} ${value ? (companyProfile?.reportingCurrencyCode || "") : ""}`;
+    return `${(Number(value?.toFixed(2))?.toLocaleString('en-US') || "")} ${value ? (companyProfile?.reportingCurrencyCode || "") : ""}`;
 }
 
 export function UnsignedformatCurrency(value) {
@@ -25,7 +25,7 @@ export function SimpleformatCurrency(value) {
     if (value < 0) {
         return 0
     }
-    return `${(value?.toFixed(2)?.toLocaleString('en-US') || "")}`;
+    return `${(Number(value?.toFixed(2))?.toLocaleString('en-US') || "")}`;
 }
 
 export function exchangeGainLoss(value) {
