@@ -19,12 +19,18 @@ export const addBulkLeases = async (leases) => {
         return error
     }
 }
-
-
 export const getAllLeases = async (pageNumber, pageSize) => {
     const companyProfile = getCompanyProfile()
     try {
         const response = await callApi(`/LeaseFormData/GetAllLeases?pageNumber=${pageNumber}&pageSize=${pageSize}&companyID=${companyProfile.companyID}`, "GET")
+        return response
+    } catch (error) {
+        return error
+    }
+}
+export const getLeaseById = async (leaseId) => {
+    try {
+        const response = await callApi(`/LeaseFormData/GetLeaseById/${leaseId}`, "GET")
         return response
     } catch (error) {
         return error
@@ -43,6 +49,14 @@ export const getAllLeasesforCompany = async () => {
 export const deleteLeases = async (leasesId) => {
     try {
         const response = await callApi(`/LeaseFormData/Delete`, "POST", leasesId)
+        return response
+    } catch (error) {
+        return error
+    }
+}
+export const terminateLease = async (payload) => {
+    try {
+        const response = await callApi(`/LeaseFormData/TerminateLease`, "POST", payload)
         return response
     } catch (error) {
         return error

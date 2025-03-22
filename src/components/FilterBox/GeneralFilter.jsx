@@ -1,9 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { getAllLeasesforCompany } from "../../apis/Cruds/LeaseData";
 import MultiSelectDropdown from "../MultiSelect/MultiSelect";
-import { setSessionStorage } from "../../apis/Cruds/sessionCrud";
 
-export const GeneralFilter = ({ onApplyFilter, showLeaseSelection, btnLabel, callBackReset }) => {
+export const GeneralFilter = ({ onApplyFilter, showLeaseSelection, btnLabel, callBackReset, getAllLeases = () => { } }) => {
     const [filterModal, setFilterModal] = useState({
         startDate: '',
         endDate: '',
@@ -23,7 +22,7 @@ export const GeneralFilter = ({ onApplyFilter, showLeaseSelection, btnLabel, cal
             })
             const leases = []
             const response = await getAllLeasesforCompany()
-            setSessionStorage({ key: "TotalLeases", value: (response.length) })
+            getAllLeases(response)
             if (response.length > 0) {
                 response.forEach(element => {
                     leases.push({ value: element.leaseId, label: element.leaseName },)

@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from "react";
 
-export const CustomModal = ({ mainContent, openModal, closeModal, modalTitle }) => {
+export const CustomModal = ({ mainContent, openModal, closeModal, modalTitle, position = "top" }) => {
     const [isModalOpen, setIsModalOpen] = useState(openModal);
     const [isModalVisible, setIsModalVisible] = useState(openModal);
-
+    const modalPosition = position === "top" ? "items-start" : "items-center";
     useEffect(() => {
         setIsModalOpen(openModal);
         setIsModalVisible(openModal)
@@ -14,7 +14,7 @@ export const CustomModal = ({ mainContent, openModal, closeModal, modalTitle }) 
             {/* Main modal */}
             {isModalOpen && (
                 <div
-                    className={`fixed inset-0 z-50 flex justify-center items-start w-full h-screen bg-black bg-opacity-50 transition-opacity duration-300 ${isModalVisible ? "opacity-100" : "opacity-0"
+                    className={`fixed inset-0 z-50 flex justify-center ${modalPosition} w-full h-screen bg-black bg-opacity-50 transition-opacity duration-300 ${isModalVisible ? "opacity-100" : "opacity-0"
                         }`}
                 >
                     <div

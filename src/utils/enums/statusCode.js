@@ -14,4 +14,7 @@ export const statusCodeMessage = {
     leasesDeleted: "Leases Deleted Successfully!",
     deleteConfirm: "Are you sure you want to delete this lease?",
     yesDelete: "Yes, delete it!",
+    terminateLease: "Are you sure you want to terminate this lease?",
+    termiated: "Yes, Terminate!",
+    leaseTermiated: "Lease has been terminated successfully!"
 }

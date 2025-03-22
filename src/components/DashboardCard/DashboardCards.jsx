@@ -5,7 +5,7 @@ import { addOneDay, getDateForCards } from '../../helper/getDate';
 import { getCompanyProfile, getTotalLeases } from '../../apis/Cruds/sessionCrud';
 import { exchangeGainLoss } from '../../helper/FormateValues';
 
-export default function DashboardCards() {
+export default function DashboardCards({ allLeases }) {
     const [leaseSummary, setLeaseSummary] = useState({
         data: [],
         loading: false
@@ -38,13 +38,12 @@ export default function DashboardCards() {
         }
         cardsInfo()
     }, [])
-
     const cards = [
         {
             title: "TOTAL LEASES",
             color: "text-purple-600",
             subTitle: currentDate,
-            value: ("" + getTotalLeases() || 0)
+            value: (("" + allLeases?.length) || 0)
         },
         {
             title: "LEASE LIABILITY",

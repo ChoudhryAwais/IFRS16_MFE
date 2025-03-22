@@ -13,6 +13,7 @@ export default function Dashboard() {
         loading: false,
         totalRecord: null,
     })
+    const [allLeases, setallLeases] = useState([])
     // Method to get the aggregation report for lease
     const aggregationForLease = async (filterModal) => {
         setLeaseReport({
@@ -34,17 +35,17 @@ export default function Dashboard() {
             })
         }
     }
-
     return (
         <div>
             <div className='mb-5'>
-                <DashboardCards />
+                <DashboardCards allLeases={allLeases}/>
             </div>
             <CollapsibleFilterBox heading="Report">
                 <GeneralFilter
                     onApplyFilter={(filterModal) => aggregationForLease(filterModal)}
                     showLeaseSelection={true}
                     btnLabel="Generate Report"
+                    getAllLeases={(leases) => setallLeases(leases)}
                 />
             </CollapsibleFilterBox>
             <div className="bg-white border rounded-md overflow-hidden p-3 mt-3">

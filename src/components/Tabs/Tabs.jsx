@@ -1,7 +1,7 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 
-export default function Tabs({ tabs }) {
-    const [activeTab, setActiveTab] = useState('1');
+export default function Tabs({ tabs, active = "1" }) {
+    const [activeTab, setActiveTab] = useState(active);
 
     const currentTabContent = () => {
         const activeTabContent = tabs.filter(tab => tab.id === activeTab)[0].component
@@ -16,6 +16,11 @@ export default function Tabs({ tabs }) {
             tab.tabChange(tab.id)
         }
     }
+
+    useEffect(() => {
+        setActiveTab(active)
+    }, [active])
+
 
     return (
         <React.Fragment>

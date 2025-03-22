@@ -7,6 +7,12 @@ export function IRformatCurrency(value) {
     }
     return `${(value?.toLocaleString('en-US') || "")} ${value ? (selectedLease?.currencyCode || "") : ""}`;
 }
+
+export const formatDateForInput = (dateString) => {
+    if (!dateString) return '';
+    return dateString.split('T')[0]; // Extract the date part before 'T'
+};
+
 export function formatCurrency(value) {
     const companyProfile = getCompanyProfile()
     if (value < 0) {
