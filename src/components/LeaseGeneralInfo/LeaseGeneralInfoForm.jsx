@@ -47,25 +47,19 @@ export default function LeaseGeneralInfoForm({ otherTabs, increment, formModal }
 
     useEffect(() => {
         console.log("formModal received:", formModal); // Debugging log
-        console.log("Current formData:", formData); // Debugging log
+        console.log("Current formData before update:", formData); // Debugging log
 
         if (formModal && formData.leaseId === 0) { // Ensure it runs only if formData is not already set
-            delete formModal.rouOpening;
-            delete formModal.rouExRate;
+            const updatedFormModal = { ...formModal }; // Create a copy to avoid direct mutation
+            delete updatedFormModal.rouOpening;
+            delete updatedFormModal.rouExRate;
 
             setFormData({
                 ...formData,
-                ...formModal,
-                commencementDate: formatDateForInput(formModal.commencementDate),
-                endDate: formatDateForInput(formModal.endDate),
+                ...updatedFormModal,
+                commencementDate: formatDateForInput(updatedFormModal.commencementDate),
+                endDate: formatDateForInput(updatedFormModal.endDate),
             });
-
-            console.log("Updated formData:", {
-                ...formData,
-                ...formModal,
-                commencementDate: formatDateForInput(formModal.commencementDate),
-                endDate: formatDateForInput(formModal.endDate),
-            }); // Debugging log
         }
     }, [formModal]);
 
@@ -225,14 +219,14 @@ export default function LeaseGeneralInfoForm({ otherTabs, increment, formModal }
     };
 
     const handleIRTable=(uploadData)=>{
-        debugger
-        setFormData({
-            ...formData,
+        console.log("handleIRTable called with:", uploadData); // Debugging log
+        setFormData((prevData) => ({
+            ...prevData,
             commencementDate: uploadData.commencementDate,
             endDate: uploadData.endDate,
             rental: uploadData.rental,
-            customIRTable: uploadData.customIRTable
-        })
+            customIRTable: uploadData.customIRTable,
+        }));
     }
     
     console.log("formData ", formData)
