@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import * as XLSX from 'xlsx';
-import { leaseTemp } from '../../utils/LeaseTemplate/leaseTemplate';
+import { leaseTemp } from '../../utils/ExportsTemplate/exportsTemplate';
 import { getCompanyProfile, getUserInfo } from '../../apis/Cruds/sessionCrud';
 import { allowAnnuity, allowFrequencies } from '../../helper/checkForAllowVal';
 import { useNavigate } from 'react-router-dom';

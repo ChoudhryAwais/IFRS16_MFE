@@ -16,5 +16,9 @@ export const statusCodeMessage = {
     yesDelete: "Yes, delete it!",
     terminateLease: "Are you sure you want to terminate this lease?",
     termiated: "Yes, Terminate!",
-    leaseTermiated: "Lease has been terminated successfully!"
+    leaseTermiated: "Lease has been terminated successfully!",
+    download: "Do you want to download the Custom Schedule Template?",
+    yes: "Yes",
+    inValidExcelFileExtension: 'Invalid file type. Please upload an .xlsx, .csv, or .xls file.'
+
 }

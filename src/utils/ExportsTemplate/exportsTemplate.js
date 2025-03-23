@@ -32,3 +32,18 @@ export const leaseTemp = [
         currencyID: 1
     }
 ];
+
+
+export const leaseIRTemp = [
+    {
+        serialNo: 1,
+        paymentDate: "2019-01-01",
+        rental: 100000,
+       
+    },
+    {
+        serialNo: 2,
+        rental: 100000,
+        paymentDate: "2020-01-01",
+    }
+];

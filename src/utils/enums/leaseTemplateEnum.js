@@ -14,3 +14,8 @@ export const LeaseTemplateEnum = {
     rouExRate: 12,
     currencyID: 13
 };
+export const LeaseIRTemplateEnum = {
+    serialNo: 0,
+    paymentDate: 1,
+    rental: 2,
+};
