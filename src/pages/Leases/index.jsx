@@ -14,11 +14,17 @@ export default function Leases() {
 
     useEffect(() => {
         const fetchLeaseData = async () => {
+            console.log("Fetching lease data for ID:", leaseId); // Debugging log
+
             if (leaseId) {
                 setLoading(true);
                 const leaseData = await getLeaseById(leaseId);
+
+                console.log("Fetched leaseData:", leaseData); // Debugging log
+
                 if (leaseData) { // Ensure leaseData is not null or undefined
                     setFormModal(leaseData);
+
                     if (leaseData.increment != null) {
                         setactiveTab("2");
                     } else if (leaseData.grv != null) {

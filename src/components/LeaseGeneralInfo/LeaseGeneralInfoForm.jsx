@@ -46,15 +46,26 @@ export default function LeaseGeneralInfoForm({ otherTabs, increment, formModal }
     });
 
     useEffect(() => {
+        console.log("formModal received:", formModal); // Debugging log
+        console.log("Current formData:", formData); // Debugging log
+
         if (formModal && formData.leaseId === 0) { // Ensure it runs only if formData is not already set
             delete formModal.rouOpening;
             delete formModal.rouExRate;
+
             setFormData({
                 ...formData,
                 ...formModal,
                 commencementDate: formatDateForInput(formModal.commencementDate),
                 endDate: formatDateForInput(formModal.endDate),
             });
+
+            console.log("Updated formData:", {
+                ...formData,
+                ...formModal,
+                commencementDate: formatDateForInput(formModal.commencementDate),
+                endDate: formatDateForInput(formModal.endDate),
+            }); // Debugging log
         }
     }, [formModal]);
 
