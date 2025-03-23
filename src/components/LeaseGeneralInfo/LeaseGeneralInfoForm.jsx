@@ -210,15 +210,17 @@ export default function LeaseGeneralInfoForm({ otherTabs, increment, formModal }
     };
 
     const handleIRTable=(uploadData)=>{
+        debugger
         setFormData({
             ...formData,
             commencementDate: uploadData.commencementDate,
             endDate: uploadData.endDate,
             rental: uploadData.rental,
-            CustomIRTable: uploadData.CustomIRTable
+            customIRTable: uploadData.customIRTable
         })
     }
     
+    console.log("formData ", formData)
     return (
         <React.Fragment>
             <LoadingSpinner isLoading={loading} />
