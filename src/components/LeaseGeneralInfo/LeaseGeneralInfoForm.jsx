@@ -69,6 +69,10 @@ export default function LeaseGeneralInfoForm({ otherTabs, increment, formModal }
         }
     }, [formModal]);
 
+    useEffect(() => {
+        console.log("Updated formData:", formData); // Logs the updated state whenever it changes
+    }, [formData]);
+
     const handleChange = (e) => {
         const { name, value } = e.target;
         const newValue = !isNaN(value) ? (parseInt(value) || value) : value
