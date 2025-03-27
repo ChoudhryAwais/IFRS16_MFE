@@ -1,6 +1,8 @@
 
 import React, { useEffect, useState } from 'react'
 import { Link, useLocation } from 'react-router-dom'
+import { removeSessionStorageVariable } from '../../apis/Cruds/sessionCrud'
+import { sessionVariable } from '../../utils/enums/sessionStorage'
 
 export default function LeftHandNav({ isCollapsed, onCollapse }) {
     const [activeTab, setactiveTab] = useState('')
@@ -108,7 +110,9 @@ export default function LeftHandNav({ isCollapsed, onCollapse }) {
                     {LHNItem.map(item => {
                         return (
                             <li key={item.path}>
-                                <Link to={item.path} className={getTabClasses(item.path)}>
+                                <Link to={item.path} className={getTabClasses(item.path)} onClick={() => {
+                                    removeSessionStorageVariable({ key: sessionVariable.selectLease })
+                                }}>
                                     <span className="text-lg">{item.icon}</span>
                                     {!isCollapsed && <span className="ms-3">{item.label}</span>}
                                 </Link>

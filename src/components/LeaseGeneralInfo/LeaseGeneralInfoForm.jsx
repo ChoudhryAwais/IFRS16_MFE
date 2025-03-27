@@ -4,7 +4,7 @@ import { ConfirmationSwalPopup, SwalPopup } from '../../middlewares/SwalPopup/Sw
 import { statusCodeMessage } from '../../utils/enums/statusCode';
 import { LoadingSpinner } from '../LoadingBar/LoadingBar';
 import { useNavigate } from 'react-router-dom';
-import { getCompanyProfile, getUserInfo } from '../../apis/Cruds/sessionCrud';
+import { getCompanyProfile, getSelectLease, getUserInfo } from '../../apis/Cruds/sessionCrud';
 import { allowDecimalNumbers } from '../../helper/checkForAllowVal';
 import { getAllCurrencies } from '../../apis/Cruds/Currencies';
 import CommonButton from '../common/commonButton';
@@ -17,56 +17,34 @@ import IrregularLease from './IrregularLease';
 import { handleExcelExport } from '../../utils/exportService/excelExportService';
 import { leaseIRTemp } from '../../utils/ExportsTemplate/exportsTemplate';
 
-export default function LeaseGeneralInfoForm({ otherTabs, increment, formModal }) {
+export default function LeaseGeneralInfoForm({ otherTabs, increment }) {
     const [loading, setLoading] = useState(false)
     const navigate = useNavigate()
     const { leaseTypes } = getCompanyProfile()
     const [incrementalFrequency, setincrementalFrequency] = useState([])
     const [currencies, setCurrencies] = useState([])
     const [customSchedule, setCustomSchedule] = useState(false)
+    const activeLease = getSelectLease()
 
     // const [modificationTable, setModificationTable] = useState([])
 
     const frequencies = leaseTypes.split(",").map(item => item.trim().toLowerCase())
     const [formData, setFormData] = useState({
-        leaseId: 0,
-        leaseName: '',
-        rental: '',
-        commencementDate: '',
+        leaseId: activeLease?.leaseId || 0,
+        leaseName: activeLease?.leaseName || '',
+        rental: activeLease?.rental || '',
+        commencementDate: formatDateForInput(activeLease?.commencementDate) || '',
         modificationDate: '',
-        endDate: '',
-        annuity: 'advance',
-        ibr: '',
-        frequency: 'annual',
-        idc: null,
-        grv: null,
-        increment: null,
-        incrementalFrequency: 'annual',
-        currencyID: ""
+        endDate: formatDateForInput(activeLease?.endDate) || '',
+        annuity: activeLease?.annuity || 'advance',
+        ibr: activeLease?.ibr || '',
+        frequency: activeLease?.frequency || 'annual',
+        idc: activeLease?.idc || null,
+        grv: activeLease?.grv || null,
+        increment: activeLease?.increment || null,
+        incrementalFrequency: activeLease?.incrementalFrequency || 'annual',
+        currencyID: activeLease?.currencyID || ""
     });
-
-    useEffect(() => {
-        console.log("formModal received:", formModal); // Debugging log
-        console.log("Current formData before update:", formData); // Debugging log
-
-        if (formModal && formData.leaseId === 0) { // Ensure it runs only if formData is not already set
-            const updatedFormModal = { ...formModal }; // Create a copy to avoid direct mutation
-            delete updatedFormModal.rouOpening;
-            delete updatedFormModal.rouExRate;
-
-            setFormData({
-                ...formData,
-                ...updatedFormModal,
-                commencementDate: formatDateForInput(updatedFormModal.commencementDate),
-                endDate: formatDateForInput(updatedFormModal.endDate),
-            });
-        }
-    }, [formModal]);
-
-    useEffect(() => {
-        console.log("Updated formData:", formData); // Logs the updated state whenever it changes
-    }, [formData]);
-
     const handleChange = (e) => {
         const { name, value } = e.target;
         const newValue = !isNaN(value) ? (parseInt(value) || value) : value
@@ -205,20 +183,20 @@ export default function LeaseGeneralInfoForm({ otherTabs, increment, formModal }
             endDate: '',
         })
         if (bit) {
-             ConfirmationSwalPopup(
-                  "Download Template?",
-                  statusCodeMessage.download,
-                  "warning",
-                  statusCodeMessage.yes,
-                  () => handleDownloadTemp()
-                )
+            ConfirmationSwalPopup(
+                "Download Template?",
+                statusCodeMessage.download,
+                "warning",
+                statusCodeMessage.yes,
+                () => handleDownloadTemp()
+            )
         }
     }
     const handleDownloadTemp = () => {
         handleExcelExport({ payload: leaseIRTemp, workSheetName: "Schedule", fileName: "ScheduleTemplate" })
     };
 
-    const handleIRTable=(uploadData)=>{
+    const handleIRTable = (uploadData) => {
         console.log("handleIRTable called with:", uploadData); // Debugging log
         setFormData((prevData) => ({
             ...prevData,
@@ -228,8 +206,7 @@ export default function LeaseGeneralInfoForm({ otherTabs, increment, formModal }
             customIRTable: uploadData.customIRTable,
         }));
     }
-    
-    console.log("formData ", formData)
+
     return (
         <React.Fragment>
             <LoadingSpinner isLoading={loading} />
@@ -249,7 +226,7 @@ export default function LeaseGeneralInfoForm({ otherTabs, increment, formModal }
                     {
                         customSchedule &&
                         <div className='border p-2'>
-                            <IrregularLease handleIRTable={handleIRTable}/>
+                            <IrregularLease handleIRTable={handleIRTable} />
                         </div>
                     }
                     {/* Lease Name */}
@@ -259,7 +236,7 @@ export default function LeaseGeneralInfoForm({ otherTabs, increment, formModal }
                         </label>
                         <small className="text-gray-500 block mb-1">Enter the lease ID</small>
                         <input
-                            disabled={formModal?.leaseName ? true : false}
+                            disabled={activeLease?.leaseName ? true : false}
                             type="text"
                             id="leaseName"
                             name="leaseName"
@@ -288,7 +265,7 @@ export default function LeaseGeneralInfoForm({ otherTabs, increment, formModal }
                         </div> : null
                     }
                     {/* Modification Date */}
-                    {formModal?.leaseId ? <div>
+                    {activeLease?.leaseId ? <div>
                         <label htmlFor="modificationDate" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
                             Modification Date
                         </label>
@@ -308,7 +285,7 @@ export default function LeaseGeneralInfoForm({ otherTabs, increment, formModal }
                     {!customSchedule ?
                         <div>
                             <label htmlFor="commencementDate" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
-                                {formModal?.leaseId ? "Payment Date" : "Commencement Date"}
+                                {activeLease?.leaseId ? "Payment Date" : "Commencement Date"}
                             </label>
                             <small className="text-gray-500 block mb-1">Select the lease commencement  date</small>
                             <input
@@ -494,7 +471,7 @@ export default function LeaseGeneralInfoForm({ otherTabs, increment, formModal }
                             : null
                     }
                 </form>
-                {(formModal && formModal?.leaseId != 0) ?
+                {(activeLease && activeLease?.leaseId != 0) ?
                     <CommonButton
                         handleValidateForm={handleValidateForm}
                         // onSubmit={handleModification}
