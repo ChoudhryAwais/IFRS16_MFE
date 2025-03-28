@@ -93,7 +93,7 @@ export default function Tables(props) {
                                     return (
                                         <tr
                                             key={`${index}_table`}
-                                            className=" border hover:bg-blue-100 hover:text-[#DB1118] cursor-pointer"
+                                            className=" border hover:bg-blue-100 hover:text-[#DB1118] cursor-pointer dark:hover:bg-gray-700 dark:text-white"
                                             onClick={(e) => {
                                                 if (!e.target.closest('input[type="checkbox"]')) {
                                                     return extandedTableFunc ? extandedTableFunc.callBack(row) : () => { }
@@ -140,17 +140,17 @@ export default function Tables(props) {
                 {pagination && data.length > 0 ?
                     <div className="flex justify-between">
                         <div className="text-right mt-2">
-                            <span className="text-sm text-gray-600 mt-2 p-2 mr-2">Total Records: {totalRecord}</span>
+                            <span className="text-sm text-gray-600 mt-2 p-2 mr-2 dark:text-gray-200">Total Records: {totalRecord}</span>
 
                         </div>
                         <nav aria-label="Page navigation example" className='mt-2'>
-                            <ul className="inline-flex text-sm">
+                            <ul className="inline-flex text-sm ">
                                 <li>
                                     <select
                                         id="pageSize"
                                         value={pageSize}
                                         onChange={handlePageSizeChange}
-                                        className="h-8 px-2 mr-1 text-sm text-gray-500 bg-white border border-gray-300 rounded-sm"
+                                        className="h-8 px-2 mr-1 text-sm text-gray-500 bg-white border border-gray-300 rounded-sm dark:bg-gray-800 dark:text-white"
                                     >
                                         <option value={10}>10</option>
                                         <option value={20}>20</option>
@@ -163,14 +163,14 @@ export default function Tables(props) {
                                 <li>
                                     <button
                                         onClick={() => handlePageNumberChange(1)}
-                                        className="flex items-center justify-center px-3 h-8 leading-tight text-gray-500 bg-white border border-gray-300 rounded-s-lg hover:bg-gray-100 hover:text-gray-700 fa fa-backward"
+                                        className="flex items-center justify-center px-3 h-8 leading-tight text-gray-500 bg-white border border-gray-300 rounded-s-lg hover:bg-gray-100 hover:text-gray-700 fa fa-backward dark:bg-gray-800 dark:text-white"
                                         disabled={pageNumber === 1}
                                     >
                                     </button>
                                 </li>
                                 <li>
                                     <button
-                                        className="flex items-center justify-center px-3 h-8 ms-0 leading-tight text-gray-500 bg-white border border-e-0 border-gray-300 rounded-s-lg hover:bg-gray-100 hover:text-gray-700"
+                                        className="flex items-center justify-center px-3 h-8 ms-0 leading-tight text-gray-500 bg-white border border-e-0 border-gray-300 rounded-s-lg hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:text-white"
                                         disabled={pageNumber === 1}
                                         onClick={() => handlePageNumberChange(pageNumber - 1)}
                                     >
@@ -179,7 +179,7 @@ export default function Tables(props) {
                                 </li>
                                 <li>
                                     <button
-                                        className="flex items-center justify-center px-3 h-8 leading-tight text-gray-500 bg-white border border-gray-300 rounded-e-lg hover:bg-gray-100 hover:text-gray-700"
+                                        className="flex items-center justify-center px-3 h-8 leading-tight text-gray-500 bg-white border border-gray-300 rounded-e-lg hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:text-white"
                                         disabled={pageNumber === totalPages}
                                         onClick={() => handlePageNumberChange(pageNumber + 1)}
                                     >
@@ -189,14 +189,14 @@ export default function Tables(props) {
                                 <li>
                                     <button
                                         onClick={() => handlePageNumberChange(totalPages)}
-                                        className="flex items-center justify-center px-3 h-8 leading-tight text-gray-500 bg-white border border-gray-300 rounded-e-lg hover:bg-gray-100 hover:text-gray-700 fa fa-forward"
+                                        className="flex items-center justify-center px-3 h-8 leading-tight text-gray-500 bg-white border border-gray-300 rounded-e-lg hover:bg-gray-100 hover:text-gray-700 fa fa-forward dark:bg-gray-800 dark:text-white"
                                         disabled={pageNumber === totalPages}
                                     >
                                     </button>
                                 </li>
 
                                 <li>
-                                    <div className="ml-2 flex items-center justify-center px-5  h-8 leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700"> {pageNumber + ' / ' + totalPages}</div>
+                                    <div className="ml-2 flex items-center justify-center px-5  h-8 leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:text-white"> {pageNumber + ' / ' + totalPages}</div>
                                 </li>
                             </ul>
                         </nav>

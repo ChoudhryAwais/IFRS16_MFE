@@ -19,7 +19,7 @@ const Switch = ({ label, onChange }) => {
             ${enabled ? "translate-x-6" : "translate-x-0"}`}
                 />
             </button>
-            <span className="text-xs font-medium text-gray-700">{label}</span>
+            <span className="text-xs font-medium text-gray-700 dark:text-gray-200 ">{label}</span>
         </div>
     );
 };

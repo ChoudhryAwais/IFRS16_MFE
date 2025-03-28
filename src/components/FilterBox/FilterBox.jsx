@@ -13,7 +13,7 @@ export const CollapsibleFilterBox = (props) => {
             >
                 <div className="flex items-center gap-2">
                     <i className="fa fa-filter text-gray-600"></i>
-                    <h2 className="text-sm font-semibold">{heading}</h2>
+                    <h2 className="text-sm font-semibold dark:text-white">{heading}</h2>
                 </div>
                 <svg
                     xmlns="http://www.w3.org/2000/svg"
@@ -36,7 +36,7 @@ export const CollapsibleFilterBox = (props) => {
                 className={`overflow-hidden transition-all ease-in-out ${isOpen ? "max-h-screen" : "max-h-0"
                     }`}
             >
-                <div className=" bg-white p-4 shadow-md border">
+                <div className=" bg-white dark:bg-gray-800 p-4 shadow-md border">
                     {/* {filterBoxContent()} */}
                     {props.children}
                 </div>

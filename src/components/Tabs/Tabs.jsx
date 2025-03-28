@@ -24,14 +24,14 @@ export default function Tabs({ tabs, active = "1" }) {
 
     return (
         <React.Fragment>
-            <ul className="flex flex-wrap text-xs font-medium text-center text-gray-500 border-gray-200">
+            <ul className="flex flex-wrap text-xs font-medium text-center text-gray-500 dark:text-gray-200 border-gray-200 ">
                 {tabs.map((tab) => (
                     <li key={tab.id} className="me-2">
                         <button
                             onClick={() => handleHandleTabChange(tab)}
                             className={`inline-block p-3 rounded-t-lg transition-all duration-300 ${activeTab === tab.id
-                                ? 'text-[#F00000] bg-gray-100'
-                                : 'hover:text-gray-600 hover:bg-gray-50'
+                                ? 'text-[#F00000] bg-gray-100 dark:bg-gray-700'
+                                : 'hover:text-gray-600 hover:bg-gray-50 dark:hover:bg-gray-700 dark:hover:text-gray-300'
                                 }`}
                         >
                             {tab.label}

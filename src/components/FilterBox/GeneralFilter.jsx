@@ -84,7 +84,7 @@ export const GeneralFilter = ({ onApplyFilter, showLeaseSelection, btnLabel, cal
     }
     return (
 
-        <div className='bg-white'>
+        <div className='bg-white dark:bg-gray-800'>
 
             {showLeaseSelection ?
                 <MultiSelectDropdown

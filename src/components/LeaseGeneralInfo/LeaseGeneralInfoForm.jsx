@@ -222,7 +222,7 @@ export default function LeaseGeneralInfoForm({ otherTabs, increment }) {
                 <div className='flex justify-end mb-5 mx-2 gap-2'>
                     <Switch label="CUSTOM SCHEDULE" onChange={handleCustomSchedule} />
                 </div>
-                <form className="grid grid-cols-1 md:grid-cols-3 gap-6 bg-white p-4 pb-7 shadow-md rounded-lg">
+                <form className="grid grid-cols-1 md:grid-cols-3 gap-6 bg-white dark:bg-slate-700 p-4 pb-7 shadow-md rounded-lg">
                     {
                         customSchedule &&
                         <div className='border p-2'>
@@ -234,7 +234,7 @@ export default function LeaseGeneralInfoForm({ otherTabs, increment }) {
                         <label htmlFor="leaseName" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
                             Lease ID
                         </label>
-                        <small className="text-gray-500 block mb-1">Enter the lease ID</small>
+                        <small className="text-gray-500 block mb-1 dark:text-gray-200 ">Enter the lease ID</small>
                         <input
                             disabled={activeLease?.leaseName ? true : false}
                             type="text"
@@ -252,7 +252,7 @@ export default function LeaseGeneralInfoForm({ otherTabs, increment }) {
                             <label htmlFor="rental" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
                                 Rental
                             </label>
-                            <small className="text-gray-500 block mb-1">Enter the rental amount</small>
+                            <small className="text-gray-500 block mb-1 dark:text-gray-200">Enter the rental amount</small>
                             <input
                                 type="text"
                                 id="rental"
@@ -269,7 +269,7 @@ export default function LeaseGeneralInfoForm({ otherTabs, increment }) {
                         <label htmlFor="modificationDate" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
                             Modification Date
                         </label>
-                        <small className="text-gray-500 block mb-1">Select the lease Modification date</small>
+                        <small className="text-gray-500 block mb-1 dark:text-gray-200">Select the lease Modification date</small>
                         <input
                             type="date"
                             id="modificationDate"
@@ -282,50 +282,47 @@ export default function LeaseGeneralInfoForm({ otherTabs, increment }) {
                         />
                     </div> : null}
                     {/* Commencement Date */}
-                    {!customSchedule ?
-                        <div>
-                            <label htmlFor="commencementDate" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
-                                {activeLease?.leaseId ? "Payment Date" : "Commencement Date"}
-                            </label>
-                            <small className="text-gray-500 block mb-1">Select the lease commencement  date</small>
-                            <input
-                                type="date"
-                                id="commencementDate"
-                                name="commencementDate"
-                                className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-sm focus:ring-blue-500 focus:border-blue-500 block w-full px-2.5 py-1.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                                value={formData.commencementDate}
-                                onChange={handleChange}
-                                max={formData.endDate}
-                                onBlur={handleDatesOnBlur}
-                            />
-                        </div> : null
-                    }
+                    <div>
+                        <label htmlFor="commencementDate" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+                            {activeLease?.leaseId ? "Payment Date" : "Commencement Date"}
+                        </label>
+                        <small className="text-gray-500 block mb-1 dark:text-gray-200">Select the lease commencement  date</small>
+                        <input
+                            type="date"
+                            id="commencementDate"
+                            name="commencementDate"
+                            className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-sm focus:ring-blue-500 focus:border-blue-500 block w-full px-2.5 py-1.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                            value={formData.commencementDate}
+                            onChange={handleChange}
+                            max={formData.endDate}
+                            onBlur={handleDatesOnBlur}
+                        />
+                    </div>
                     {/* End Date */}
-                    {!customSchedule ?
-                        <div>
-                            <label htmlFor="endDate" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
-                                End Date
-                            </label>
-                            <small className="text-gray-500 block mb-1">Select the lease end date</small>
-                            <input
-                                type="date"
-                                id="endDate"
-                                name="endDate"
-                                className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-sm focus:ring-blue-500 focus:border-blue-500 block w-full px-2.5 py-1.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                                value={formData.endDate}
-                                onChange={handleChange}
-                                min={formData.commencementDate}
-                                onBlur={handleDatesOnBlur}
-                                disabled={formData.commencementDate == ""}
-                            />
-                        </div> : null}
+                    <div>
+                        <label htmlFor="endDate" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+                            End Date
+                        </label>
+                        <small className="text-gray-500 block mb-1 dark:text-gray-200">Select the lease end date</small>
+                        <input
+                            type="date"
+                            id="endDate"
+                            name="endDate"
+                            className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-sm focus:ring-blue-500 focus:border-blue-500 block w-full px-2.5 py-1.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                            value={formData.endDate}
+                            onChange={handleChange}
+                            min={formData.commencementDate}
+                            onBlur={handleDatesOnBlur}
+                            disabled={formData.commencementDate == ""}
+                        />
+                    </div>
 
                     {/* Annuity */}
                     <div>
                         <label htmlFor="annuity" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
                             Annuity
                         </label>
-                        <small className="text-gray-500 block mb-1">Choose annuity type</small>
+                        <small className="text-gray-500 block mb-1 dark:text-gray-200">Choose annuity type</small>
                         <select
                             id="annuity"
                             name="annuity"
@@ -342,7 +339,7 @@ export default function LeaseGeneralInfoForm({ otherTabs, increment }) {
                         <label htmlFor="ibr" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
                             Interest Rate Implicit in the Lease
                         </label>
-                        <small className="text-gray-500 block mb-1">Enter the Interest Rate Implicit in the Lease, if not available use lessee's incremental borrowing rate in %</small>
+                        <small className="text-gray-500 block mb-1 dark:text-gray-200">Enter the Interest Rate Implicit in the Lease, if not available use lessee's incremental borrowing rate in %</small>
                         <input
                             type="text"
                             id="ibr"
@@ -358,7 +355,7 @@ export default function LeaseGeneralInfoForm({ otherTabs, increment }) {
                         <label htmlFor="frequency" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
                             Payment Frequency
                         </label>
-                        <small className="text-gray-500 block mb-1">Choose the payment frequency type</small>
+                        <small className="text-gray-500 block mb-1 dark:text-gray-200">Choose the payment frequency type</small>
                         <select
                             id="frequency"
                             name="frequency"
@@ -378,7 +375,7 @@ export default function LeaseGeneralInfoForm({ otherTabs, increment }) {
                         <label htmlFor="currency" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
                             Currency
                         </label>
-                        <small className="text-gray-500 block mb-1">Choose the lease Currency</small>
+                        <small className="text-gray-500 block mb-1 dark:text-gray-200">Choose the lease Currency</small>
                         <select
                             id="currencyID"
                             name="currencyID"
@@ -401,7 +398,7 @@ export default function LeaseGeneralInfoForm({ otherTabs, increment }) {
                                 <label htmlFor="idc" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
                                     Initial Direct Cost
                                 </label>
-                                <small className="text-gray-500 block mb-1">Enter the IDC amount</small>
+                                <small className="text-gray-500 block mb-1 dark:text-gray-200">Enter the IDC amount</small>
                                 <input
                                     type="text"
                                     id="idc"
@@ -417,7 +414,7 @@ export default function LeaseGeneralInfoForm({ otherTabs, increment }) {
                                 <label htmlFor="grv" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
                                     Guaranteed Residual Value
                                 </label>
-                                <small className="text-gray-500 block mb-1">Enter the GRV amount</small>
+                                <small className="text-gray-500 block mb-1 dark:text-gray-200">Enter the GRV amount</small>
                                 <input
                                     type="text"
                                     id="grv"
@@ -436,7 +433,7 @@ export default function LeaseGeneralInfoForm({ otherTabs, increment }) {
                                     <label htmlFor="increment" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
                                         Incremental Percentage
                                     </label>
-                                    <small className="text-gray-500 block mb-1">Enter the Incremental Percentage</small>
+                                    <small className="text-gray-500 block mb-1 dark:text-gray-200">Enter the Incremental Percentage</small>
                                     <input
                                         type="text"
                                         id="increment"
@@ -452,7 +449,7 @@ export default function LeaseGeneralInfoForm({ otherTabs, increment }) {
                                     <label htmlFor="frequency" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
                                         Incremental Frequency
                                     </label>
-                                    <small className="text-gray-500 block mb-1">Choose the frequency type</small>
+                                    <small className="text-gray-500 block mb-1 dark:text-gray-200">Choose the frequency type</small>
                                     <select
                                         id="incrementalFrequency"
                                         name="incrementalFrequency"
