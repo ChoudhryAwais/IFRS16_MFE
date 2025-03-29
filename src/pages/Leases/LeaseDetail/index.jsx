@@ -97,7 +97,6 @@ export default function LeaseDetail(props) {
         setActiveTab('1')
     }
 
-
     return (
         <div>
             <CustomModal
@@ -113,11 +112,15 @@ export default function LeaseDetail(props) {
                     text={CommonButtonTypes.MODIFY_LEASE}
                     extandedClass="bg-gray-600 hover:bg-gray-700 hover:text-white text-xs"
                 />
-                <CommonButton
-                    onSubmit={() => { setShowTerminateModal(true) }}
-                    text={CommonButtonTypes.TERMINATE_LEASE}
-                    extandedClass="bg-red-600 hover:bg-red-700 hover:text-white text-xs"
-                />
+                {
+                    selectedLease.isActive &&
+                    <CommonButton
+                        onSubmit={() => { setShowTerminateModal(true) }}
+                        text={CommonButtonTypes.TERMINATE_LEASE}
+                        extandedClass="bg-red-600 hover:bg-red-700 hover:text-white text-xs"
+                    />
+                }
+
                 <CommonButton
                     onSubmit={() => { }}
                     text={`${CommonButtonTypes.EXPORT_LEASE}`}

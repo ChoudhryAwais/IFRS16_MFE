@@ -175,7 +175,7 @@ export default function IFRS16Accounting() {
         />
       </CollapsibleFilterBox>
       <div className='flex justify-end gap-3'>
-        <div className="text-xs font-xs mt-3 ml-2 text-gray-600">
+        <div className="text-xs font-xs mt-3 ml-2 text-gray-600 dark:text-gray-200">
           {selectedRows.length === 0 ? "Select the Rows to perform the action" : "Selected Item: " + selectedRows.length}
         </div>
         <div className="text-right">

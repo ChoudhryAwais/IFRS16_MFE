@@ -11,7 +11,7 @@ export default function DashboardCards({ allLeases }) {
         loading: false
     })
     const { currentDate } = getDateForCards();
-
+    const activeLeases = allLeases?.length > 0 ? allLeases.filter(lease => lease.isActive === true)?.length : 0
     // Use it get the data on current date
     useEffect(() => {
         const cardsInfo = async () => {
@@ -43,7 +43,7 @@ export default function DashboardCards({ allLeases }) {
             title: "TOTAL LEASES",
             color: "text-purple-600",
             subTitle: currentDate,
-            value: (("" + allLeases?.length) || 0)
+            value: ("" + activeLeases) || 0
         },
         {
             title: "LEASE LIABILITY",

@@ -12,7 +12,7 @@ const Switch = ({ label, onChange }) => {
             <button
                 onClick={handleClick}
                 className={`relative w-14 h-4 flex items-center rounded-full p-1 transition-colors duration-300
-          ${enabled ? "bg-green-500" : "bg-gray-300"}`}
+          ${enabled ? "bg-green-500" : "bg-gray-300 dark:bg-gray-700"}`}
             >
                 <span
                     className={`absolute left-1 w-6 h-3 bg-white rounded-full shadow-md transition-transform duration-300
