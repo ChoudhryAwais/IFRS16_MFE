@@ -47,8 +47,8 @@ export default function IrregularLease({ handleIRTable }) {
                 }
                 if (formattedData.length > 0) {
                     const formModal = {
-                        commencementDate: formattedData[0].paymentDate,
-                        endDate: formattedData[formattedData.length - 1].paymentDate,
+                        // commencementDate: formattedData[0].paymentDate,
+                        // endDate: formattedData[formattedData.length - 1].paymentDate,
                         rental: formattedData[0].rental,
                         customIRTable: formattedData
                     }

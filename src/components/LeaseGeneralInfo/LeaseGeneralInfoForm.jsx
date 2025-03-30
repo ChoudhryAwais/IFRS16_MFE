@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { addNewLease } from '../../apis/Cruds/LeaseData';
+import { addNewLease, modifyLease } from '../../apis/Cruds/LeaseData';
 import { ConfirmationSwalPopup, SwalPopup } from '../../middlewares/SwalPopup/SwalPopup';
 import { statusCodeMessage } from '../../utils/enums/statusCode';
 import { LoadingSpinner } from '../LoadingBar/LoadingBar';
@@ -26,15 +26,13 @@ export default function LeaseGeneralInfoForm({ otherTabs, increment }) {
     const [customSchedule, setCustomSchedule] = useState(false)
     const activeLease = getSelectLease()
 
-    // const [modificationTable, setModificationTable] = useState([])
-
     const frequencies = leaseTypes.split(",").map(item => item.trim().toLowerCase())
     const [formData, setFormData] = useState({
         leaseId: activeLease?.leaseId || 0,
         leaseName: activeLease?.leaseName || '',
         rental: activeLease?.rental || '',
         commencementDate: formatDateForInput(activeLease?.commencementDate) || '',
-        modificationDate: '',
+        lastModifiedDate: null,
         endDate: formatDateForInput(activeLease?.endDate) || '',
         annuity: activeLease?.annuity || 'advance',
         ibr: activeLease?.ibr || '',
@@ -43,7 +41,8 @@ export default function LeaseGeneralInfoForm({ otherTabs, increment }) {
         grv: activeLease?.grv || null,
         increment: activeLease?.increment || null,
         incrementalFrequency: activeLease?.incrementalFrequency || 'annual',
-        currencyID: activeLease?.currencyID || ""
+        currencyID: activeLease?.currencyID || "",
+        isActive: true,
     });
     const handleChange = (e) => {
         const { name, value } = e.target;
@@ -90,6 +89,7 @@ export default function LeaseGeneralInfoForm({ otherTabs, increment }) {
         const companyProfile = getCompanyProfile()
         const leaseModal =
         {
+
             ...formData,
             userID: userInfo.userID,
             companyID: companyProfile.companyID
@@ -141,6 +141,9 @@ export default function LeaseGeneralInfoForm({ otherTabs, increment }) {
                 setCurrencies(allCurrenciesRes)
         }
         getCurrency()
+        if (activeLease?.leaseId != undefined) {
+            setCustomSchedule(true)
+        }
     }, [])
     // handle dates 
     const handleDatesOnBlur = (e) => {
@@ -157,23 +160,6 @@ export default function LeaseGeneralInfoForm({ otherTabs, increment }) {
             [name]: newValue
         });
     };
-
-    // const handleModification = async () => {
-    //     const userInfo = getUserInfo()
-    //     const companyProfile = getCompanyProfile()
-    //     const leaseModal =
-    //     {
-    //         ...formData,
-    //         userID: userInfo.userID,
-    //         companyID: companyProfile.companyID
-    //     }
-    //     setLoading(true)
-    //     const leaseResponse = await modifyInitialRecognitionForLease(leaseModal)
-    //     setModificationTable(leaseResponse)
-    //     console.log("leaseResponse ", leaseResponse)
-    //     setLoading(false)
-    // }
-
     const handleCustomSchedule = (bit) => {
         setCustomSchedule(bit)
         setFormData({
@@ -195,7 +181,6 @@ export default function LeaseGeneralInfoForm({ otherTabs, increment }) {
     const handleDownloadTemp = () => {
         handleExcelExport({ payload: leaseIRTemp, workSheetName: "Schedule", fileName: "ScheduleTemplate" })
     };
-
     const handleIRTable = (uploadData) => {
         console.log("handleIRTable called with:", uploadData); // Debugging log
         setFormData((prevData) => ({
@@ -207,22 +192,50 @@ export default function LeaseGeneralInfoForm({ otherTabs, increment }) {
         }));
     }
 
+    const handleModification = async () => {
+        const userInfo = getUserInfo()
+        const companyProfile = getCompanyProfile()
+        const leaseModal =
+        {
+            ...formData,
+            userID: userInfo.userID,
+            companyID: companyProfile.companyID,
+            commencementDate: formData.lastModifiedDate
+        }
+        setLoading(true)
+        const leaseModifyResponse = await modifyLease(leaseModal)
+        if (leaseModifyResponse?.leaseId) {
+            setLoading(false)
+            SwalPopup(
+                "Lease Modified",
+                statusCodeMessage.leaseModified,
+                "success",
+                () => navigate("/IFRS16Accounting")
+            )
+        } else {
+            setLoading(false)
+            SwalPopup(
+                "Try again",
+                statusCodeMessage.somethingWentWrong,
+                "error"
+            )
+        }
+        // const leaseResponse = await modifyInitialRecognitionForLease(leaseModal)
+    }
+
     return (
         <React.Fragment>
             <LoadingSpinner isLoading={loading} />
-            {/* {modificationTable && modificationTable?.initialRecognition?.length > 0 ?
-                <Tables
-                    columns={initialRecognitionCols}
-                    data={modificationTable.initialRecognition}
-                    calcHeight="140px"
-                    isLoading={loading}
-                    totalRecord={modificationTable.totalRecords}
-                /> : */}
             <div>
                 <div className='flex justify-end mb-5 mx-2 gap-2'>
-                    <Switch label="CUSTOM SCHEDULE" onChange={handleCustomSchedule} />
+                    <Switch
+                        label="CUSTOM SCHEDULE"
+                        onChange={handleCustomSchedule}
+                        isDisabled={activeLease?.leaseId ? true : false}
+                        isOpen={activeLease?.leaseId ? true : false}
+                    />
                 </div>
-                <form className="grid grid-cols-1 md:grid-cols-3 gap-6 bg-white dark:bg-slate-700 p-4 pb-7 shadow-md rounded-lg">
+                <form className="grid grid-cols-1 md:grid-cols-3 gap-6 bg-white dark:bg-gray-800 p-4 pb-7 shadow-md rounded-lg">
                     {
                         customSchedule &&
                         <div className='border p-2'>
@@ -266,38 +279,40 @@ export default function LeaseGeneralInfoForm({ otherTabs, increment }) {
                     }
                     {/* Modification Date */}
                     {activeLease?.leaseId ? <div>
-                        <label htmlFor="modificationDate" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+                        <label htmlFor="lastModifiedDate" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
                             Modification Date
                         </label>
                         <small className="text-gray-500 block mb-1 dark:text-gray-200">Select the lease Modification date</small>
                         <input
                             type="date"
-                            id="modificationDate"
-                            name="modificationDate"
+                            id="lastModifiedDate"
+                            name="lastModifiedDate"
                             className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-sm focus:ring-blue-500 focus:border-blue-500 block w-full px-2.5 py-1.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                            value={formData.modificationDate}
+                            value={formData.lastModifiedDate}
                             onChange={handleChange}
                             max={formData.endDate}
                             onBlur={handleDatesOnBlur}
                         />
                     </div> : null}
                     {/* Commencement Date */}
-                    <div>
-                        <label htmlFor="commencementDate" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
-                            {activeLease?.leaseId ? "Payment Date" : "Commencement Date"}
-                        </label>
-                        <small className="text-gray-500 block mb-1 dark:text-gray-200">Select the lease commencement  date</small>
-                        <input
-                            type="date"
-                            id="commencementDate"
-                            name="commencementDate"
-                            className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-sm focus:ring-blue-500 focus:border-blue-500 block w-full px-2.5 py-1.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                            value={formData.commencementDate}
-                            onChange={handleChange}
-                            max={formData.endDate}
-                            onBlur={handleDatesOnBlur}
-                        />
-                    </div>
+                    {!activeLease?.leaseId ?
+                        <div>
+                            <label htmlFor="commencementDate" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+                                Commencement Date
+                            </label>
+                            <small className="text-gray-500 block mb-1 dark:text-gray-200">Select the lease commencement  date</small>
+                            <input
+                                type="date"
+                                id="commencementDate"
+                                name="commencementDate"
+                                className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-sm focus:ring-blue-500 focus:border-blue-500 block w-full px-2.5 py-1.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                                value={formData.commencementDate}
+                                onChange={handleChange}
+                                max={formData.endDate}
+                                onBlur={handleDatesOnBlur}
+                            />
+                        </div> : null}
+
                     {/* End Date */}
                     <div>
                         <label htmlFor="endDate" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
@@ -471,7 +486,7 @@ export default function LeaseGeneralInfoForm({ otherTabs, increment }) {
                 {(activeLease && activeLease?.leaseId != 0) ?
                     <CommonButton
                         handleValidateForm={handleValidateForm}
-                        // onSubmit={handleModification}
+                        onSubmit={handleModification}
                         extandedClass={"bg-indigo-600 hover:bg-indigo-700 hover:text-white w-full mt-3"}
                         text="Modify"
                     /> :

@@ -62,3 +62,12 @@ export const terminateLease = async (payload) => {
         return error
     }
 }
+
+export const modifyLease = async (payload) => {
+    try {
+        const response = await callApi(`/LeaseFormData/ModifyLease`, "POST", payload)
+        return response
+    } catch (error) {
+        return error
+    }
+}

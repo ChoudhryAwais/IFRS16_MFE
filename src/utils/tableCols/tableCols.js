@@ -112,6 +112,12 @@ export const leaseLiabilityCols =
             return exchangeGainLoss(cell)
         }
     ],
+    modificationAdjustment: [
+        "Modification Adjustment",
+        (cell) => {
+            return exchangeGainLoss(cell)
+        }
+    ],
 }
 export const ROUScheduleCols = {
     roU_Date: [

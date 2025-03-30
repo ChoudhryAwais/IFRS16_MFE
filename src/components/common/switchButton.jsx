@@ -1,7 +1,7 @@
 import { useState } from "react";
 
-const Switch = ({ label, onChange }) => {
-    const [enabled, setEnabled] = useState(false);
+const Switch = ({ label, onChange, isDisabled = false, isOpen = false }) => {
+    const [enabled, setEnabled] = useState(isOpen);
 
     const handleClick = () => {
         setEnabled(!enabled)
@@ -10,6 +10,7 @@ const Switch = ({ label, onChange }) => {
     return (
         <div className="flex items-center space-x-2">
             <button
+                disabled={isDisabled}
                 onClick={handleClick}
                 className={`relative w-14 h-4 flex items-center rounded-full p-1 transition-colors duration-300
           ${enabled ? "bg-green-500" : "bg-gray-300 dark:bg-gray-700"}`}

@@ -107,11 +107,14 @@ export default function LeaseDetail(props) {
                 position="center"
             />
             <div className='flex justify-end gap-1'>
-                <CommonButton
-                    onSubmit={() => { navigate(`/Leases?id=${selectedLease.leaseId}`) }}
-                    text={CommonButtonTypes.MODIFY_LEASE}
-                    extandedClass="bg-gray-600 hover:bg-gray-700 hover:text-white text-xs"
-                />
+                {
+                    selectedLease.isActive &&
+                    <CommonButton
+                        onSubmit={() => { navigate(`/Leases?id=${selectedLease.leaseId}`) }}
+                        text={CommonButtonTypes.MODIFY_LEASE}
+                        extandedClass="bg-gray-600 hover:bg-gray-700 hover:text-white text-xs"
+                    />
+                }
                 {
                     selectedLease.isActive &&
                     <CommonButton
