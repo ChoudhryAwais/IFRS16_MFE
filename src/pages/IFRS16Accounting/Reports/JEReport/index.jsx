@@ -5,7 +5,6 @@ import { JEReportCol } from '../../../../utils/tableCols/tableCols'
 import { formatDate } from '../../../../helper/FormateValues'
 
 export default function JEReport({ data, loading, handleExport, filterModal }) {
-    console.log("filterModal", filterModal)
     return (
         <React.Fragment>
             <div className='flex justify-between mb-2'>

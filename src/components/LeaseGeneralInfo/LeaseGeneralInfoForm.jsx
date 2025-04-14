@@ -43,6 +43,8 @@ export default function LeaseGeneralInfoForm({ otherTabs, increment }) {
         incrementalFrequency: activeLease?.incrementalFrequency || 'annual',
         currencyID: activeLease?.currencyID || "",
         isActive: true,
+        rouOpening: null,
+        isChangeInScope: false
     });
     const handleChange = (e) => {
         const { name, value } = e.target;
@@ -68,6 +70,14 @@ export default function LeaseGeneralInfoForm({ otherTabs, increment }) {
         }
         if (increment) {
             if (formData.increment === null || formData.increment === '')
+                return true
+        }
+        if (formData.isChangeInScope) {
+            if (formData.rouOpening === null || formData.rouOpening === '')
+                return true
+        }
+        if (activeLease?.leaseId) {
+            if (formData.lastModifiedDate === null || formData.lastModifiedDate === '')
                 return true
         }
         if (
@@ -182,7 +192,6 @@ export default function LeaseGeneralInfoForm({ otherTabs, increment }) {
         handleExcelExport({ payload: leaseIRTemp, workSheetName: "Schedule", fileName: "ScheduleTemplate" })
     };
     const handleIRTable = (uploadData) => {
-        console.log("handleIRTable called with:", uploadData); // Debugging log
         setFormData((prevData) => ({
             ...prevData,
             commencementDate: uploadData.commencementDate,
@@ -191,7 +200,6 @@ export default function LeaseGeneralInfoForm({ otherTabs, increment }) {
             customIRTable: uploadData.customIRTable,
         }));
     }
-
     const handleModification = async () => {
         const userInfo = getUserInfo()
         const companyProfile = getCompanyProfile()
@@ -228,6 +236,19 @@ export default function LeaseGeneralInfoForm({ otherTabs, increment }) {
             <LoadingSpinner isLoading={loading} />
             <div>
                 <div className='flex justify-end mb-5 mx-2 gap-2'>
+                    {activeLease?.leaseId ?
+                        <div className='me-3'>
+                            <Switch
+                                label="CHANGE IN SCOPE"
+                                onChange={() => setFormData({
+                                    ...formData,
+                                    isChangeInScope: !formData.isChangeInScope
+                                })}
+                                isOpen={formData.isChangeInScope}
+                            />
+                        </div>
+                        : null
+                    }
                     <Switch
                         label="CUSTOM SCHEDULE"
                         onChange={handleCustomSchedule}
@@ -331,6 +352,26 @@ export default function LeaseGeneralInfoForm({ otherTabs, increment }) {
                             disabled={formData.commencementDate == ""}
                         />
                     </div>
+                    {/* Change in Scope */}
+                    {formData.isChangeInScope ?
+                        <div>
+                            <label htmlFor="rouOpening" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+                                ROU Opening
+                            </label>
+                            <small className="text-gray-500 block mb-1 dark:text-gray-200">Enter Opening amount</small>
+                            <input
+                                type="text"
+                                id="rouOpening"
+                                name="rouOpening"
+                                className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-sm focus:ring-blue-500 focus:border-blue-500 block w-full px-2.5 py-1.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                                placeholder="Enter Opening amount"
+                                value={formData.rouOpening}
+                                onChange={handleNumericChange}
+                            />
+                        </div>
+
+                        : null}
+
 
                     {/* Annuity */}
                     <div>

@@ -41,7 +41,7 @@ export default function BulkImport() {
                 for (let i = 1; i < data.length; i++) { // Start from index 1 to skip the header
                     const row = data[i];
                     if (row.length == 0) break;
-                    if (allowFrequencies(row[LTE.frequency].toLowerCase()) && (allowFrequencies(row[LTE.incrementalFrequency]?.toLowerCase()) || row[LTE.incrementalFrequency] === undefined) && allowAnnuity(row[LTE.annuity]?.toLowerCase())) {
+                    if (row[LTE.leaseName] && allowFrequencies(row[LTE.frequency].toLowerCase()) && (allowFrequencies(row[LTE.incrementalFrequency]?.toLowerCase()) || row[LTE.incrementalFrequency] === undefined) && allowAnnuity(row[LTE.annuity]?.toLowerCase())) {
                         formattedData.push({
                             leaseName: row[LTE.leaseName],
                             rental: row[LTE.rental],
@@ -58,7 +58,8 @@ export default function BulkImport() {
                             currencyID: row[LTE.currencyID] ?? company.reportingCurrencyId,
                             userID: user.userID,
                             rouOpening: row[LTE.rouOpening] ?? null, // Null if empty
-                            rouExRate: row[LTE.rouExRate] ?? null // Null if empty
+                            rouExRate: row[LTE.rouExRate] ?? null, // Null if empty
+                            isActive: true,
                         });
                     } else {
                         setError("Incorrect Format");
