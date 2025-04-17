@@ -64,7 +64,7 @@ export default function DashboardCards({ allLeases }) {
             value: leaseSummary.data?.interest || 0
         },
         {
-            title: "AMMOITIZATION EXPENSE",
+            title: "AMORTIZATION EXPENSE",
             subTitle: 'Year to Date (YTD)',
             color: "text-green-600",
             value: leaseSummary.data?.amortization || 0
