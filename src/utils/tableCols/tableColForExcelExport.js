@@ -15,7 +15,41 @@ export const leaseReportExcelCol = {
     closingROU: "Closing Right of Use Asset",
 };
 export const JEReportExcelCol = {
+    id:"ID",
+    leaseId: "Lease ID",
+    jE_Date: "Date",
     particular: "Particular",
     debit: "Debit",
     credit: "Credit",
+};
+
+export const initialRecognitionExcelCols = {
+    id: "ID",
+    leaseId: "Lease ID",
+    npv: "Net Present Value",
+    paymentDate: "Payment Date",
+    rental: "Rental",
+    serialNo: "Serial No",
+};
+
+export const leaseLiabilityExcelCols = {
+    opening: "Opening",
+    closing: "Closing",
+    exchange_Gain_Loss: "Exchange Gain / Loss",
+    id: "ID",
+    interest: "Interest",
+    leaseId: "Lease ID",
+    leaseLiability_Date: "Date",
+    modificationAdjustment: "Modification Adjustment",
+
+    payment: "Payment"
+};
+
+export const rouScheduleExcelCols = {
+    id: "ID",
+    leaseId: "Lease ID",
+    roU_Date: "Date",
+    opening: "Opening",
+    amortization: "Amortization",
+    closing: "Closing"
 };

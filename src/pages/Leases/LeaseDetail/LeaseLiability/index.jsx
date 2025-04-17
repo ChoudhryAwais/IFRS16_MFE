@@ -1,10 +1,12 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState, useImperativeHandle, forwardRef } from 'react'
 import { leaseLiabilityCols } from '../../../../utils/tableCols/tableCols'
 import { getLeaseLiabilityForLease } from '../../../../apis/Cruds/LeaseLiability'
 import Tables from '../../../../components/Tables/Tables'
 import { GeneralFilter } from '../../../../components/FilterBox/GeneralFilter'
+import { handleExcelExport } from '../../../../utils/exportService/excelExportService';
+import { leaseLiabilityExcelCols } from '../../../../utils/tableCols/tableColForExcelExport';
 
-export default function LeaseLiability({ selectedLease, activeTab }) {
+const LeaseLiability = forwardRef(({ selectedLease, activeTab }, ref) => {
     const [resetTable, setResetTable] = useState(false)
     const [leaseLiability, setLeaseLiability] = useState({
         data: [],
@@ -58,6 +60,19 @@ export default function LeaseLiability({ selectedLease, activeTab }) {
         leaseLiabilityForLease(1, 10, 0, 0)
     }
 
+    const handleExport = () => {
+        handleExcelExport({
+            payload: leaseLiability.data || [],
+            columnMapping: leaseLiabilityExcelCols,
+            workSheetName: "Lease Liability",
+            fileName: "LeaseLiability"
+        });
+    };
+
+    useImperativeHandle(ref, () => ({
+        handleExport
+    }));
+
     useEffect(() => {
         leaseLiabilityForLease(1, 10)
     }, [selectedLease.leaseId])
@@ -84,4 +99,6 @@ export default function LeaseLiability({ selectedLease, activeTab }) {
             />
         </React.Fragment>
     )
-}
+})
+
+export default LeaseLiability;

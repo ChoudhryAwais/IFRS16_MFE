@@ -1,13 +1,9 @@
-import React, { useState } from 'react'
+import React, { useState, useRef } from 'react'
 import Tabs from '../../../components/Tabs/Tabs'
 import InitialRecognition from './InitialRecognition';
 import LeaseLiability from './LeaseLiability';
 import ROUSchedule from './ROUSchedule';
 import JournalEntires from './JournalEntries';
-import { getInitialRecognitionForLease } from '../../../apis/Cruds/InitialRecognition'
-import { getLeaseLiabilityForLease } from '../../../apis/Cruds/LeaseLiability'
-import { getRouScheduleForLease } from '../../../apis/Cruds/RouSchedule'
-import { getJournalEntriesForLease } from '../../../apis/Cruds/JournalEntries'
 import CommonButton from '../../../components/common/commonButton';
 import { CommonButtonTypes } from '../../../utils/enums/common'
 import { CustomModal } from '../../../components/common/commonModal';
@@ -19,41 +15,35 @@ export default function LeaseDetail(props) {
     const { selectedLease } = props
     const [activeTab, setActiveTab] = useState('1');
     const [showTerminateModal, setShowTerminateModal] = useState(false)
-    const [leaseDetail, setleaseDetail] = useState({
-        LeaseLiability: {},
-        ROUSchedule: {},
-        JournalEntries: {},
-        InitialRecognition: {}
-    })
+    const initialRecognitionRef = useRef();
+    const leaseLiabilityRef = useRef();
+    const rouScheduleRef = useRef();
+    const journalEntriesRef = useRef();
 
-    const fetchAllLeaseDetails = async () => {
-        // const payload = {
-        //     pageNumber,
-        //     pageSize,
-        //     leaseId: selectedLease.leaseId,
-        //     startDate: startDate === 0 ? null : (startDate || filterModal.startDate),
-        //     endDate: endDate === 0 ? null : (endDate || filterModal.endDate)
-        // }
-        const leaseId = selectedLease.leaseId;
-        const initialRecognition = await getInitialRecognitionForLease({ leaseId });
-        const leaseLiability = await getLeaseLiabilityForLease({ leaseId });
-        const rouSchedule = await getRouScheduleForLease({ leaseId });
-        const journalEntries = await getJournalEntriesForLease({ leaseId });
-
-        setleaseDetail({
-            InitialRecognition: initialRecognition,
-            LeaseLiability: leaseLiability,
-            ROUSchedule: rouSchedule,
-            JournalEntries: journalEntries
-        });
+    const onTerminated = () => {
+        setShowTerminateModal(false)
+        setActiveTab('1')
     }
+
+    const handleExportClick = () => {
+        if (activeTab === '1' && initialRecognitionRef.current) {
+            initialRecognitionRef.current.handleExport();
+        } else if (activeTab === '2' && leaseLiabilityRef.current) {
+            leaseLiabilityRef.current.handleExport();
+        } else if (activeTab === '3' && rouScheduleRef.current) {
+            rouScheduleRef.current.handleExport();
+        } else if (activeTab === '4' && journalEntriesRef.current) {
+            journalEntriesRef.current.handleExport();
+        }
+    };
+
     // Specific lease tabs
     const tabs = [
         {
             id: '1',
             label: 'Initial Recognition',
             component: (
-                <InitialRecognition selectedLease={selectedLease} activeTab={activeTab} />
+                <InitialRecognition ref={initialRecognitionRef} selectedLease={selectedLease} activeTab={activeTab} />
             ),
             tabChange: (tab) => {
                 setActiveTab(tab)
@@ -63,7 +53,7 @@ export default function LeaseDetail(props) {
             id: '2',
             label: 'Lease Liability',
             component: (
-                <LeaseLiability selectedLease={selectedLease} activeTab={activeTab} />
+                <LeaseLiability ref={leaseLiabilityRef} selectedLease={selectedLease} activeTab={activeTab} />
             ),
             tabChange: (tab) => {
                 setActiveTab(tab)
@@ -73,7 +63,7 @@ export default function LeaseDetail(props) {
             id: '3',
             label: 'Right of Use Asset',
             component: (
-                <ROUSchedule selectedLease={selectedLease} activeTab={activeTab} />
+                <ROUSchedule ref={rouScheduleRef} selectedLease={selectedLease} activeTab={activeTab} />
             ),
             tabChange: (tab) => {
                 setActiveTab(tab)
@@ -83,20 +73,13 @@ export default function LeaseDetail(props) {
             id: '4',
             label: 'Journal Entries',
             component: (
-                <JournalEntires selectedLease={selectedLease} activeTab={activeTab} />
+                <JournalEntires ref={journalEntriesRef} selectedLease={selectedLease} activeTab={activeTab} />
             ),
             tabChange: (tab) => {
                 setActiveTab(tab)
             }
         },
-        // { id: '5', label: 'Disclousure' },
     ];
-
-    const onTerminated = () => {
-        setShowTerminateModal(false)
-        setActiveTab('1')
-    }
-
     return (
         <div>
             <CustomModal
@@ -125,7 +108,7 @@ export default function LeaseDetail(props) {
                 }
 
                 <CommonButton
-                    onSubmit={() => { }}
+                    onSubmit={handleExportClick}
                     text={`${CommonButtonTypes.EXPORT_LEASE}`}
                     extandedClass="bg-green-600 hover:bg-green-700 hover:text-white text-xs"
                 />

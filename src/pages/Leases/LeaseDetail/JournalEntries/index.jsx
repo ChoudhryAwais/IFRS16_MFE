@@ -1,10 +1,12 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState, useImperativeHandle, forwardRef } from 'react'
 import { JournalEntiresCols } from '../../../../utils/tableCols/tableCols'
 import { getJournalEntriesForLease } from '../../../../apis/Cruds/JournalEntries'
 import Tables from '../../../../components/Tables/Tables'
 import { GeneralFilter } from '../../../../components/FilterBox/GeneralFilter'
+import { handleExcelExport } from '../../../../utils/exportService/excelExportService';
+import { JEReportExcelCol } from '../../../../utils/tableCols/tableColForExcelExport';
 
-export default function JournalEntires({ selectedLease, activeTab }) {
+const JournalEntires = forwardRef(({ selectedLease, activeTab }, ref) => {
     const [journalEntries, setJournalEntries] = useState({
         data: [],
         loading: false,
@@ -56,6 +58,19 @@ export default function JournalEntires({ selectedLease, activeTab }) {
         journalEntriesForLease(1, 10, 0, 0)
     }
 
+    const handleExport = () => {
+        handleExcelExport({
+            payload: journalEntries.data || [],
+            columnMapping: JEReportExcelCol,
+            workSheetName: "Journal Entries",
+            fileName: "JournalEntries"
+        });
+    };
+
+    useImperativeHandle(ref, () => ({
+        handleExport
+    }));
+
     useEffect(() => {
         journalEntriesForLease(1, 10)
     }, [selectedLease.leaseId])
@@ -82,4 +97,6 @@ export default function JournalEntires({ selectedLease, activeTab }) {
             />
         </React.Fragment>
     )
-}
+})
+
+export default JournalEntires;

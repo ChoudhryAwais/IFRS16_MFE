@@ -1,10 +1,12 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState, useImperativeHandle, forwardRef } from 'react'
 import { ROUScheduleCols } from '../../../../utils/tableCols/tableCols'
 import { getRouScheduleForLease } from '../../../../apis/Cruds/RouSchedule'
 import Tables from '../../../../components/Tables/Tables'
 import { GeneralFilter } from '../../../../components/FilterBox/GeneralFilter'
+import { handleExcelExport } from '../../../../utils/exportService/excelExportService';
+import { rouScheduleExcelCols } from '../../../../utils/tableCols/tableColForExcelExport';
 
-export default function ROUSchedule({ selectedLease, activeTab }) {
+const ROUSchedule = forwardRef(({ selectedLease, activeTab }, ref) => {
     const [rouSchedule, setRouSchedule] = useState({
         data: [],
         loading: false,
@@ -57,6 +59,19 @@ export default function ROUSchedule({ selectedLease, activeTab }) {
         rouScheduleForLease(1, 10, 0, 0)
     }
 
+    const handleExport = () => {
+        handleExcelExport({
+            payload: rouSchedule.data || [],
+            columnMapping: rouScheduleExcelCols,
+            workSheetName: "ROU Schedule",
+            fileName: "ROUSchedule"
+        });
+    };
+
+    useImperativeHandle(ref, () => ({
+        handleExport
+    }));
+
     useEffect(() => {
         rouScheduleForLease(1, 10)
     }, [selectedLease.leaseId])
@@ -81,4 +96,5 @@ export default function ROUSchedule({ selectedLease, activeTab }) {
             />
         </React.Fragment>
     )
-}
+})
+export default ROUSchedule;
