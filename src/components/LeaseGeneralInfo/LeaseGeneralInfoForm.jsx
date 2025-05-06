@@ -44,6 +44,7 @@ export default function LeaseGeneralInfoForm({ otherTabs, increment }) {
         currencyID: activeLease?.currencyID || "",
         isActive: true,
         rouOpening: null,
+        llOpening: null,
         isChangeInScope: false
     });
     const handleChange = (e) => {
@@ -73,7 +74,7 @@ export default function LeaseGeneralInfoForm({ otherTabs, increment }) {
                 return true
         }
         if (formData.isChangeInScope) {
-            if (formData.rouOpening === null || formData.rouOpening === '')
+            if (formData.rouOpening === null || formData.rouOpening === '' || formData.llOpening === null || formData.llOpening === '')
                 return true
         }
         if (activeLease?.leaseId) {
@@ -354,21 +355,39 @@ export default function LeaseGeneralInfoForm({ otherTabs, increment }) {
                     </div>
                     {/* Change in Scope */}
                     {formData.isChangeInScope ?
-                        <div>
-                            <label htmlFor="rouOpening" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
-                                ROU Opening
-                            </label>
-                            <small className="text-gray-500 block mb-1 dark:text-gray-200">Enter Opening amount</small>
-                            <input
-                                type="text"
-                                id="rouOpening"
-                                name="rouOpening"
-                                className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-sm focus:ring-blue-500 focus:border-blue-500 block w-full px-2.5 py-1.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                                placeholder="Enter Opening amount"
-                                value={formData.rouOpening}
-                                onChange={handleNumericChange}
-                            />
-                        </div>
+                        <>
+                            <div>
+                                <label htmlFor="rouOpening" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+                                    ROU Opening
+                                </label>
+                                <small className="text-gray-500 block mb-1 dark:text-gray-200">Enter Opening amount</small>
+                                <input
+                                    type="text"
+                                    id="rouOpening"
+                                    name="rouOpening"
+                                    className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-sm focus:ring-blue-500 focus:border-blue-500 block w-full px-2.5 py-1.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                                    placeholder="Enter Opening amount"
+                                    value={formData.rouOpening}
+                                    onChange={handleNumericChange}
+                                />
+                            </div>
+                            <div>
+                                <label htmlFor="rouOpening" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+                                    Lease Liability Opening
+                                </label>
+                                <small className="text-gray-500 block mb-1 dark:text-gray-200">Enter Opening amount</small>
+                                <input
+                                    type="text"
+                                    id="llOpening"
+                                    name="llOpening"
+                                    className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-sm focus:ring-blue-500 focus:border-blue-500 block w-full px-2.5 py-1.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                                    placeholder="Enter Opening amount"
+                                    value={formData.llOpening}
+                                    onChange={handleNumericChange}
+                                />
+                            </div>
+                        </>
+
 
                         : null}
 

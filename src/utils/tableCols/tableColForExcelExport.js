@@ -23,6 +23,11 @@ export const JEReportExcelCol = {
     credit: "Credit",
 };
 
+export const JEReportFilterExcelCol = {
+    startDate:"Start Date",
+    endDate: "End Date",
+};
+
 export const initialRecognitionExcelCols = {
     id: "ID",
     leaseId: "Lease ID",

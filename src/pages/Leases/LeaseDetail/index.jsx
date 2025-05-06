@@ -1,29 +1,61 @@
-import React, { useState, useRef } from 'react'
-import Tabs from '../../../components/Tabs/Tabs'
+import React, { useState, useRef, useEffect } from 'react';
+import Tabs from '../../../components/Tabs/Tabs';
 import InitialRecognition from './InitialRecognition';
 import LeaseLiability from './LeaseLiability';
 import ROUSchedule from './ROUSchedule';
 import JournalEntires from './JournalEntries';
 import CommonButton from '../../../components/common/commonButton';
-import { CommonButtonTypes } from '../../../utils/enums/common'
+import { CommonButtonTypes } from '../../../utils/enums/common';
 import { CustomModal } from '../../../components/common/commonModal';
 import TerminateLease from './TerminateLease';
 import { useNavigate } from 'react-router-dom';
+// import { getAllInitialRecognitionForLease, getAllJournalEntriesForLease, getAllLeaseLiabilityForLease, getAllRouScheduleForLease } from '../../../apis/Cruds/LeaseData';
 
 export default function LeaseDetail(props) {
-    const navigate = useNavigate()
-    const { selectedLease } = props
+    const navigate = useNavigate();
+    const { selectedLease } = props;
     const [activeTab, setActiveTab] = useState('1');
-    const [showTerminateModal, setShowTerminateModal] = useState(false)
+    const [showTerminateModal, setShowTerminateModal] = useState(false);
+    // const [leaseData, setLeaseData] = useState({
+    //     initialRecognition: [],
+    //     journalEntries: [],
+    //     leaseLiability: [],
+    //     rouSchedule: []
+    // });
     const initialRecognitionRef = useRef();
     const leaseLiabilityRef = useRef();
     const rouScheduleRef = useRef();
     const journalEntriesRef = useRef();
 
+    // useEffect(() => {
+    //     const fetchLeaseData = async () => {
+    //         try {
+    //             const [initialRecognition, journalEntries, leaseLiability, rouSchedule] = await Promise.all([
+    //                 getAllInitialRecognitionForLease(selectedLease.leaseId),
+    //                 getAllJournalEntriesForLease(selectedLease.leaseId),
+    //                 getAllLeaseLiabilityForLease(selectedLease.leaseId),
+    //                 getAllRouScheduleForLease(selectedLease.leaseId)
+    //             ]);
+
+    //             setLeaseData({
+    //                 initialRecognition,
+    //                 journalEntries,
+    //                 leaseLiability,
+    //                 rouSchedule
+    //             });
+    //         } catch (error) {
+    //             console.error('Error fetching lease data:', error);
+    //         }
+    //     };
+
+    //     fetchLeaseData();
+    // }, [selectedLease.leaseId]);
+
+
     const onTerminated = () => {
-        setShowTerminateModal(false)
-        setActiveTab('1')
-    }
+        setShowTerminateModal(false);
+        setActiveTab('1');
+    };
 
     const handleExportClick = () => {
         if (activeTab === '1' && initialRecognitionRef.current) {
@@ -46,7 +78,7 @@ export default function LeaseDetail(props) {
                 <InitialRecognition ref={initialRecognitionRef} selectedLease={selectedLease} activeTab={activeTab} />
             ),
             tabChange: (tab) => {
-                setActiveTab(tab)
+                setActiveTab(tab);
             }
         },
         {
@@ -56,7 +88,7 @@ export default function LeaseDetail(props) {
                 <LeaseLiability ref={leaseLiabilityRef} selectedLease={selectedLease} activeTab={activeTab} />
             ),
             tabChange: (tab) => {
-                setActiveTab(tab)
+                setActiveTab(tab);
             }
         },
         {
@@ -66,7 +98,7 @@ export default function LeaseDetail(props) {
                 <ROUSchedule ref={rouScheduleRef} selectedLease={selectedLease} activeTab={activeTab} />
             ),
             tabChange: (tab) => {
-                setActiveTab(tab)
+                setActiveTab(tab);
             }
         },
         {
@@ -76,7 +108,7 @@ export default function LeaseDetail(props) {
                 <JournalEntires ref={journalEntriesRef} selectedLease={selectedLease} activeTab={activeTab} />
             ),
             tabChange: (tab) => {
-                setActiveTab(tab)
+                setActiveTab(tab);
             }
         },
     ];
@@ -90,10 +122,15 @@ export default function LeaseDetail(props) {
                 position="center"
             />
             <div className='flex justify-end gap-1'>
+                <CommonButton
+                    onSubmit={handleExportClick}
+                    text={`${CommonButtonTypes.EXPORT_LEASE}`}
+                    extandedClass="bg-green-600 hover:bg-green-700 hover:text-white text-xs"
+                />
                 {
                     selectedLease.isActive &&
                     <CommonButton
-                        onSubmit={() => { navigate(`/Leases?id=${selectedLease.leaseId}`) }}
+                        onSubmit={() => { navigate(`/Leases?id=${selectedLease.leaseId}`); }}
                         text={CommonButtonTypes.MODIFY_LEASE}
                         extandedClass="bg-gray-600 hover:bg-gray-700 hover:text-white text-xs"
                     />
@@ -101,21 +138,16 @@ export default function LeaseDetail(props) {
                 {
                     selectedLease.isActive &&
                     <CommonButton
-                        onSubmit={() => { setShowTerminateModal(true) }}
+                        onSubmit={() => { setShowTerminateModal(true); }}
                         text={CommonButtonTypes.TERMINATE_LEASE}
                         extandedClass="bg-red-600 hover:bg-red-700 hover:text-white text-xs"
                     />
                 }
 
-                <CommonButton
-                    onSubmit={handleExportClick}
-                    text={`${CommonButtonTypes.EXPORT_LEASE}`}
-                    extandedClass="bg-green-600 hover:bg-green-700 hover:text-white text-xs"
-                />
             </div>
             <div>
                 <Tabs tabs={tabs} active={activeTab} />
             </div>
         </div>
-    )
+    );
 }

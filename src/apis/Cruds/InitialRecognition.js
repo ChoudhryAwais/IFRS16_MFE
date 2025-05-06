@@ -8,6 +8,15 @@ export const getInitialRecognitionForLease = async (payload) => {
         return error
     }
 }
+
+export const getAllInitialRecognitionForLease = async (leaseId) => {
+    try {
+        const response = await callApi(`/InitialRecognition/${leaseId}`, "GET")
+        return response
+    } catch (error) {
+        return error
+    }
+}
 export const modifyInitialRecognitionForLease = async (leaseData) => {
     try {
         const response = await callApi(`/InitialRecognition/Modify`, "POST", leaseData)

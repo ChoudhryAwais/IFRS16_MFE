@@ -149,7 +149,7 @@ export default function IFRS16Accounting() {
         mainContent={
           <Reports report={report} filterModal={filterModal} />
         }
-        modalTitle={"Leases Report"}
+        modalTitle={"Report"}
         openModal={leaseReportPopup}
         closeModal={() => {
           setLeaseReportPopup(false)

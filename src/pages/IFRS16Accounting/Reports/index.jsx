@@ -10,6 +10,7 @@ export default function Reports({ report, filterModal }) {
     const handleExport = (payload, mappingCol, reportName) => {
         handleExcelExport({
             payload: payload,
+            filters: filterModal,
             columnMapping: mappingCol,
             workSheetName: reportName,
             fileName: "Report"
