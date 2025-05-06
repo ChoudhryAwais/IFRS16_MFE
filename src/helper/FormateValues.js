@@ -38,7 +38,9 @@ export function exchangeGainLoss(value) {
     const companyProfile = getCompanyProfile()
     const threshold = 1e-8; // Adjust this based on precision requirements
     const thresholdCheck = Math.abs(value) < threshold;
-    return `${thresholdCheck ? "0" : value?.toFixed(2).toLocaleString('en-US')} ${(value && !thresholdCheck) ? (companyProfile?.reportingCurrencyCode || "") : ""}`;
+    const finalValue = thresholdCheck ? "0" : value?.toFixed(2).toLocaleString('en-US')
+    const retunedValue = `${(finalValue < 0 ? `(${Math.abs(finalValue)})` : finalValue)} ${(value && !thresholdCheck) ? (companyProfile?.reportingCurrencyCode || "") : ""}`
+    return retunedValue;
 }
 
 export function formatDate(dateString) {

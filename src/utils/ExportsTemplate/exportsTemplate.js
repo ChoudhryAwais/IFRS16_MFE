@@ -1,3 +1,5 @@
+import { getCompanyProfile } from "../../apis/Cruds/sessionCrud";
+const { leaseTypes, assetType } = getCompanyProfile()
 export const leaseTemp = [
     {
         leaseName: "Lease 1",
@@ -6,14 +8,15 @@ export const leaseTemp = [
         endDate: "2024-12-31",
         annuity: "advance/arrears",
         ibr: 12,
-        frequency: "annual/bi-annual/quarterly/monthly",
+        frequency: leaseTypes.toLowerCase(),
         increment: 3,
         idc: null,
         grv: null,
-        incrementalFrequency: "annual/bi-annual/quarterly/monthly",
+        incrementalFrequency: leaseTypes.toLowerCase(),
         rouOpening: null,
         rouExRate: null,
-        currencyID: 1
+        currencyID: 1,
+        assetType: assetType.toLowerCase()
     },
     {
         leaseName: "Lease 2",
@@ -22,24 +25,23 @@ export const leaseTemp = [
         endDate: "2024-12-31",
         annuity: "advance/arrears",
         ibr: 12,
-        frequency: "annual/bi-annual/quarterly/monthly",
+        frequency: leaseTypes.toLowerCase(),
         increment: 3,
         idc: null,
         grv: null,
-        incrementalFrequency: "annual/bi-annual/quarterly/monthly",
+        incrementalFrequency: leaseTypes.toLowerCase(),
         rouOpening: null,
         rouExRate: null,
-        currencyID: 1
+        currencyID: 1,
+        assetType: assetType.toLowerCase()
     }
 ];
-
-
 export const leaseIRTemp = [
     {
         serialNo: 1,
         paymentDate: "2019-01-01",
         rental: 100000,
-       
+
     },
     {
         serialNo: 2,

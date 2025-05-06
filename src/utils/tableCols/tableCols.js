@@ -3,6 +3,7 @@ import { exchangeGainLoss, formatCurrency, formatDate, IRformatCurrency, Simplef
 export const leaseCols = {
     leaseId: "ID",
     leaseName: "Lease ID",
+    assetType: "Asset Type",
     rental: [
         "Rental",
         (cell) => {
@@ -224,6 +225,12 @@ export const leaseReportCol = {
     ],
     exchange_Gain_Loss: [
         "Exchange Gain / (Loss)",
+        (cell) => {
+            return exchangeGainLoss(cell)
+        }
+    ],
+    modificationAdjustment: [
+        "Modification Adjustment",
         (cell) => {
             return exchangeGainLoss(cell)
         }

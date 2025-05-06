@@ -9,9 +9,6 @@ import { allowDecimalNumbers } from '../../helper/checkForAllowVal';
 import { getAllCurrencies } from '../../apis/Cruds/Currencies';
 import CommonButton from '../common/commonButton';
 import { formatDateForInput } from '../../helper/FormateValues';
-// import { modifyInitialRecognitionForLease } from '../../apis/Cruds/InitialRecognition';
-// import Tables from '../Tables/Tables';
-// import { initialRecognitionCols } from '../../utils/tableCols/tableCols';
 import Switch from '../common/switchButton';
 import IrregularLease from './IrregularLease';
 import { handleExcelExport } from '../../utils/exportService/excelExportService';
@@ -20,13 +17,14 @@ import { leaseIRTemp } from '../../utils/ExportsTemplate/exportsTemplate';
 export default function LeaseGeneralInfoForm({ otherTabs, increment }) {
     const [loading, setLoading] = useState(false)
     const navigate = useNavigate()
-    const { leaseTypes } = getCompanyProfile()
+    const { leaseTypes, assetType } = getCompanyProfile()
     const [incrementalFrequency, setincrementalFrequency] = useState([])
     const [currencies, setCurrencies] = useState([])
     const [customSchedule, setCustomSchedule] = useState(false)
     const activeLease = getSelectLease()
 
     const frequencies = leaseTypes.split(",").map(item => item.trim().toLowerCase())
+    const assetTypesValues = assetType.split(",").map(item => item.trim())
     const [formData, setFormData] = useState({
         leaseId: activeLease?.leaseId || 0,
         leaseName: activeLease?.leaseName || '',
@@ -36,16 +34,17 @@ export default function LeaseGeneralInfoForm({ otherTabs, increment }) {
         endDate: formatDateForInput(activeLease?.endDate) || '',
         annuity: activeLease?.annuity || 'advance',
         ibr: activeLease?.ibr || '',
-        frequency: activeLease?.frequency || 'annual',
+        frequency: activeLease?.frequency || frequencies[0],
         idc: activeLease?.idc || null,
         grv: activeLease?.grv || null,
         increment: activeLease?.increment || null,
-        incrementalFrequency: activeLease?.incrementalFrequency || 'annual',
+        incrementalFrequency: activeLease?.incrementalFrequency || frequencies[0],
         currencyID: activeLease?.currencyID || "",
         isActive: true,
         rouOpening: null,
         llOpening: null,
-        isChangeInScope: false
+        isChangeInScope: false,
+        assetType: activeLease?.assetType || assetTypesValues[0],
     });
     const handleChange = (e) => {
         const { name, value } = e.target;
@@ -229,7 +228,6 @@ export default function LeaseGeneralInfoForm({ otherTabs, increment }) {
                 "error"
             )
         }
-        // const leaseResponse = await modifyInitialRecognitionForLease(leaseModal)
     }
 
     return (
@@ -387,11 +385,7 @@ export default function LeaseGeneralInfoForm({ otherTabs, increment }) {
                                 />
                             </div>
                         </>
-
-
                         : null}
-
-
                     {/* Annuity */}
                     <div>
                         <label htmlFor="annuity" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
@@ -462,6 +456,26 @@ export default function LeaseGeneralInfoForm({ otherTabs, increment }) {
                             {currencies.map((currency, i) => {
                                 return (
                                     <option key={i} value={currency.currencyID}>{currency.currencyCode}</option>
+                                )
+                            })}
+                        </select>
+                    </div>
+                    {/* AssetType */}
+                    <div>
+                        <label htmlFor="currency" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+                            Asset Type
+                        </label>
+                        <small className="text-gray-500 block mb-1 dark:text-gray-200">Choose the lease Currency</small>
+                        <select
+                            id="assetType"
+                            name="assetType"
+                            className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-sm focus:ring-blue-500 focus:border-blue-500 block w-full px-2.5 py-1.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                            value={formData.assetType}
+                            onChange={handleChange}
+                        >
+                            {assetTypesValues.map((type, i) => {
+                                return (
+                                    <option key={i} value={type}>{type}</option>
                                 )
                             })}
                         </select>

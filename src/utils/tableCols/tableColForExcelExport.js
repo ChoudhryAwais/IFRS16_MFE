@@ -8,6 +8,7 @@ export const leaseReportExcelCol = {
     openingLL: "Opening Lease Liability",
     interest: "Interest Expense",
     exchange_Gain_Loss: "Exchange Gain / (Loss)",
+    modificationAdjustment:  "Modification Adjustment",
     payment: "Payments Due",
     closingLL: "Closing Lease Liability",
     openingROU: "Opening Right of Use Asset",
@@ -22,12 +23,10 @@ export const JEReportExcelCol = {
     debit: "Debit",
     credit: "Credit",
 };
-
 export const JEReportFilterExcelCol = {
     startDate:"Start Date",
     endDate: "End Date",
 };
-
 export const initialRecognitionExcelCols = {
     id: "ID",
     leaseId: "Lease ID",
@@ -36,7 +35,6 @@ export const initialRecognitionExcelCols = {
     rental: "Rental",
     serialNo: "Serial No",
 };
-
 export const leaseLiabilityExcelCols = {
     opening: "Opening",
     closing: "Closing",
@@ -46,10 +44,8 @@ export const leaseLiabilityExcelCols = {
     leaseId: "Lease ID",
     leaseLiability_Date: "Date",
     modificationAdjustment: "Modification Adjustment",
-
     payment: "Payment"
 };
-
 export const rouScheduleExcelCols = {
     id: "ID",
     leaseId: "Lease ID",
