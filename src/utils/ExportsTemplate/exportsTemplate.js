@@ -8,15 +8,15 @@ export const leaseTemp = [
         endDate: "2024-12-31",
         annuity: "advance/arrears",
         ibr: 12,
-        frequency: leaseTypes.toLowerCase(),
+        frequency: "annual, bi-annual, quarterly, monthly, irregular",
         increment: 3,
         idc: null,
         grv: null,
-        incrementalFrequency: leaseTypes.toLowerCase(),
+        incrementalFrequency: "annual, bi-annual, quarterly, monthly, irregular",
         rouOpening: null,
         rouExRate: null,
         currencyID: 1,
-        assetType: assetType.toLowerCase()
+        assetType: "BTS Sites,Land and buildings"
     },
     {
         leaseName: "Lease 2",
@@ -25,15 +25,15 @@ export const leaseTemp = [
         endDate: "2024-12-31",
         annuity: "advance/arrears",
         ibr: 12,
-        frequency: leaseTypes.toLowerCase(),
+        frequency: "annual, bi-annual, quarterly, monthly, irregular",
         increment: 3,
         idc: null,
         grv: null,
-        incrementalFrequency: leaseTypes.toLowerCase(),
+        incrementalFrequency: "annual, bi-annual, quarterly, monthly, irregular",
         rouOpening: null,
         rouExRate: null,
         currencyID: 1,
-        assetType: assetType.toLowerCase()
+        assetType: "BTS Sites,Land and buildings"
     }
 ];
 export const leaseIRTemp = [

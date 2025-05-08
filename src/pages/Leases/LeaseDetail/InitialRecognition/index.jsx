@@ -6,7 +6,7 @@ import { getInitialRecognitionForLease } from '../../../../apis/Cruds/InitialRec
 import { handleExcelExport } from '../../../../utils/exportService/excelExportService';
 import { initialRecognitionExcelCols } from '../../../../utils/tableCols/tableColForExcelExport';
 
-const InitialRecognition = forwardRef(({ selectedLease, activeTab }, ref) => {
+const InitialRecognition = forwardRef(({ selectedLease, activeTab, setFilterModalContext, filterModalContext }, ref) => {
     const [InitialRecognition, setInitialRecognition] = useState({
         data: {},
         totalRecord: null,

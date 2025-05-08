@@ -23,8 +23,8 @@ export default function LeaseGeneralInfoForm({ otherTabs, increment }) {
     const [customSchedule, setCustomSchedule] = useState(false)
     const activeLease = getSelectLease()
 
-    const frequencies = leaseTypes.split(",").map(item => item.trim().toLowerCase())
-    const assetTypesValues = assetType.split(",").map(item => item.trim())
+    const frequencies = leaseTypes?.split(",").map(item => item.trim().toLowerCase())
+    const assetTypesValues = assetType?.split(",").map(item => item.trim())
     const [formData, setFormData] = useState({
         leaseId: activeLease?.leaseId || 0,
         leaseName: activeLease?.leaseName || '',

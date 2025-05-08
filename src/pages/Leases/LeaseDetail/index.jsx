@@ -9,6 +9,7 @@ import { CommonButtonTypes } from '../../../utils/enums/common';
 import { CustomModal } from '../../../components/common/commonModal';
 import TerminateLease from './TerminateLease';
 import { useNavigate } from 'react-router-dom';
+import { GeneralFilter } from '../../../components/FilterBox/GeneralFilter';
 // import { getAllInitialRecognitionForLease, getAllJournalEntriesForLease, getAllLeaseLiabilityForLease, getAllRouScheduleForLease } from '../../../apis/Cruds/LeaseData';
 
 export default function LeaseDetail(props) {
@@ -16,6 +17,11 @@ export default function LeaseDetail(props) {
     const { selectedLease } = props;
     const [activeTab, setActiveTab] = useState('1');
     const [showTerminateModal, setShowTerminateModal] = useState(false);
+    const [filterModal, setFilterModal] = useState({
+        startDate: null,
+        endDate: null
+    });
+
     // const [leaseData, setLeaseData] = useState({
     //     initialRecognition: [],
     //     journalEntries: [],
@@ -146,6 +152,14 @@ export default function LeaseDetail(props) {
 
             </div>
             <div>
+                {/* <div className='border p-3'>
+                    <GeneralFilter
+                        // onApplyFilter={(filterModal) => getFilteredData(filterModal)}
+                        showLeaseSelection={false}
+                        btnLabel="Filter"
+                        // callBackReset={handleResetFilter}
+                    />
+                </div> */}
                 <Tabs tabs={tabs} active={activeTab} />
             </div>
         </div>

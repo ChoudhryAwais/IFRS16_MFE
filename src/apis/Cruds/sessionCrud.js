@@ -4,10 +4,10 @@ export const getUserInfo = () => {
     return JSON.parse(getSessionStorage({ key: sessionVariable.userInfo }))
 }
 export const getCompanyProfile = () => {
-    return JSON.parse(getSessionStorage({ key: sessionVariable.companyProfile }))
+    return JSON.parse(getSessionStorage({ key: sessionVariable.companyProfile })) || {}
 }
 export const getSelectLease = () => {
-    return JSON.parse(getSessionStorage({ key: sessionVariable.selectLease }))
+return JSON.parse(getSessionStorage({ key: sessionVariable.selectLease }))
 }
 
 export const setSessionStorage = ({ key, value }) => {
