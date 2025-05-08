@@ -56,6 +56,7 @@ export default function BulkImport() {
                             incrementalFrequency: row[LTE.incrementalFrequency] ?? null,  // Null if empty
                             companyID: company.companyID,
                             currencyID: row[LTE.currencyID] ?? company.reportingCurrencyId,
+                            assetType: row[LTE.assetType] ?? null, // Null if empty
                             userID: user.userID,
                             rouOpening: row[LTE.rouOpening] ?? null, // Null if empty
                             rouExRate: row[LTE.rouExRate] ?? null, // Null if empty

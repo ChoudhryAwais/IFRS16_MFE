@@ -12,7 +12,8 @@ export const LeaseTemplateEnum = {
     incrementalFrequency: 10,
     rouOpening: 11,
     rouExRate: 12,
-    currencyID: 13
+    currencyID: 13,
+    assetType:14
 };
 export const LeaseIRTemplateEnum = {
     serialNo: 0,
