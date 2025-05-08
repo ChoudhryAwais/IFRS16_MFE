@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { getAllLeasesforCompany } from "../../apis/Cruds/LeaseData";
 import MultiSelectDropdown from "../MultiSelect/MultiSelect";
 
-export const GeneralFilter = ({ onApplyFilter, showLeaseSelection, btnLabel, callBackReset, getAllLeases = () => { } }) => {
+export const GeneralFilter = ({ onApplyFilter, showLeaseSelection, btnLabel, callBackReset, getAllLeases = () => { }, extraButtons }) => {
     const [filterModal, setFilterModal] = useState({
         startDate: '',
         endDate: '',
@@ -138,9 +138,10 @@ export const GeneralFilter = ({ onApplyFilter, showLeaseSelection, btnLabel, cal
                     disabled={handleValidateForm()}
                     onClick={() => onApplyFilter(filterModal)}
                     type="button"
-                    className={(handleValidateForm() ? "cursor-no-drop" : " ") + " mt-3 px-3 mb-2 text-xs font-xs text-white focus:outline-none bg-indigo-600  rounded-sm border border-gray-200 hover:bg-indigo-700 hover:text-white "}>
+                    className={(handleValidateForm() ? "cursor-no-drop" : " ") + "  me-1 mt-3 px-3 mb-2 text-xs font-xs text-white focus:outline-none bg-indigo-600  rounded-sm border border-gray-200 hover:bg-indigo-700 hover:text-white "}>
                     {btnLabel}
                 </button>
+                {extraButtons !== undefined ? extraButtons(handleValidateForm, filterModal) : null}
             </div>
         </div>
     );

@@ -113,7 +113,7 @@ export const leaseLiabilityCols =
             return exchangeGainLoss(cell)
         }
     ],
-    modificationAdjustment: [
+    modificationAdjustmentLL: [
         "Modification Adjustment",
         (cell) => {
             return exchangeGainLoss(cell)
@@ -211,6 +211,12 @@ export const leaseReportCol = {
             return formatCurrency(cell)
         }
     ],
+    additionsDuringYearLL: [
+        "Addditions During Year",
+        (cell) => {
+            return formatCurrency(cell)
+        }
+    ],
     interest: [
         "Interest Expense",
         (cell) => {
@@ -229,8 +235,8 @@ export const leaseReportCol = {
             return exchangeGainLoss(cell)
         }
     ],
-    modificationAdjustment: [
-        "Modification Adjustment",
+    modificationAdjustmentLL: [
+        "Modification Adjustment Lease Liability",
         (cell) => {
             return exchangeGainLoss(cell)
         }
@@ -247,6 +253,12 @@ export const leaseReportCol = {
             return formatCurrency(cell)
         }
     ],
+    additionsDuringYearROU: [
+        "Addditions During Year",
+        (cell) => {
+            return formatCurrency(cell)
+        }
+    ],
     amortization: [
         "Amortization",
         (cell) => {
@@ -259,6 +271,12 @@ export const leaseReportCol = {
             return formatCurrency(cell)
         }
     ],
+    modificationAdjustmentROU: [
+        "Modification Adjustment Right of Use Asset",
+        (cell) => {
+            return exchangeGainLoss(cell)
+        }
+    ]
 };
 export const leaseReportSummaryCol = {
     openingLL: [
@@ -316,6 +334,20 @@ export const JEReportCol = {
         "Credit",
         (cell) => {
             return UnsignedformatCurrency(cell)
+        }
+    ]
+};
+export const DisclosureReport = {
+    label: [
+        " ",
+        (cell) => {
+            return cell
+        }
+    ],
+    value: [
+        " ",
+        (cell) => {
+            return cell
         }
     ]
 };

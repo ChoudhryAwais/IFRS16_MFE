@@ -8,9 +8,13 @@ export default function Reports({ report, filterModal }) {
 
     // Handle Export
     const handleExport = (payload, mappingCol, reportName) => {
+        const processFilter = {
+            "Start Date":filterModal.startDate,
+            "End Date": filterModal.endDate,
+        }
         handleExcelExport({
             payload: payload,
-            filters: filterModal,
+            filters: processFilter,
             columnMapping: mappingCol,
             workSheetName: reportName,
             fileName: "Report"

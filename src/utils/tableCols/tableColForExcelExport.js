@@ -8,15 +8,16 @@ export const leaseReportExcelCol = {
     openingLL: "Opening Lease Liability",
     interest: "Interest Expense",
     exchange_Gain_Loss: "Exchange Gain / (Loss)",
-    modificationAdjustment:  "Modification Adjustment",
+    modificationAdjustmentLL: "Modification Adjustment Lease Liability",
     payment: "Payments Due",
     closingLL: "Closing Lease Liability",
     openingROU: "Opening Right of Use Asset",
     amortization: "Amortization",
     closingROU: "Closing Right of Use Asset",
+    modificationAdjustmentROU: "Modification Adjustment Right of Use Asset",
 };
 export const JEReportExcelCol = {
-    id:"ID",
+    id: "ID",
     leaseId: "Lease ID",
     jE_Date: "Date",
     particular: "Particular",
@@ -43,7 +44,7 @@ export const leaseLiabilityExcelCols = {
     interest: "Interest",
     leaseId: "Lease ID",
     leaseLiability_Date: "Date",
-    modificationAdjustment: "Modification Adjustment",
+    modificationAdjustmentLL: "Modification Adjustment",
     payment: "Payment"
 };
 export const rouScheduleExcelCols = {
@@ -53,4 +54,9 @@ export const rouScheduleExcelCols = {
     opening: "Opening",
     amortization: "Amortization",
     closing: "Closing"
+};
+
+export const disclosureReportExcelCols = {
+    label: "Disclosure Report",
+    value: " "
 };

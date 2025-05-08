@@ -13,6 +13,9 @@ import { statusCodeMessage } from '../../utils/enums/statusCode'
 import { ConfirmationSwalPopup, SwalPopup } from '../../middlewares/SwalPopup/SwalPopup';
 import { CollapsibleFilterBox } from '../../components/FilterBox/FilterBox'
 import Reports from './Reports'
+import { getDisclosureReport } from '../../apis/Cruds/Disclosure'
+import Disclosure from './Disclosure'
+import { LLDisclosure, ROUDisclosure } from '../../utils/enums/disclosure'
 
 
 export default function IFRS16Accounting() {
@@ -24,6 +27,11 @@ export default function IFRS16Accounting() {
     loading: false,
     totalRecord: null,
   })
+  const [disclosureData, setDisclosureData] = useState({
+    data: [],
+    loading: false,
+    totalRecord: null,
+  })
   const [filterModal, setFilterModal] = useState({})
   const [allLeases, setAllLeases] = useState({
     data: [],
@@ -32,7 +40,7 @@ export default function IFRS16Accounting() {
   })
   const [leasePopup, setLeasePopup] = useState(false)
   const [leaseReportPopup, setLeaseReportPopup] = useState(false)
-
+  const [disclosureReportPopup, setDisclosureReportPopup] = useState(false)
   const [selectedLease, setSelectedLease] = useState(null)
 
   useEffect(() => {
@@ -140,10 +148,54 @@ export default function IFRS16Accounting() {
     )
   }
 
+  const handleDisclosure = async (filterModal) => {
+    setFilterModal(filterModal)
+    setDisclosureData({
+      ...disclosureData,
+      loading: true
+    })
+    try {
+      const disclosureResp = await getDisclosureReport(filterModal)
+      if (disclosureResp?.openingLL !== undefined) {
+        const rouDisclousre = Object.keys(ROUDisclosure).map((key) => {
+          return { label: ROUDisclosure[key], value: disclosureResp[key] }
+        })
+        const llDisclousre = Object.keys(LLDisclosure).map((key) => {
+          return { label: LLDisclosure[key], value: disclosureResp[key] }
+        })
+        setDisclosureData({
+          ...disclosureData,
+          loading: false,
+          data: {
+            rouDisclousre: rouDisclousre,
+            llDisclousre: llDisclousre,
+          },
+          totalRecord: 0
+        })
+        setDisclosureReportPopup(true)
+      }
+    } catch {
+      setDisclosureData({
+        ...disclosureData,
+        loading: false
+      })
+    }
+  }
   return (
     <div>
       {/* This loader is for lease report */}
-      <LoadingSpinner isLoading={report.loading || loader} />
+      <LoadingSpinner isLoading={report.loading || loader || disclosureData.loading} />
+      {/* This modal is diclosure report */}
+      <CustomModal
+        mainContent={
+          <Disclosure disclosureData={disclosureData} filterModal={filterModal} />
+        }
+        modalTitle={"Disclosure"}
+        openModal={disclosureReportPopup}
+        closeModal={() => {
+          setDisclosureReportPopup(false)
+        }}
+      />
       {/* This modal is for lease report */}
       <CustomModal
         mainContent={
@@ -172,6 +224,18 @@ export default function IFRS16Accounting() {
           onApplyFilter={(filterModal) => allLeaseReport(filterModal)}
           showLeaseSelection={false}
           btnLabel="Generate Report"
+          extraButtons={(handleValidation, filterModal) => {
+            return (
+              <button
+                onClick={() => handleDisclosure(filterModal)}
+                disabled={handleValidation()}
+                type="button"
+                className={(handleValidation() ? "cursor-no-drop" : " ") + " mt-3 px-3 mb-2 text-xs font-xs text-white focus:outline-none bg-yellow-700  rounded-sm border border-gray-200 hover:bg-yellow-800 hover:text-white "}>
+                Generate Disclosure
+              </button>
+            )
+          }
+          }
         />
       </CollapsibleFilterBox>
       <div className='flex justify-end gap-3'>
