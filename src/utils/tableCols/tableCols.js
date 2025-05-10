@@ -113,7 +113,7 @@ export const leaseLiabilityCols =
             return exchangeGainLoss(cell)
         }
     ],
-    modificationAdjustmentLL: [
+    modificationAdjustment: [
         "Modification Adjustment",
         (cell) => {
             return exchangeGainLoss(cell)
