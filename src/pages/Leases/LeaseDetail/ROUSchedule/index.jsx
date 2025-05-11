@@ -2,24 +2,18 @@ import React, { useEffect, useState, useImperativeHandle, forwardRef } from 'rea
 import { ROUScheduleCols } from '../../../../utils/tableCols/tableCols'
 import { getRouScheduleForLease } from '../../../../apis/Cruds/RouSchedule'
 import Tables from '../../../../components/Tables/Tables'
-import { GeneralFilter } from '../../../../components/FilterBox/GeneralFilter'
 import { handleExcelExport } from '../../../../utils/exportService/excelExportService';
 import { rouScheduleExcelCols } from '../../../../utils/tableCols/tableColForExcelExport';
 
-const ROUSchedule = forwardRef(({ selectedLease, activeTab }, ref) => {
+const ROUSchedule = forwardRef(({ selectedLease, activeTab, filterModalContext }, ref) => {
+    const [resetTable, setResetTable] = useState(false)
     const [rouSchedule, setRouSchedule] = useState({
         data: [],
         loading: false,
         totalRecord: null,
     })
-    const [resetTable, setResetTable] = useState(false)
-    const [filterModal, setFilterModal] = useState({
-        startDate: null,
-        endDate: null
-    })
-
     // Method to get the rouSchedule for specific lease
-    const rouScheduleForLease = async (pageNumber, pageSize, startDate = null, endDate = null) => {
+    const rouScheduleForLease = async (pageNumber, pageSize) => {
         setRouSchedule({
             ...rouSchedule,
             loading: true,
@@ -28,8 +22,8 @@ const ROUSchedule = forwardRef(({ selectedLease, activeTab }, ref) => {
             pageNumber,
             pageSize,
             leaseId: selectedLease.leaseId,
-            startDate: startDate === 0 ? null : (startDate || filterModal.startDate),
-            endDate: endDate === 0 ? null : (endDate || filterModal.endDate)
+            startDate: filterModalContext.startDate,
+            endDate: filterModalContext.endDate
         }
         const response = await getRouScheduleForLease(payload)
         setRouSchedule({
@@ -39,26 +33,7 @@ const ROUSchedule = forwardRef(({ selectedLease, activeTab }, ref) => {
             totalRecord: response?.totalRecords || 0
         })
     }
-    // Get the filtered data
-    const getFilteredData = (filterModal) => {
-        const { startDate, endDate } = filterModal
-        setFilterModal({
-            startDate,
-            endDate
-        })
-        rouScheduleForLease(1, 10, startDate, endDate)
-    }
-    // Handle reset filter functionality
-    const handleResetFilter = () => {
-        setFilterModal({
-            ...filterModal,
-            startDate: null,
-            endDate: null
-        })
-        setResetTable(!resetTable)
-        rouScheduleForLease(1, 10, 0, 0)
-    }
-
+    // Handle Export
     const handleExport = () => {
         handleExcelExport({
             payload: rouSchedule.data || [],
@@ -74,17 +49,10 @@ const ROUSchedule = forwardRef(({ selectedLease, activeTab }, ref) => {
 
     useEffect(() => {
         rouScheduleForLease(1, 10)
-    }, [selectedLease.leaseId])
+        setResetTable(!resetTable)
+    }, [selectedLease.leaseId,filterModalContext])
     return (
         <React.Fragment>
-            <div className='border p-3'>
-                <GeneralFilter
-                    onApplyFilter={(filterModal) => getFilteredData(filterModal)}
-                    showLeaseSelection={false}
-                    btnLabel="Filter"
-                    callBackReset={handleResetFilter}
-                />
-            </div>
             <Tables
                 columns={ROUScheduleCols}
                 data={rouSchedule.data}
@@ -93,6 +61,7 @@ const ROUSchedule = forwardRef(({ selectedLease, activeTab }, ref) => {
                 totalRecord={rouSchedule.totalRecord}
                 getPaginatedData={rouScheduleForLease}
                 tabChange={activeTab}
+                resetTable={resetTable}
             />
         </React.Fragment>
     )

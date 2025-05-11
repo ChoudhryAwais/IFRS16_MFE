@@ -2,23 +2,18 @@ import React, { useEffect, useState, useImperativeHandle, forwardRef } from 'rea
 import { JournalEntiresCols } from '../../../../utils/tableCols/tableCols'
 import { getJournalEntriesForLease } from '../../../../apis/Cruds/JournalEntries'
 import Tables from '../../../../components/Tables/Tables'
-import { GeneralFilter } from '../../../../components/FilterBox/GeneralFilter'
 import { handleExcelExport } from '../../../../utils/exportService/excelExportService';
 import { JEReportExcelCol } from '../../../../utils/tableCols/tableColForExcelExport';
 
-const JournalEntires = forwardRef(({ selectedLease, activeTab }, ref) => {
+const JournalEntires = forwardRef(({ selectedLease, activeTab, filterModalContext }, ref) => {
     const [journalEntries, setJournalEntries] = useState({
         data: [],
         loading: false,
         totalRecord: null,
     })
-    const [filterModal, setFilterModal] = useState({
-        startDate: null,
-        endDate: null
-    })
     const [resetTable, setResetTable] = useState(false)
     // Method to get the leaseliability for specific lease
-    const journalEntriesForLease = async (pageNumber, pageSize, startDate = null, endDate = null) => {
+    const journalEntriesForLease = async (pageNumber, pageSize) => {
         setJournalEntries({
             ...journalEntries,
             loading: true,
@@ -27,8 +22,8 @@ const JournalEntires = forwardRef(({ selectedLease, activeTab }, ref) => {
             pageNumber,
             pageSize,
             leaseId: selectedLease.leaseId,
-            startDate: startDate === 0 ? null : (startDate || filterModal.startDate),
-            endDate: endDate === 0 ? null : (endDate || filterModal.endDate)
+            startDate: filterModalContext.startDate,
+            endDate: filterModalContext.endDate
         }
         const response = await getJournalEntriesForLease(payload)
         setJournalEntries({
@@ -38,26 +33,7 @@ const JournalEntires = forwardRef(({ selectedLease, activeTab }, ref) => {
             totalRecord: response?.totalRecords || 0
         })
     }
-    // Get the filtered data
-    const getFilteredData = (filterModal) => {
-        const { startDate, endDate } = filterModal
-        setFilterModal({
-            startDate,
-            endDate
-        })
-        journalEntriesForLease(1, 10, startDate, endDate)
-    }
-    // Handle reset filter functionality
-    const handleResetFilter = () => {
-        setFilterModal({
-            ...filterModal,
-            startDate: null,
-            endDate: null
-        })
-        setResetTable(!resetTable)
-        journalEntriesForLease(1, 10, 0, 0)
-    }
-
+    // Handle Export
     const handleExport = () => {
         handleExcelExport({
             payload: journalEntries.data || [],
@@ -73,18 +49,11 @@ const JournalEntires = forwardRef(({ selectedLease, activeTab }, ref) => {
 
     useEffect(() => {
         journalEntriesForLease(1, 10)
-    }, [selectedLease.leaseId])
+        setResetTable(!resetTable)
+    }, [selectedLease.leaseId, filterModalContext])
 
     return (
         <React.Fragment>
-            <div className='border p-3'>
-                <GeneralFilter
-                    onApplyFilter={(filterModal) => getFilteredData(filterModal)}
-                    showLeaseSelection={false}
-                    btnLabel="Filter"
-                    callBackReset={handleResetFilter}
-                />
-            </div>
             <Tables
                 columns={JournalEntiresCols}
                 data={journalEntries.data}

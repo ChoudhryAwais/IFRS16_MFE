@@ -2,24 +2,18 @@ import React, { useEffect, useState, useImperativeHandle, forwardRef } from 'rea
 import { leaseLiabilityCols } from '../../../../utils/tableCols/tableCols'
 import { getLeaseLiabilityForLease } from '../../../../apis/Cruds/LeaseLiability'
 import Tables from '../../../../components/Tables/Tables'
-import { GeneralFilter } from '../../../../components/FilterBox/GeneralFilter'
 import { handleExcelExport } from '../../../../utils/exportService/excelExportService';
 import { leaseLiabilityExcelCols } from '../../../../utils/tableCols/tableColForExcelExport';
 
-const LeaseLiability = forwardRef(({ selectedLease, activeTab }, ref) => {
+const LeaseLiability = forwardRef(({ selectedLease, activeTab, filterModalContext }, ref) => {
     const [resetTable, setResetTable] = useState(false)
     const [leaseLiability, setLeaseLiability] = useState({
         data: [],
         loading: false,
         totalRecord: null,
     })
-    const [filterModal, setFilterModal] = useState({
-        startDate: null,
-        endDate: null
-    })
-
     // Method to get the leaseliability for specific lease
-    const leaseLiabilityForLease = async (pageNumber, pageSize, startDate = null, endDate = null) => {
+    const leaseLiabilityForLease = async (pageNumber, pageSize,) => {
         setLeaseLiability({
             ...leaseLiability,
             loading: true,
@@ -28,8 +22,8 @@ const LeaseLiability = forwardRef(({ selectedLease, activeTab }, ref) => {
             pageNumber,
             pageSize,
             leaseId: selectedLease.leaseId,
-            startDate: startDate === 0 ? null : (startDate || filterModal.startDate),
-            endDate: endDate === 0 ? null : (endDate || filterModal.endDate)
+            startDate: filterModalContext.startDate,
+            endDate: filterModalContext.endDate
         }
         const response = await getLeaseLiabilityForLease(payload)
         setLeaseLiability({
@@ -38,26 +32,6 @@ const LeaseLiability = forwardRef(({ selectedLease, activeTab }, ref) => {
             data: response?.data || [],
             totalRecord: response?.totalRecords || 0
         })
-    }
-    // Get the filtered data
-    const getFilteredData = (filterModal) => {
-        const { startDate, endDate } = filterModal
-        setFilterModal({
-            startDate,
-            endDate
-        })
-        setResetTable(!resetTable)
-        leaseLiabilityForLease(1, 10, startDate, endDate)
-    }
-    // Handle reset filter functionality
-    const handleResetFilter = () => {
-        setFilterModal({
-            ...filterModal,
-            startDate: null,
-            endDate: null
-        })
-        setResetTable(!resetTable)
-        leaseLiabilityForLease(1, 10, 0, 0)
     }
 
     const handleExport = () => {
@@ -75,18 +49,11 @@ const LeaseLiability = forwardRef(({ selectedLease, activeTab }, ref) => {
 
     useEffect(() => {
         leaseLiabilityForLease(1, 10)
-    }, [selectedLease.leaseId])
+        setResetTable(!resetTable)
+    }, [selectedLease.leaseId, filterModalContext])
 
     return (
         <React.Fragment>
-            <div className='border p-3'>
-                <GeneralFilter
-                    onApplyFilter={(filterModal) => getFilteredData(filterModal)}
-                    showLeaseSelection={false}
-                    btnLabel="Filter"
-                    callBackReset={handleResetFilter}
-                />
-            </div>
             <Tables
                 columns={leaseLiabilityCols}
                 data={leaseLiability.data}

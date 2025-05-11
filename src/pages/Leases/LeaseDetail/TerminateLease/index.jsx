@@ -71,28 +71,28 @@ export default function TerminateLease({ selectedLease, callBack }) {
                 <form className="grid grid-cols-2 gap-6">
                     {/* Termination Lease Date */}
                     <div>
-                        <label htmlFor="terminateDate" className="block mb-2 text-sm font-medium text-gray-900">
+                        <label htmlFor="terminateDate" className="block mb-1 text-xs pl-1 font-medium text-gray-900 dark:text-white">
                             Date of Termination
                         </label>
                         <input
                             type="date"
                             id="terminateDate"
                             name="terminateDate"
-                            className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-sm focus:ring-blue-500 focus:border-blue-500 block w-full px-2 py-1"
+                            className="bg-gray-50 border border-gray-300 text-gray-900 text-xs rounded-sm focus:ring-blue-500 focus:border-blue-500 block w-full py-1 px-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                             value={formData.terminateDate}
                             onChange={handleChange}
                         />
                     </div>
                     {/* Termination Penalty */}
                     <div>
-                        <label htmlFor="penalty" className="block mb-2 text-sm font-medium text-gray-900">
+                        <label htmlFor="penalty" className="block mb-1 text-xs pl-1 font-medium text-gray-900 dark:text-white">
                             Penalty
                         </label>
                         <input
                             type="text"
                             id="penalty"
                             name="penalty"
-                            className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-sm focus:ring-blue-500 focus:border-blue-500 block w-full px-2 py-1"
+                            className="bg-gray-50 border border-gray-300 text-gray-900 text-xs rounded-sm focus:ring-blue-500 focus:border-blue-500 block w-full py-1 px-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                             placeholder="Enter termination penalty amount"
                             value={formData.penalty}
                             onChange={handleNumericChange}

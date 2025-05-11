@@ -17,7 +17,7 @@ export default function LeaseDetail(props) {
     const { selectedLease } = props;
     const [activeTab, setActiveTab] = useState('1');
     const [showTerminateModal, setShowTerminateModal] = useState(false);
-    const [filterModal, setFilterModal] = useState({
+    const [filterModalContext, setFilterModal] = useState({
         startDate: null,
         endDate: null
     });
@@ -75,13 +75,36 @@ export default function LeaseDetail(props) {
         }
     };
 
+    // Method to get the filtered data
+    const getFilteredData = (filterModal) => {
+        const { startDate, endDate } = filterModal;
+        setFilterModal({
+            startDate,
+            endDate
+        });
+    };
+
+    // Handle reset filter functionality
+    const handleResetFilter = () => {
+        setFilterModal({
+            ...filterModalContext,
+            startDate: null,
+            endDate: null
+        });
+    };
+
     // Specific lease tabs
     const tabs = [
         {
             id: '1',
             label: 'Initial Recognition',
             component: (
-                <InitialRecognition ref={initialRecognitionRef} selectedLease={selectedLease} activeTab={activeTab} />
+                <InitialRecognition
+                    ref={initialRecognitionRef}
+                    selectedLease={selectedLease}
+                    activeTab={activeTab}
+                    filterModalContext={filterModalContext}
+                />
             ),
             tabChange: (tab) => {
                 setActiveTab(tab);
@@ -91,7 +114,12 @@ export default function LeaseDetail(props) {
             id: '2',
             label: 'Lease Liability',
             component: (
-                <LeaseLiability ref={leaseLiabilityRef} selectedLease={selectedLease} activeTab={activeTab} />
+                <LeaseLiability
+                    ref={leaseLiabilityRef}
+                    selectedLease={selectedLease}
+                    activeTab={activeTab}
+                    filterModalContext={filterModalContext}
+                />
             ),
             tabChange: (tab) => {
                 setActiveTab(tab);
@@ -101,7 +129,12 @@ export default function LeaseDetail(props) {
             id: '3',
             label: 'Right of Use Asset',
             component: (
-                <ROUSchedule ref={rouScheduleRef} selectedLease={selectedLease} activeTab={activeTab} />
+                <ROUSchedule
+                    ref={rouScheduleRef}
+                    selectedLease={selectedLease}
+                    activeTab={activeTab}
+                    filterModalContext={filterModalContext}
+                />
             ),
             tabChange: (tab) => {
                 setActiveTab(tab);
@@ -111,7 +144,12 @@ export default function LeaseDetail(props) {
             id: '4',
             label: 'Journal Entries',
             component: (
-                <JournalEntires ref={journalEntriesRef} selectedLease={selectedLease} activeTab={activeTab} />
+                <JournalEntires
+                    ref={journalEntriesRef}
+                    selectedLease={selectedLease}
+                    activeTab={activeTab}
+                    filterModalContext={filterModalContext}
+                />
             ),
             tabChange: (tab) => {
                 setActiveTab(tab);
@@ -152,14 +190,14 @@ export default function LeaseDetail(props) {
 
             </div>
             <div>
-                {/* <div className='border p-3'>
+                <div className='border p-2 mt-1 mb-1'>
                     <GeneralFilter
-                        // onApplyFilter={(filterModal) => getFilteredData(filterModal)}
+                        onApplyFilter={(filterModal) => getFilteredData(filterModal)}
                         showLeaseSelection={false}
                         btnLabel="Filter"
-                        // callBackReset={handleResetFilter}
+                        callBackReset={handleResetFilter}
                     />
-                </div> */}
+                </div>
                 <Tabs tabs={tabs} active={activeTab} />
             </div>
         </div>
