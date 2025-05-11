@@ -22,16 +22,16 @@ export const CustomModal = ({ mainContent, openModal, closeModal, modalTitle, po
                             }`}
                     >
                         {/* Modal content */}
-                        <div className="relative bg-white rounded-lg shadow dark:bg-gray-800">
+                        <div className="relative bg-white rounded-sm shadow dark:bg-gray-800">
                             {/* Modal header */}
-                            <div className="flex items-center justify-between p-2 md:px-4 border-b rounded-t dark:border-gray-600">
-                                <h3 className="text-lg font-semibold text-gray-900 dark:text-white">
+                            <div className="flex items-center justify-between p-1 md:px-3 border-b rounded-t dark:border-gray-600">
+                                <h3 className="text-sm font-semibold text-gray-900 dark:text-white">
                                     {modalTitle}
                                 </h3>
                                 <button
                                     onClick={closeModal}
                                     type="button"
-                                    className="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white"
+                                    className="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-xs w-7 h-7 ms-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white"
                                 >
                                     <svg
                                         className="w-3 h-3"

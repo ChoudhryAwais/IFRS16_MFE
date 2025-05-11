@@ -8,7 +8,7 @@ export const CollapsibleFilterBox = (props) => {
         <div className="w-full mb-2">
             {/* Filter Header */}
             <div
-                className={"border p-2 shadow-md cursor-pointer flex justify-between items-center"}
+                className={"border dark:border-gray-400 p-2 shadow-sm dark:shadow-slate-500 cursor-pointer flex justify-between items-center"}
                 onClick={() => setIsOpen(!isOpen)}
             >
                 <div className="flex items-center gap-2">
@@ -17,7 +17,7 @@ export const CollapsibleFilterBox = (props) => {
                 </div>
                 <svg
                     xmlns="http://www.w3.org/2000/svg"
-                    className={`h-6 w-6 transform transition-transform ${isOpen ? "rotate-180" : "rotate-0"
+                    className={`dark:text-white h-6 w-6 transform transition-transform ${isOpen ? "rotate-180" : "rotate-0"
                         }`}
                     fill="none"
                     viewBox="0 0 24 24"

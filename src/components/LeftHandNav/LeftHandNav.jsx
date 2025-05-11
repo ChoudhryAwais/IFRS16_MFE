@@ -96,13 +96,13 @@ export default function LeftHandNav({ isCollapsed, onCollapse }) {
     return (
         <>
             <div className="border-b bg-gradient-to-r flex justify-between from-red-600 to-white bg-clip-text text-transparent">
-                {!isCollapsed && <h1 className="text-xl font-bold p-4">IFRS16 Solution</h1>}
+                {!isCollapsed && <h1 className="text-lg font-bold p-2">IFRS16 Solution</h1>}
 
                 <button
                     onClick={onCollapse}
                     className="text-white"
                 >
-                    <i className={(isCollapsed ? "fa fa-arrow-right" : "fa fa-arrow-left") + " p-2 rounded-lg shadow hover:shadow-red-300 shadow-gray-500"}></i>
+                    <i className={"fa fa-bars p-2 shadow-gray-500"}></i>
                 </button>
             </div>
             <nav className="mt-4">
