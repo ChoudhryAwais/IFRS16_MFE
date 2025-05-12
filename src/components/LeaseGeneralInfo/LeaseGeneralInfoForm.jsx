@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { addLeaseContract, addNewLease, modifyLease } from '../../apis/Cruds/LeaseData';
 import { ConfirmationSwalPopup, SwalPopup } from '../../middlewares/SwalPopup/SwalPopup';
-import { statusCodeMessage } from '../../utils/enums/statusCode';
+import { apiResponses, statusCodeMessage } from '../../utils/enums/statusCode';
 import { LoadingSpinner } from '../LoadingBar/LoadingBar';
 import { useNavigate } from 'react-router-dom';
 import { getCompanyProfile, getSelectLease, getUserInfo } from '../../apis/Cruds/sessionCrud';
@@ -257,7 +257,7 @@ export default function LeaseGeneralInfoForm({ otherTabs, increment }) {
             contractData.append('LeaseId', leaseId);
             contractData.append('ContractDoc', contractPDF);
             const response = await addLeaseContract(contractData)
-            if (response.message == statusCodeMessage.apiResponses.leaseContractUploaded) {
+            if (response.message == apiResponses.leaseContractUploaded) {
                 setLoading(false);
                 SwalPopup(
                     "Lease Added",

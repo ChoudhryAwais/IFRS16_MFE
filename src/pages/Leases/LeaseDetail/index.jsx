@@ -12,13 +12,15 @@ import { useNavigate } from 'react-router-dom';
 import { GeneralFilter } from '../../../components/FilterBox/GeneralFilter';
 import { getLeaseContract } from '../../../apis/Cruds/LeaseData';
 import { SwalPopup } from '../../../middlewares/SwalPopup/SwalPopup';
-import { statusCode } from '../../../utils/enums/statusCode';
+import { statusCodeMessage } from '../../../utils/enums/statusCode';
+import { LoadingSpinner } from '../../../components/LoadingBar/LoadingBar';
 // import { getAllInitialRecognitionForLease, getAllJournalEntriesForLease, getAllLeaseLiabilityForLease, getAllRouScheduleForLease } from '../../../apis/Cruds/LeaseData';
 
 export default function LeaseDetail(props) {
     const navigate = useNavigate();
     const { selectedLease } = props;
     const [activeTab, setActiveTab] = useState('1');
+    const [loading, setLoading] = useState(false);
     const [showTerminateModal, setShowTerminateModal] = useState(false);
     const [filterModalContext, setFilterModal] = useState({
         startDate: null,
@@ -162,27 +164,31 @@ export default function LeaseDetail(props) {
 
     const viewLeaseContract = async () => {
         try {
+            setLoading(true);
             const response = await getLeaseContract(selectedLease.leaseId);
+            setLoading(false);
             const blob = new Blob([response], { type: 'application/pdf' });
             const url = URL.createObjectURL(blob);
             const pdfWindow = window.open(url, '_blank');
             if (!pdfWindow) {
                 SwalPopup(
                     "Popup Blocked",
-                    statusCode.allowPopup,
+                    statusCodeMessage.allowPopup,
                     "info"
                 );
             }
         } catch (error) {
+            setLoading(false);
             SwalPopup(
                 "No Contract Available",
-                statusCode.contractNotAvailable,
+                statusCodeMessage.contractNotAvailable,
                 "info"
             );
         }
     };
     return (
         <div>
+            <LoadingSpinner isLoading={loading} />
             <CustomModal
                 closeModal={() => setShowTerminateModal(false)}
                 mainContent={<TerminateLease selectedLease={selectedLease} callBack={onTerminated} />}
