@@ -1,4 +1,4 @@
-import { callApi } from "../callApi"
+import { callApi, callApiForFile } from "../callApi"
 import { getCompanyProfile } from "./sessionCrud"
 
 
@@ -70,4 +70,14 @@ export const modifyLease = async (payload) => {
     } catch (error) {
         return error
     }
+}
+
+export const addLeaseContract = async (leaseContractModal) => {
+    const response = await callApiForFile(`/LeaseFormData/UploadLeaseContract`, "POST", leaseContractModal)
+    return response
+}
+
+export const getLeaseContract = async (leaseId) => {
+    const response = await callApiForFile(`/LeaseFormData/GetLeaseContract/${leaseId}`, "GET")
+    return response
 }

@@ -10,6 +10,9 @@ import { CustomModal } from '../../../components/common/commonModal';
 import TerminateLease from './TerminateLease';
 import { useNavigate } from 'react-router-dom';
 import { GeneralFilter } from '../../../components/FilterBox/GeneralFilter';
+import { getLeaseContract } from '../../../apis/Cruds/LeaseData';
+import { SwalPopup } from '../../../middlewares/SwalPopup/SwalPopup';
+import { statusCode } from '../../../utils/enums/statusCode';
 // import { getAllInitialRecognitionForLease, getAllJournalEntriesForLease, getAllLeaseLiabilityForLease, getAllRouScheduleForLease } from '../../../apis/Cruds/LeaseData';
 
 export default function LeaseDetail(props) {
@@ -156,6 +159,28 @@ export default function LeaseDetail(props) {
             }
         },
     ];
+
+    const viewLeaseContract = async () => {
+        try {
+            const response = await getLeaseContract(selectedLease.leaseId);
+            const blob = new Blob([response], { type: 'application/pdf' });
+            const url = URL.createObjectURL(blob);
+            const pdfWindow = window.open(url, '_blank');
+            if (!pdfWindow) {
+                SwalPopup(
+                    "Popup Blocked",
+                    statusCode.allowPopup,
+                    "info"
+                );
+            }
+        } catch (error) {
+            SwalPopup(
+                "No Contract Available",
+                statusCode.contractNotAvailable,
+                "info"
+            );
+        }
+    };
     return (
         <div>
             <CustomModal
@@ -165,29 +190,39 @@ export default function LeaseDetail(props) {
                 openModal={showTerminateModal}
                 position="center"
             />
-            <div className='flex justify-end gap-1'>
-                <CommonButton
-                    onSubmit={handleExportClick}
-                    text={`${CommonButtonTypes.EXPORT_LEASE}`}
-                    extandedClass="bg-green-600 hover:bg-green-700 hover:text-white text-xs"
-                />
-                {
-                    selectedLease.isActive &&
+            <div className='flex justify-between gap-1'>
+                <div>
+                    <h2
+                        onClick={viewLeaseContract}
+                        className="text-sm font-bold ms-1 underline text-blue-600 cursor-pointer"
+                        title='Click to view the contract'
+                    >
+                        Preview Contract
+                    </h2>
+                </div>
+                <div>
                     <CommonButton
-                        onSubmit={() => { navigate(`/Leases?id=${selectedLease.leaseId}`); }}
-                        text={CommonButtonTypes.MODIFY_LEASE}
-                        extandedClass="bg-gray-600 hover:bg-gray-700 hover:text-white text-xs"
+                        onSubmit={handleExportClick}
+                        text={`${CommonButtonTypes.EXPORT_LEASE}`}
+                        extandedClass="bg-green-600 hover:bg-green-700 hover:text-white text-xs"
                     />
-                }
-                {
-                    selectedLease.isActive &&
-                    <CommonButton
-                        onSubmit={() => { setShowTerminateModal(true); }}
-                        text={CommonButtonTypes.TERMINATE_LEASE}
-                        extandedClass="bg-red-600 hover:bg-red-700 hover:text-white text-xs"
-                    />
-                }
-
+                    {
+                        selectedLease.isActive &&
+                        <CommonButton
+                            onSubmit={() => { navigate(`/Leases?id=${selectedLease.leaseId}`); }}
+                            text={CommonButtonTypes.MODIFY_LEASE}
+                            extandedClass="bg-gray-600 hover:bg-gray-700 hover:text-white text-xs"
+                        />
+                    }
+                    {
+                        selectedLease.isActive &&
+                        <CommonButton
+                            onSubmit={() => { setShowTerminateModal(true); }}
+                            text={CommonButtonTypes.TERMINATE_LEASE}
+                            extandedClass="bg-red-600 hover:bg-red-700 hover:text-white text-xs"
+                        />
+                    }
+                </div>
             </div>
             <div>
                 <div className='border p-2 mt-1 mb-1'>

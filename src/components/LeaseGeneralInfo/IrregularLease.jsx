@@ -5,6 +5,7 @@ import { statusCodeMessage } from '../../utils/enums/statusCode';
 import { LeaseIRTemplateEnum as LIRT } from '../../utils/enums/leaseTemplateEnum';
 import { excelDateToJSDate } from '../../helper/getDate';
 import { allowDecimalNumbers } from '../../helper/checkForAllowVal';
+import { CommonFileInput } from '../common/commonFileInput';
 
 export default function IrregularLease({ handleIRTable }) {
     const [fileName, setFileName] = useState("");
@@ -67,22 +68,11 @@ export default function IrregularLease({ handleIRTable }) {
         event.target.value = null;
     };
     return (
-        <div className="flex items-center justify-center h-full">
-            <div className="flex flex-col items-center space-y-3">
-                <label
-                    className="cursor-pointer flex items-center space-x-2 bg-yellow-600 text-white text-sm px-3 py-1 rounded-sm shadow-lg hover:bg-yellow-700 transition-all duration-300"
-                >
-                    <div className="w-4 h-4 bg-white rounded-full flex items-center justify-center">
-                        <span className="text-yellow-700 font-bold">↑</span>
-                    </div>
-                    <span>{fileName || "Upload Schedule"}</span>
-                    <input
-                        type="file"
-                        className="hidden"
-                        onChange={handleFileChange}
-                    />
-                </label>
-            </div>
-        </div>
+        <CommonFileInput
+            fileName={fileName}
+            handleFileChange={handleFileChange}
+            content={"Upload Schedule"}
+            acceptableFileType={".xlsx, .xls, .csv"}
+        />
     )
 }

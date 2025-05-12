@@ -20,6 +20,12 @@ export const statusCodeMessage = {
     download: "Do you want to download the Custom Schedule Template?",
     yes: "Yes",
     inValidExcelFileExtension: 'Invalid file type. Please upload an .xlsx, .csv, or .xls file.',
+    inValidPDFFileExtension: 'Invalid file type. Please upload a .pdf file.',
     leaseModified: "Lease has been modified successfully!",
+    allowPopup: "Please allow popups to view the PDF.",
+    contractNotAvailable: "No contract available for this lease.",
+}
 
+export const apiResponses = {
+    leaseContractUploaded: "Lease contract uploaded successfully.",
 }

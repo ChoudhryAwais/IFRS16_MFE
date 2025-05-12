@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 
 export const CustomModal = ({ mainContent, openModal, closeModal, modalTitle, position = "top" }) => {
     const [isModalOpen, setIsModalOpen] = useState(openModal);

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { addNewLease, modifyLease } from '../../apis/Cruds/LeaseData';
+import { addLeaseContract, addNewLease, modifyLease } from '../../apis/Cruds/LeaseData';
 import { ConfirmationSwalPopup, SwalPopup } from '../../middlewares/SwalPopup/SwalPopup';
 import { statusCodeMessage } from '../../utils/enums/statusCode';
 import { LoadingSpinner } from '../LoadingBar/LoadingBar';
@@ -13,6 +13,7 @@ import Switch from '../common/switchButton';
 import IrregularLease from './IrregularLease';
 import { handleExcelExport } from '../../utils/exportService/excelExportService';
 import { leaseIRTemp } from '../../utils/ExportsTemplate/exportsTemplate';
+import { CommonFileInput } from '../common/commonFileInput';
 
 export default function LeaseGeneralInfoForm({ otherTabs, increment }) {
     const [loading, setLoading] = useState(false)
@@ -21,10 +22,13 @@ export default function LeaseGeneralInfoForm({ otherTabs, increment }) {
     const [incrementalFrequency, setincrementalFrequency] = useState([])
     const [currencies, setCurrencies] = useState([])
     const [customSchedule, setCustomSchedule] = useState(false)
+    const [contractPDF, setContractPdf] = useState(null);
     const activeLease = getSelectLease()
-
-    const frequencies = leaseTypes?.split(",").map(item => item.trim().toLowerCase())
-    const assetTypesValues = assetType?.split(",").map(item => item.trim())
+    // leaseTypes is a string of comma separated values
+    const frequencies = leaseTypes?.split(",").map(item => item.trim().toLowerCase());
+    // assetType is a string of comma separated values
+    const assetTypesValues = assetType?.split(",").map(item => item.trim());
+    // set the default value of the form data
     const [formData, setFormData] = useState({
         leaseId: activeLease?.leaseId || 0,
         leaseName: activeLease?.leaseName || '',
@@ -46,6 +50,7 @@ export default function LeaseGeneralInfoForm({ otherTabs, increment }) {
         isChangeInScope: false,
         assetType: activeLease?.assetType || assetTypesValues[0],
     });
+
     const handleChange = (e) => {
         const { name, value } = e.target;
         const newValue = !isNaN(value) ? (parseInt(value) || value) : value
@@ -54,6 +59,7 @@ export default function LeaseGeneralInfoForm({ otherTabs, increment }) {
             [name]: newValue,
         }));
     };
+
     const handleNumericChange = (e) => {
         const { name, value } = e.target;
         const inputValue = allowDecimalNumbers(value)
@@ -62,6 +68,21 @@ export default function LeaseGeneralInfoForm({ otherTabs, increment }) {
             [name]: inputValue,
         }));
     }
+
+    const handlePdfUpload = (e) => {
+        const file = e.target.files[0];
+        if (file && file.type === "application/pdf") {
+            setContractPdf(file);
+        } else {
+           SwalPopup(
+                "Invalid file format",
+                statusCodeMessage.inValidPDFFileExtension,
+                "info"
+            );
+        }
+        e.target.value = null; // Clear the file input value
+    };
+
     // validate the form 
     const handleValidateForm = () => {
         if (otherTabs) {
@@ -81,7 +102,9 @@ export default function LeaseGeneralInfoForm({ otherTabs, increment }) {
                 return true
         }
         if (
-            (formData.leaseName === '' ||
+            (
+                contractPDF === null ||
+                formData.leaseName === '' ||
                 formData.rental === '' ||
                 formData.commencementDate === '' ||
                 formData.endDate === '' ||
@@ -95,34 +118,27 @@ export default function LeaseGeneralInfoForm({ otherTabs, increment }) {
     }
     // Submit the new lease along with initialRecognition, LeaseLiability, ROUSchedule Table
     const submitLease = async () => {
-        const userInfo = getUserInfo()
-        const companyProfile = getCompanyProfile()
-        const leaseModal =
-        {
-
+        const userInfo = getUserInfo();
+        const companyProfile = getCompanyProfile();
+        const leaseModal = {
             ...formData,
             userID: userInfo.userID,
-            companyID: companyProfile.companyID
-        }
-        setLoading(true)
-        const leaseResponse = await addNewLease(leaseModal)
+            companyID: companyProfile.companyID,
+        };
+        setLoading(true);
+        const leaseResponse = await addNewLease(leaseModal);
         if (leaseResponse?.leaseId) {
-            setLoading(false)
-            SwalPopup(
-                "Lease Added",
-                statusCodeMessage.leaseAdded,
-                "success",
-                () => navigate("/IFRS16Accounting")
-            )
+            uploadLeaseContract(leaseResponse?.leaseId)
         } else {
-            setLoading(false)
+            setLoading(false);
             SwalPopup(
                 "Try again",
                 statusCodeMessage.somethingWentWrong,
                 "error"
-            )
+            );
         }
     }
+
     useEffect(() => {
         setFormData({
             ...formData,
@@ -155,6 +171,7 @@ export default function LeaseGeneralInfoForm({ otherTabs, increment }) {
             setCustomSchedule(true)
         }
     }, [])
+
     // handle dates 
     const handleDatesOnBlur = (e) => {
         const { name, value } = e.target;
@@ -170,6 +187,7 @@ export default function LeaseGeneralInfoForm({ otherTabs, increment }) {
             [name]: newValue
         });
     };
+
     const handleCustomSchedule = (bit) => {
         setCustomSchedule(bit)
         setFormData({
@@ -188,9 +206,11 @@ export default function LeaseGeneralInfoForm({ otherTabs, increment }) {
             )
         }
     }
+
     const handleDownloadTemp = () => {
         handleExcelExport({ payload: leaseIRTemp, workSheetName: "Schedule", fileName: "ScheduleTemplate" })
     };
+
     const handleIRTable = (uploadData) => {
         setFormData((prevData) => ({
             ...prevData,
@@ -200,6 +220,7 @@ export default function LeaseGeneralInfoForm({ otherTabs, increment }) {
             customIRTable: uploadData.customIRTable,
         }));
     }
+
     const handleModification = async () => {
         const userInfo = getUserInfo()
         const companyProfile = getCompanyProfile()
@@ -230,6 +251,30 @@ export default function LeaseGeneralInfoForm({ otherTabs, increment }) {
         }
     }
 
+    const uploadLeaseContract = async (leaseId) => {
+        try {
+            const contractData = new FormData();
+            contractData.append('LeaseId', leaseId);
+            contractData.append('ContractDoc', contractPDF);
+            const response = await addLeaseContract(contractData)
+            if (response.message == statusCodeMessage.apiResponses.leaseContractUploaded) {
+                setLoading(false);
+                SwalPopup(
+                    "Lease Added",
+                    statusCodeMessage.leaseAdded,
+                    "success",
+                    () => navigate("/IFRS16Accounting")
+                );
+            }
+        } catch (error) {
+            setLoading(false);
+            SwalPopup(
+                "Try again",
+                statusCodeMessage.somethingWentWrong,
+                "error"
+            );
+        }
+    };
     return (
         <React.Fragment>
             <LoadingSpinner isLoading={loading} />
@@ -258,10 +303,19 @@ export default function LeaseGeneralInfoForm({ otherTabs, increment }) {
                 <form className="grid grid-cols-1 md:grid-cols-3 gap-6 bg-white dark:bg-gray-800 p-4 pb-7 shadow-md rounded-lg">
                     {
                         customSchedule &&
-                        <div className='border p-2'>
+                        <div className='border'>
                             <IrregularLease handleIRTable={handleIRTable} />
                         </div>
                     }
+                    {/* PDF Upload */}
+                    <div className='border'>
+                        <CommonFileInput
+                            content={"Upload Contract"}
+                            handleFileChange={handlePdfUpload}
+                            fileName={contractPDF?.name || null}
+                            acceptableFileType={".pdf"}
+                        />
+                    </div>
                     {/* Lease Name */}
                     <div>
                         <label htmlFor="leaseName" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
@@ -572,9 +626,6 @@ export default function LeaseGeneralInfoForm({ otherTabs, increment }) {
                     />
                 }
             </div>
-            {/* } */}
-
-
         </React.Fragment>
     )
 }
