@@ -45,3 +45,32 @@ export const handleExcelExport = ({ payload, columnMapping, workBookName, fileNa
     // Create a binary Excel file and trigger the download
     XLSX.writeFile(workbook, `${fileName}.xlsx`);
 };
+
+export const handleMultiExcelExport = ({ payload, columnMapping, fileName }) => {
+    // Create a new workbook
+    const workbook = XLSX.utils.book_new();
+
+    // Iterate over each key in the payload to create worksheets
+    Object.keys(payload).forEach((key) => {
+        const { data, columns } = payload[key];
+        const worksheetName = columnMapping[key]; // Map worksheet name from columnMapping
+
+        // Map data with columns
+        const mappedData = data.map((row) => {
+            const mappedRow = {};
+            Object.keys(columns).forEach((colKey) => {
+                mappedRow[columns[colKey]] = row[colKey]; // Map data using column object
+            });
+            return mappedRow;
+        });
+
+        // Convert mapped data to a worksheet
+        const worksheet = XLSX.utils.json_to_sheet(mappedData);
+
+        // Append the worksheet to the workbook
+        XLSX.utils.book_append_sheet(workbook, worksheet, worksheetName);
+    });
+
+    // Write the workbook to a file
+    XLSX.writeFile(workbook, `${fileName}.xlsx`);
+};

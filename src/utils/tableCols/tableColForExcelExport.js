@@ -1,3 +1,16 @@
+export const leaseExelCols = {
+    leaseId: "ID",
+    leaseName: "Lease ID",
+    assetType: "Asset Type",
+    rental: "Rental",
+    currencyCode: "Currency",
+    commencementDate: "Commencement Date",
+    endDate: "End Date",
+    annuity: "Annuity",
+    ibr: "Interest Rate",
+    frequency: "Payment Frequency",
+    username: "User Name",
+};
 export const leaseReportExcelCol = {
     leaseId: "ID",
     leaseName: "Lease ID",
@@ -25,7 +38,7 @@ export const JEReportExcelCol = {
     credit: "Credit",
 };
 export const JEReportFilterExcelCol = {
-    startDate:"Start Date",
+    startDate: "Start Date",
     endDate: "End Date",
 };
 export const initialRecognitionExcelCols = {
@@ -55,8 +68,14 @@ export const rouScheduleExcelCols = {
     amortization: "Amortization",
     closing: "Closing"
 };
-
 export const disclosureReportExcelCols = {
     label: "Disclosure Report",
     value: " "
 };
+export const leaseWorkSheetsExcelCol = {
+    leaseData: "Lease Data",
+    initialRecognition: "Initial Recognition",
+    leaseLiability: "Lease Liability",
+    rouSchedule: "Right of Use Asset",
+    journalEntries: "Journal Entries",
+}

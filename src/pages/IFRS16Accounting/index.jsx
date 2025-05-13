@@ -52,6 +52,7 @@ export default function IFRS16Accounting() {
       ...allLeases,
       loading: true
     })
+    setloader(true)
     const response = await getAllLeases(pageNumber, pageSize)
     setAllLeases({
       ...allLeases,
@@ -59,6 +60,7 @@ export default function IFRS16Accounting() {
       data: response.data,
       totalRecord: response.totalRecords
     })
+     setloader(false)
   }
   const getLeaseDetail = (leaseData) => {
     setSelectedLease(leaseData)
@@ -184,7 +186,7 @@ export default function IFRS16Accounting() {
   return (
     <div>
       {/* This loader is for lease report */}
-      <LoadingSpinner isLoading={report.loading || loader || disclosureData.loading} />
+      <LoadingSpinner isLoading={report.loading || loader || disclosureData.loading } />
       {/* This modal is diclosure report */}
       <CustomModal
         mainContent={

@@ -105,7 +105,7 @@ export default function TerminateLease({ selectedLease, callBack }) {
                         onSubmit={handleSubmit}
                         handleValidateForm={() => !formData.terminateDate}
                         text="Terminate"
-                        extandedClass="bg-red-600 hover:bg-red-700 hover:text-white text-xs mt-4"
+                        extandedClass="bg-red-600 hover:bg-red-700 hover:text-white text-xs mt-4 text-white"
                     />
                 </div>
             </div>

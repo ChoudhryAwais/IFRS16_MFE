@@ -615,7 +615,7 @@ export default function LeaseGeneralInfoForm({ otherTabs, increment }) {
                     <CommonButton
                         handleValidateForm={handleValidateForm}
                         onSubmit={handleModification}
-                        extandedClass={"bg-indigo-600 hover:bg-indigo-700 hover:text-white w-full mt-3"}
+                        extandedClass={"bg-indigo-600 hover:bg-indigo-700 text-white hover:text-white w-full mt-3"}
                         text="Modify"
                     /> :
                     <CommonButton
