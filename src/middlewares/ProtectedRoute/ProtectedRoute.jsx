@@ -11,7 +11,7 @@ export default function ProtectedRoute({ Component }) {
 
   return (
     <div className="flex h-screen">
-      <div className={`${isCollapsed ? "w-16" : "w-1/5"
+      <div className={`${isCollapsed ? "w-16" : "md:w-1/5 lg:w-1/6 xl:w-1/6 2xl:w-[15%]"
         } bg-[#1D2E64] dark:bg-gray-800 p-4 h-screen sticky top-0 flex flex-col transition-all duration-300`}>
 
         {/* Toggle Button */}

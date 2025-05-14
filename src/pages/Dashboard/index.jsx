@@ -38,9 +38,9 @@ export default function Dashboard() {
     return (
         <div>
             <div className='mb-5'>
-                <DashboardCards allLeases={allLeases}/>
+                <DashboardCards allLeases={allLeases} />
             </div>
-            <CollapsibleFilterBox heading="Report">
+            {/* <CollapsibleFilterBox heading="Report">
                 <GeneralFilter
                     onApplyFilter={(filterModal) => aggregationForLease(filterModal)}
                     showLeaseSelection={true}
@@ -59,7 +59,7 @@ export default function Dashboard() {
                     totalRecord={leaseReport.totalRecord}
                     pagination={false}
                 />
-            </div>
+            </div> */}
         </div>
     )
 }
