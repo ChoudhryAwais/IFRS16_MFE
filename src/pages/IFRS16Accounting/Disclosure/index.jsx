@@ -7,13 +7,33 @@ import { disclosureReportExcelCols } from '../../../utils/tableCols/tableColForE
 
 export default function Disclosure({ disclosureData, filterModal }) {
     // Handle Export
-    const handleExport = (payload, mappingCol, reportName, filterModal) => {
+    const handleExport = (mappingCol, reportName) => {
+        const proccessPayload = [
+            {
+                label: "",
+                value: ""
+            },
+            {
+                label: "Right of Use Asset",
+                value: ""
+            },
+            ...disclosureData?.data?.rouDisclousre,
+            {
+                label: "",
+                value: ""
+            },
+            {
+                label: "Lease Liability",
+                value: ""
+            },
+            ...disclosureData?.data?.llDisclousre,
+        ]
         const processFilter = {
-            "Start Date":filterModal.startDate,
+            "Start Date": filterModal.startDate,
             "End Date": filterModal.endDate,
         }
         handleExcelExport({
-            payload: payload,
+            payload: proccessPayload,
             filters: processFilter,
             columnMapping: mappingCol,
             workSheetName: reportName,
@@ -32,29 +52,8 @@ export default function Disclosure({ disclosureData, filterModal }) {
                             <button
                                 onClick={() =>
                                     handleExport(
-                                        [
-                                            {
-                                                label: "",
-                                                value: ""
-                                            },
-                                            {
-                                                label: "Right of Use Asset",
-                                                value: ""
-                                            },
-                                            ...disclosureData?.data?.rouDisclousre,
-                                            {
-                                                label: "",
-                                                value: ""
-                                            },
-                                            {
-                                                label: "Lease Liability",
-                                                value: ""
-                                            },
-                                            ...disclosureData?.data?.llDisclousre
-                                        ],
                                         disclosureReportExcelCols,
                                         "Disclosure Report",
-                                        filterModal
                                     )
                                 }
                                 type="button"
