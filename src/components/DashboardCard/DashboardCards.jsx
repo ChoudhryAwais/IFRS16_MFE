@@ -2,8 +2,9 @@ import React, { useEffect, useState } from 'react'
 import CustomCard from './Card'
 import { getLeaseReportSummary } from '../../apis/Cruds/Report';
 import { addOneDay, getDateForCards } from '../../helper/getDate';
-import { getCompanyProfile, getTotalLeases } from '../../apis/Cruds/sessionCrud';
+import { getCompanyProfile } from '../../apis/Cruds/sessionCrud';
 import { exchangeGainLoss } from '../../helper/FormateValues';
+import BarChart from '../Charts/BarChart';
 
 export default function DashboardCards({ allLeases }) {
     const [leaseSummary, setLeaseSummary] = useState({
@@ -38,7 +39,7 @@ export default function DashboardCards({ allLeases }) {
         }
         cardsInfo()
     }, [])
-    const cards = [
+    const topCards = [
         {
             title: "TOTAL LEASES",
             color: "text-purple-600",
@@ -63,6 +64,8 @@ export default function DashboardCards({ allLeases }) {
             color: "text-blue-600",
             value: leaseSummary.data?.interest || 0
         },
+    ]
+    const bottomCards = [
         {
             title: "AMORTIZATION EXPENSE",
             subTitle: 'Year to Date (YTD)',
@@ -80,21 +83,41 @@ export default function DashboardCards({ allLeases }) {
             subTitle: 'Year to Date (YTD)',
             color: "text-green-600",
             value: exchangeGainLoss(leaseSummary.data?.exchange_Gain_Loss || 0) || 0
-        },
-
+        }
     ]
 
     return (
-        <div className='flex flex-wrap w-full'>
-            {
-                cards.map((card, i) => {
-                    return (
-                        <div className='w-full md:w-1/4 ' key={i}>
-                            <CustomCard card={card} loading={leaseSummary.loading} />
-                        </div>
-                    )
-                })
-            }
-        </div>
+        <>
+            <div className='flex flex-wrap w-full'>
+                {
+                    topCards.map((card, i) => {
+                        return (
+                            <div className='w-full md:w-1/4 ' key={i}>
+                                <CustomCard card={card} loading={leaseSummary.loading} />
+                            </div>
+                        )
+                    })
+                }
+            </div>
+            <div className="flex">
+                {/* 70% Left Side */}
+                <div className="w-[75%] p-4">
+                    <h2 className="text-xl font-semibold dark:text-white">Ammortization Expense</h2>
+                    <BarChart />
+                </div>
+                {/* 30% Right Side - Split into 3 Rows */}
+                <div className="w-[25%] flex flex-col">
+                    {
+                        bottomCards.map((card, i) => {
+                            return (
+                                <div className='flex-1 w-full' key={i}>
+                                    <CustomCard card={card} loading={leaseSummary.loading} />
+                                </div>
+                            )
+                        })
+                    }
+                </div>
+            </div>
+        </>
     )
 }
