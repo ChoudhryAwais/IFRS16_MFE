@@ -13,9 +13,9 @@ import { statusCodeMessage } from '../../utils/enums/statusCode'
 import { ConfirmationSwalPopup, SwalPopup } from '../../middlewares/SwalPopup/SwalPopup';
 import { CollapsibleFilterBox } from '../../components/FilterBox/FilterBox'
 import Reports from './Reports'
-import { getDisclosureReport } from '../../apis/Cruds/Disclosure'
+import { getDisclosureMaturityReport, getDisclosureReport } from '../../apis/Cruds/Disclosure'
 import Disclosure from './Disclosure'
-import { LLDisclosure, ROUDisclosure } from '../../utils/enums/disclosure'
+import { DisclosureMaturity, LLDisclosure, ROUDisclosure } from '../../utils/enums/disclosure'
 
 
 export default function IFRS16Accounting() {
@@ -60,7 +60,7 @@ export default function IFRS16Accounting() {
       data: response.data,
       totalRecord: response.totalRecords
     })
-     setloader(false)
+    setloader(false)
   }
   const getLeaseDetail = (leaseData) => {
     setSelectedLease(leaseData)
@@ -109,6 +109,7 @@ export default function IFRS16Accounting() {
   const handleSelectRow = (event, rowId) => {
     event.stopPropagation(); // Stop event propagation to prevent row click event
     if (event.target.checked) {
+      console.log(selectedRows)
       setSelectedRows([...selectedRows, rowId]);
     } else {
       setSelectedRows(selectedRows.filter(id => id !== rowId));
@@ -158,12 +159,17 @@ export default function IFRS16Accounting() {
     })
     try {
       const disclosureResp = await getDisclosureReport(filterModal)
-      if (disclosureResp?.openingLL !== undefined) {
+      const disclosureMaturityResp = await getDisclosureMaturityReport(filterModal)
+
+      if (disclosureResp?.openingLL !== undefined & disclosureMaturityResp.length > 0) {
         const rouDisclousre = Object.keys(ROUDisclosure).map((key) => {
           return { label: ROUDisclosure[key], value: disclosureResp[key] }
         })
         const llDisclousre = Object.keys(LLDisclosure).map((key) => {
           return { label: LLDisclosure[key], value: disclosureResp[key] }
+        })
+        const disclousreMaturity = Object.keys(DisclosureMaturity).map((key) => {
+          return { label: DisclosureMaturity[key], value: (disclosureMaturityResp[0] || "")[key] }
         })
         setDisclosureData({
           ...disclosureData,
@@ -171,6 +177,7 @@ export default function IFRS16Accounting() {
           data: {
             rouDisclousre: rouDisclousre,
             llDisclousre: llDisclousre,
+            maturityAnalysis: disclousreMaturity 
           },
           totalRecord: 0
         })
@@ -186,7 +193,7 @@ export default function IFRS16Accounting() {
   return (
     <div>
       {/* This loader is for lease report */}
-      <LoadingSpinner isLoading={report.loading || loader || disclosureData.loading } />
+      <LoadingSpinner isLoading={report.loading || loader || disclosureData.loading} />
       {/* This modal is diclosure report */}
       <CustomModal
         mainContent={

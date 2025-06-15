@@ -4,7 +4,6 @@ import { getCompanyProfile } from "./sessionCrud"
 export const getLeaseReportSummary = async (filter) => {
     const companyProfile = getCompanyProfile()
     const payload = { ...filter, companyId: companyProfile.companyID }
-    debugger
     try {
         const response = await callApi(`/Reports/LeaseReportSummary`, "POST", payload)
         return response

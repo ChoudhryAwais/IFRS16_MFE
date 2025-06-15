@@ -13,3 +13,8 @@ export const LLDisclosure = {
     payment: "Less: Payment during the period",
     closingLL: "Closing balance at period end",
 }
+export const DisclosureMaturity = {
+    lessThanOneYear: "Less than one year",
+    betweenOneAndFiveYears: "Between one and five years",
+    afterFiveYears: "After five years",
+}
