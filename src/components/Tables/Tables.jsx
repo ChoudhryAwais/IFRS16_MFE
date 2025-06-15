@@ -62,7 +62,7 @@ export default function Tables(props) {
                 style={{ maxHeight: TableMaxHeight }}
             >
                 <div className={`min-w-[${tableWidth}%]`}>
-                    <table className="w-full text-sm text-left text-gray-500">
+                    <table className="w-full text-xs text-left text-gray-500">
                         <thead
                             className="text-xs text-white uppercase bg-[#97072A] sticky top-0 z-20"
                             style={{ minWidth: `${columnWidth}vw` }}
@@ -100,7 +100,7 @@ export default function Tables(props) {
                                                 }
                                             }}
                                         >
-                                            {selectableRows && data.length > 0 ? <td className="py-3 px-4 bg-white">
+                                            {selectableRows && data.length > 0 ? <td className="py-1 px-4 bg-white">
                                                 <input
                                                     type="checkbox"
                                                     checked={selectedRows.includes(row[selectItem])}
@@ -118,7 +118,7 @@ export default function Tables(props) {
                                                 return (
                                                     <td
                                                         key={i}
-                                                        className={`py-3 px-4 " ${(i === 0 && !hideHorzScroll && data.length > 0) ? "sticky bg-red-200 text-black left-0 z-10 shadow-md" : ""
+                                                        className={`py-1 px-4 " ${(i === 0 && !hideHorzScroll && data.length > 0) ? "sticky bg-red-200 text-black left-0 z-10 shadow-md" : ""
                                                             }`}
                                                         style={{ minWidth: `${columnWidth}vw` }} // Apply same column width to cells
                                                     >
@@ -140,11 +140,10 @@ export default function Tables(props) {
                 {pagination && data.length > 0 ?
                     <div className="flex justify-between">
                         <div className="text-right mt-2">
-                            <span className="text-sm text-gray-600 mt-2 p-2 mr-2 dark:text-gray-200">Total Records: {totalRecord}</span>
-
+                            <span className="text-xs text-gray-600 mt-2 p-2 mr-2 dark:text-gray-200">Total Records: {totalRecord}</span>
                         </div>
                         <nav aria-label="Page navigation example" className='mt-2'>
-                            <ul className="inline-flex text-sm ">
+                            <ul className="inline-flex text-xs ">
                                 <li>
                                     <select
                                         id="pageSize"

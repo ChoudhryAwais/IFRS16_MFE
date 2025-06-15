@@ -245,7 +245,7 @@ export default function LeaseDetail(props) {
                 <div>
                     <h2
                         onClick={viewLeaseContract}
-                        className="text-sm font-bold ms-1 underline text-blue-600 cursor-pointer"
+                        className="text-xs font-bold ms-1 underline text-blue-600 cursor-pointer"
                         title='Click to view the contract'
                     >
                         Preview Contract
@@ -303,7 +303,7 @@ export default function LeaseDetail(props) {
                 </div>
             </div>
             <div>
-                <div className='border p-2 mt-1 mb-1'>
+                <div className='border p-2 mt-1 mb-2'>
                     <GeneralFilter
                         onApplyFilter={(filterModal) => getFilteredData(filterModal)}
                         showLeaseSelection={false}

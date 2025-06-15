@@ -131,7 +131,7 @@ export const GeneralFilter = ({ onApplyFilter, showLeaseSelection, btnLabel, cal
                 <button
                     onClick={handleRestore}
                     type="button"
-                    className={"py-2 mt-3 me-1 px-3 mb-2 text-xs font-xs text-white focus:outline-none bg-gray-800 hover:bg-gray-900  rounded-sm border border-gray-200 hover:text-white "}>
+                    className={"py-1 mt-3 me-1 px-3 mb-2 text-xs font-xs text-white focus:outline-none bg-gray-800 hover:bg-gray-900  rounded-sm border border-gray-200 hover:text-white "}>
                     Restore Default
                 </button>
                 <button

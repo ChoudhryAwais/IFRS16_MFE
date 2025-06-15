@@ -3,7 +3,7 @@ export const CommonButtonTypes = {
     TERMINATE_LEASE: 'TERMINATE',
     EXPORT_ALL_LEASE: 'EXPORT ALL',
     EXPORT_LEASE: 'EXPORT VIEW',
-    EXPORT: 'EXPORT',
+    EXPORT: 'EXPORTS',
 
 };
 

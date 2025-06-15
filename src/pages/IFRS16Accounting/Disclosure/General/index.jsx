@@ -13,7 +13,7 @@ export default function GeneralDisclosure({ disclosureData }) {
                 <Tables
                     data={disclosureData.data.rouDisclousre || []}
                     columns={DisclosureReport}
-                    calcHeight="450px"
+                    calcHeight="420px"
                     isLoading={disclosureData.loading}
                     totalRecord={1}
                     pagination={false}
@@ -24,7 +24,7 @@ export default function GeneralDisclosure({ disclosureData }) {
                 <Tables
                     data={disclosureData.data.llDisclousre || []}
                     columns={DisclosureReport}
-                    calcHeight="450px"
+                    calcHeight="420px"
                     isLoading={disclosureData.loading}
                     totalRecord={1}
                     pagination={false}
