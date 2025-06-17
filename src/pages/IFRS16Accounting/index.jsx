@@ -101,6 +101,12 @@ export default function IFRS16Accounting() {
   }
   const handleSelectAll = (event, data) => {
     if (event.target.checked) {
+      if (data.length > 9)
+        return SwalPopup(
+          "Limit Exceeded",
+          statusCodeMessage.limitedAccess,
+          "warning"
+        )
       setSelectedRows(data.map(row => row.leaseId));
     } else {
       setSelectedRows([]);
@@ -109,7 +115,12 @@ export default function IFRS16Accounting() {
   const handleSelectRow = (event, rowId) => {
     event.stopPropagation(); // Stop event propagation to prevent row click event
     if (event.target.checked) {
-      console.log(selectedRows)
+      if (selectedRows.length > 9)
+        return SwalPopup(
+          "Limit Exceeded",
+          statusCodeMessage.limitedAccess,
+          "warning"
+        )
       setSelectedRows([...selectedRows, rowId]);
     } else {
       setSelectedRows(selectedRows.filter(id => id !== rowId));
@@ -177,7 +188,7 @@ export default function IFRS16Accounting() {
           data: {
             rouDisclousre: rouDisclousre,
             llDisclousre: llDisclousre,
-            maturityAnalysis: disclousreMaturity 
+            maturityAnalysis: disclousreMaturity
           },
           totalRecord: 0
         })

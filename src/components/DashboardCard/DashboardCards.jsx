@@ -64,14 +64,15 @@ export default function DashboardCards({ allLeases }) {
             color: "text-blue-600",
             value: leaseSummary.data?.interest || 0
         },
-    ]
-    const bottomCards = [
         {
             title: "AMORTIZATION EXPENSE",
             subTitle: 'Year to Date (YTD)',
             color: "text-green-600",
             value: leaseSummary.data?.amortization || 0
-        },
+        }
+    ]
+    const bottomCards = [
+
         {
             title: "PAYMENTS DUE",
             subTitle: 'Year to Date (YTD)',
@@ -92,7 +93,7 @@ export default function DashboardCards({ allLeases }) {
                 {
                     topCards.map((card, i) => {
                         return (
-                            <div className='w-full md:w-1/4 ' key={i}>
+                            <div className='w-full md:w-1/5 ' key={i}>
                                 <CustomCard card={card} loading={leaseSummary.loading} />
                             </div>
                         )
@@ -101,12 +102,16 @@ export default function DashboardCards({ allLeases }) {
             </div>
             <div className="flex">
                 {/* 70% Left Side */}
-                <div className="w-[75%] p-4">
-                    <h2 className="text-xl font-semibold dark:text-white">Ammortization Expense</h2>
+                <div className="w-[40%] p-4">
+                    <h2 className="text-sm font-semibold dark:text-white">Ammortization Expense</h2>
+                    <BarChart />
+                </div>
+                <div className="w-[40%] p-4">
+                    <h2 className="text-sm font-semibold dark:text-white">Ammortization Expense</h2>
                     <BarChart />
                 </div>
                 {/* 30% Right Side - Split into 3 Rows */}
-                <div className="w-[25%] flex flex-col">
+                <div className="w-[20%] flex flex-col mt-4">
                     {
                         bottomCards.map((card, i) => {
                             return (
@@ -116,6 +121,22 @@ export default function DashboardCards({ allLeases }) {
                             )
                         })
                     }
+                </div>
+            </div>
+            <div className="flex">
+                {/* 70% Left Side */}
+                <div className="w-[33%] p-4">
+                    <h2 className="text-sm font-semibold dark:text-white">Ammortization Expense</h2>
+                    <BarChart />
+                </div>
+                <div className="w-[33%] p-4">
+                    <h2 className="text-sm font-semibold dark:text-white">Ammortization Expense</h2>
+                    <BarChart />
+                </div>
+                {/* 30% Right Side - Split into 3 Rows */}
+                 <div className="w-[33%] p-4">
+                    <h2 className="text-sm font-semibold dark:text-white">Ammortization Expense</h2>
+                    <BarChart />
                 </div>
             </div>
         </>

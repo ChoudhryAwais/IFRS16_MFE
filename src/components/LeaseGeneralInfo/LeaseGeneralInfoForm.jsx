@@ -318,16 +318,16 @@ export default function LeaseGeneralInfoForm({ otherTabs, increment }) {
                     </div>
                     {/* Lease Name */}
                     <div>
-                        <label htmlFor="leaseName" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+                        <label htmlFor="leaseName" className="block mb-2 text-xs font-medium text-gray-900 dark:text-white">
                             Lease ID
                         </label>
-                        <small className="text-gray-500 block mb-1 dark:text-gray-200 ">Enter the lease ID</small>
+                        <small className="text-gray-500 block mb-1 dark:text-gray-200 text-[10px]">Enter the lease ID</small>
                         <input
                             disabled={activeLease?.leaseName ? true : false}
                             type="text"
                             id="leaseName"
                             name="leaseName"
-                            className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-sm focus:ring-blue-500 focus:border-blue-500 block w-full px-2.5 py-1.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                            className="bg-gray-50 border border-gray-300 text-gray-900 text-xs rounded-sm focus:ring-blue-500 focus:border-blue-500 block w-full px-2.5 py-1.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                             placeholder="Enter the lease ID"
                             value={formData.leaseName}
                             onChange={handleChange}
@@ -336,15 +336,15 @@ export default function LeaseGeneralInfoForm({ otherTabs, increment }) {
                     {/* Rental */}
                     {!customSchedule ?
                         <div>
-                            <label htmlFor="rental" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+                            <label htmlFor="rental" className="block mb-2 text-xs font-medium text-gray-900 dark:text-white">
                                 Rental
                             </label>
-                            <small className="text-gray-500 block mb-1 dark:text-gray-200">Enter the rental amount</small>
+                            <small className="text-gray-500 block mb-1 dark:text-gray-200 text-[10px]">Enter the rental amount</small>
                             <input
                                 type="text"
                                 id="rental"
                                 name="rental"
-                                className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-sm focus:ring-blue-500 focus:border-blue-500 block w-full px-2.5 py-1.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                                className="bg-gray-50 border border-gray-300 text-gray-900 text-xs rounded-sm focus:ring-blue-500 focus:border-blue-500 block w-full px-2.5 py-1.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                                 placeholder="Enter rental amount"
                                 value={formData.rental}
                                 onChange={handleNumericChange}
@@ -353,15 +353,15 @@ export default function LeaseGeneralInfoForm({ otherTabs, increment }) {
                     }
                     {/* Modification Date */}
                     {activeLease?.leaseId ? <div>
-                        <label htmlFor="lastModifiedDate" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+                        <label htmlFor="lastModifiedDate" className="block mb-2 text-xs font-medium text-gray-900 dark:text-white">
                             Modification Date
                         </label>
-                        <small className="text-gray-500 block mb-1 dark:text-gray-200">Select the lease Modification date</small>
+                        <small className="text-gray-500 block mb-1 dark:text-gray-200 text-[10px]">Select the lease Modification date</small>
                         <input
                             type="date"
                             id="lastModifiedDate"
                             name="lastModifiedDate"
-                            className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-sm focus:ring-blue-500 focus:border-blue-500 block w-full px-2.5 py-1.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                            className="bg-gray-50 border border-gray-300 text-gray-900 text-xs rounded-sm focus:ring-blue-500 focus:border-blue-500 block w-full px-2.5 py-1.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                             value={formData.lastModifiedDate}
                             onChange={handleChange}
                             max={formData.endDate}
@@ -371,15 +371,15 @@ export default function LeaseGeneralInfoForm({ otherTabs, increment }) {
                     {/* Commencement Date */}
                     {!activeLease?.leaseId ?
                         <div>
-                            <label htmlFor="commencementDate" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+                            <label htmlFor="commencementDate" className="block mb-2 text-xs font-medium text-gray-900 dark:text-white">
                                 Commencement Date
                             </label>
-                            <small className="text-gray-500 block mb-1 dark:text-gray-200">Select the lease commencement  date</small>
+                            <small className="text-gray-500 block mb-1 dark:text-gray-200 text-[10px]">Select the lease commencement  date</small>
                             <input
                                 type="date"
                                 id="commencementDate"
                                 name="commencementDate"
-                                className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-sm focus:ring-blue-500 focus:border-blue-500 block w-full px-2.5 py-1.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                                className="bg-gray-50 border border-gray-300 text-gray-900 text-xs rounded-sm focus:ring-blue-500 focus:border-blue-500 block w-full px-2.5 py-1.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                                 value={formData.commencementDate}
                                 onChange={handleChange}
                                 max={formData.endDate}
@@ -389,15 +389,15 @@ export default function LeaseGeneralInfoForm({ otherTabs, increment }) {
 
                     {/* End Date */}
                     <div>
-                        <label htmlFor="endDate" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+                        <label htmlFor="endDate" className="block mb-2 text-xs font-medium text-gray-900 dark:text-white">
                             End Date
                         </label>
-                        <small className="text-gray-500 block mb-1 dark:text-gray-200">Select the lease end date</small>
+                        <small className="text-gray-500 block mb-1 dark:text-gray-200 text-[10px]">Select the lease end date</small>
                         <input
                             type="date"
                             id="endDate"
                             name="endDate"
-                            className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-sm focus:ring-blue-500 focus:border-blue-500 block w-full px-2.5 py-1.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                            className="bg-gray-50 border border-gray-300 text-gray-900 text-xs rounded-sm focus:ring-blue-500 focus:border-blue-500 block w-full px-2.5 py-1.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                             value={formData.endDate}
                             onChange={handleChange}
                             min={formData.commencementDate}
@@ -409,30 +409,30 @@ export default function LeaseGeneralInfoForm({ otherTabs, increment }) {
                     {formData.isChangeInScope ?
                         <>
                             <div>
-                                <label htmlFor="rouOpening" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+                                <label htmlFor="rouOpening" className="block mb-2 text-xs font-medium text-gray-900 dark:text-white">
                                     ROU Opening
                                 </label>
-                                <small className="text-gray-500 block mb-1 dark:text-gray-200">Enter Opening amount</small>
+                                <small className="text-gray-500 block mb-1 dark:text-gray-200 text-[10px]">Enter Opening amount</small>
                                 <input
                                     type="text"
                                     id="rouOpening"
                                     name="rouOpening"
-                                    className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-sm focus:ring-blue-500 focus:border-blue-500 block w-full px-2.5 py-1.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                                    className="bg-gray-50 border border-gray-300 text-gray-900 text-xs rounded-sm focus:ring-blue-500 focus:border-blue-500 block w-full px-2.5 py-1.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                                     placeholder="Enter Opening amount"
                                     value={formData.rouOpening}
                                     onChange={handleNumericChange}
                                 />
                             </div>
                             <div>
-                                <label htmlFor="rouOpening" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+                                <label htmlFor="rouOpening" className="block mb-2 text-xs font-medium text-gray-900 dark:text-white">
                                     Lease Liability Opening
                                 </label>
-                                <small className="text-gray-500 block mb-1 dark:text-gray-200">Enter Opening amount</small>
+                                <small className="text-gray-500 block mb-1 dark:text-gray-200 text-[10px]">Enter Opening amount</small>
                                 <input
                                     type="text"
                                     id="llOpening"
                                     name="llOpening"
-                                    className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-sm focus:ring-blue-500 focus:border-blue-500 block w-full px-2.5 py-1.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                                    className="bg-gray-50 border border-gray-300 text-gray-900 text-xs rounded-sm focus:ring-blue-500 focus:border-blue-500 block w-full px-2.5 py-1.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                                     placeholder="Enter Opening amount"
                                     value={formData.llOpening}
                                     onChange={handleNumericChange}
@@ -442,14 +442,14 @@ export default function LeaseGeneralInfoForm({ otherTabs, increment }) {
                         : null}
                     {/* Annuity */}
                     <div>
-                        <label htmlFor="annuity" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+                        <label htmlFor="annuity" className="block mb-2 text-xs font-medium text-gray-900 dark:text-white">
                             Annuity
                         </label>
-                        <small className="text-gray-500 block mb-1 dark:text-gray-200">Choose annuity type</small>
+                        <small className="text-gray-500 block mb-1 dark:text-gray-200 text-[10px]">Choose annuity type</small>
                         <select
                             id="annuity"
                             name="annuity"
-                            className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-sm focus:ring-blue-500 focus:border-blue-500 block w-full px-2.5 py-1.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                            className="bg-gray-50 border border-gray-300 text-gray-900 text-xs rounded-sm focus:ring-blue-500 focus:border-blue-500 block w-full px-2.5 py-1.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                             value={formData.annuity}
                             onChange={handleChange}
                         >
@@ -459,15 +459,15 @@ export default function LeaseGeneralInfoForm({ otherTabs, increment }) {
                     </div>
                     {/* IBR */}
                     <div>
-                        <label htmlFor="ibr" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+                        <label htmlFor="ibr" className="block mb-2 text-xs font-medium text-gray-900 dark:text-white">
                             Interest Rate Implicit in the Lease
                         </label>
-                        <small className="text-gray-500 block mb-1 dark:text-gray-200">Enter the Interest Rate Implicit in the Lease, if not available use lessee's incremental borrowing rate in %</small>
+                        <small className="text-gray-500 block mb-1 dark:text-gray-200 text-[10px]">Enter the Interest Rate Implicit in the Lease, if not available use lessee's incremental borrowing rate in %</small>
                         <input
                             type="text"
                             id="ibr"
                             name="ibr"
-                            className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-sm focus:ring-blue-500 focus:border-blue-500 block w-full px-2.5 py-1.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                            className="bg-gray-50 border border-gray-300 text-gray-900 text-xs rounded-sm focus:ring-blue-500 focus:border-blue-500 block w-full px-2.5 py-1.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                             placeholder="Enter IBR value"
                             value={formData.ibr}
                             onChange={handleNumericChange}
@@ -475,14 +475,14 @@ export default function LeaseGeneralInfoForm({ otherTabs, increment }) {
                     </div>
                     {/* Frequency */}
                     <div>
-                        <label htmlFor="frequency" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+                        <label htmlFor="frequency" className="block mb-2 text-xs font-medium text-gray-900 dark:text-white">
                             Payment Frequency
                         </label>
-                        <small className="text-gray-500 block mb-1 dark:text-gray-200">Choose the payment frequency type</small>
+                        <small className="text-gray-500 block mb-1 dark:text-gray-200 text-[10px]">Choose the payment frequency type</small>
                         <select
                             id="frequency"
                             name="frequency"
-                            className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-sm focus:ring-blue-500 focus:border-blue-500 block w-full px-2.5 py-1.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                            className="bg-gray-50 border border-gray-300 text-gray-900 text-xs rounded-sm focus:ring-blue-500 focus:border-blue-500 block w-full px-2.5 py-1.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                             value={formData.frequency}
                             onChange={handleChange}
                         >
@@ -495,14 +495,14 @@ export default function LeaseGeneralInfoForm({ otherTabs, increment }) {
                     </div>
                     {/* Currency */}
                     <div>
-                        <label htmlFor="currency" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+                        <label htmlFor="currency" className="block mb-2 text-xs font-medium text-gray-900 dark:text-white">
                             Currency
                         </label>
-                        <small className="text-gray-500 block mb-1 dark:text-gray-200">Choose the lease Currency</small>
+                        <small className="text-gray-500 block mb-1 dark:text-gray-200 text-[10px]">Choose the lease Currency</small>
                         <select
                             id="currencyID"
                             name="currencyID"
-                            className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-sm focus:ring-blue-500 focus:border-blue-500 block w-full px-2.5 py-1.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                            className="bg-gray-50 border border-gray-300 text-gray-900 text-xs rounded-sm focus:ring-blue-500 focus:border-blue-500 block w-full px-2.5 py-1.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                             value={formData.currencyID}
                             onChange={handleChange}
                         >
@@ -516,14 +516,14 @@ export default function LeaseGeneralInfoForm({ otherTabs, increment }) {
                     </div>
                     {/* AssetType */}
                     <div>
-                        <label htmlFor="currency" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+                        <label htmlFor="currency" className="block mb-2 text-xs font-medium text-gray-900 dark:text-white">
                             Asset Type
                         </label>
-                        <small className="text-gray-500 block mb-1 dark:text-gray-200">Choose the lease Currency</small>
+                        <small className="text-gray-500 block mb-1 dark:text-gray-200 text-[10px]">Choose the lease Currency</small>
                         <select
                             id="assetType"
                             name="assetType"
-                            className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-sm focus:ring-blue-500 focus:border-blue-500 block w-full px-2.5 py-1.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                            className="bg-gray-50 border border-gray-300 text-gray-900 text-xs rounded-sm focus:ring-blue-500 focus:border-blue-500 block w-full px-2.5 py-1.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                             value={formData.assetType}
                             onChange={handleChange}
                         >
@@ -538,15 +538,15 @@ export default function LeaseGeneralInfoForm({ otherTabs, increment }) {
                         <React.Fragment>
                             {/* IDC */}
                             <div>
-                                <label htmlFor="idc" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+                                <label htmlFor="idc" className="block mb-2 text-xs font-medium text-gray-900 dark:text-white">
                                     Initial Direct Cost
                                 </label>
-                                <small className="text-gray-500 block mb-1 dark:text-gray-200">Enter the IDC amount</small>
+                                <small className="text-gray-500 block mb-1 dark:text-gray-200 text-[10px]">Enter the IDC amount</small>
                                 <input
                                     type="text"
                                     id="idc"
                                     name="idc"
-                                    className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-sm focus:ring-blue-500 focus:border-blue-500 block w-full px-2.5 py-1.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                                    className="bg-gray-50 border border-gray-300 text-gray-900 text-xs rounded-sm focus:ring-blue-500 focus:border-blue-500 block w-full px-2.5 py-1.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                                     placeholder="Enter IDC amount"
                                     value={formData.idc || ""}
                                     onChange={handleChange}
@@ -554,15 +554,15 @@ export default function LeaseGeneralInfoForm({ otherTabs, increment }) {
                             </div>
                             {/* Guaranteed Residual Value */}
                             <div>
-                                <label htmlFor="grv" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+                                <label htmlFor="grv" className="block mb-2 text-xs font-medium text-gray-900 dark:text-white">
                                     Guaranteed Residual Value
                                 </label>
-                                <small className="text-gray-500 block mb-1 dark:text-gray-200">Enter the GRV amount</small>
+                                <small className="text-gray-500 block mb-1 dark:text-gray-200 text-[10px]">Enter the GRV amount</small>
                                 <input
                                     type="text"
                                     id="grv"
                                     name="grv"
-                                    className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-sm focus:ring-blue-500 focus:border-blue-500 block w-full px-2.5 py-1.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                                    className="bg-gray-50 border border-gray-300 text-gray-900 text-xs rounded-sm focus:ring-blue-500 focus:border-blue-500 block w-full px-2.5 py-1.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                                     placeholder="Enter GRV amount"
                                     value={formData.grv || ""}
                                     onChange={handleChange}
@@ -573,15 +573,15 @@ export default function LeaseGeneralInfoForm({ otherTabs, increment }) {
                             <React.Fragment>
                                 {/* Increment Amount or Percentage*/}
                                 <div>
-                                    <label htmlFor="increment" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+                                    <label htmlFor="increment" className="block mb-2 text-xs font-medium text-gray-900 dark:text-white">
                                         Incremental Percentage
                                     </label>
-                                    <small className="text-gray-500 block mb-1 dark:text-gray-200">Enter the Incremental Percentage</small>
+                                    <small className="text-gray-500 block mb-1 dark:text-gray-200 text-[10px]">Enter the Incremental Percentage</small>
                                     <input
                                         type="text"
                                         id="increment"
                                         name="increment"
-                                        className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-sm focus:ring-blue-500 focus:border-blue-500 block w-full px-2.5 py-1.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                                        className="bg-gray-50 border border-gray-300 text-gray-900 text-xs rounded-sm focus:ring-blue-500 focus:border-blue-500 block w-full px-2.5 py-1.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                                         placeholder="Enter Incremental value in %"
                                         value={formData.increment || ""}
                                         onChange={handleChange}
@@ -589,14 +589,14 @@ export default function LeaseGeneralInfoForm({ otherTabs, increment }) {
                                 </div>
                                 {/* Incremental Frequency */}
                                 <div>
-                                    <label htmlFor="frequency" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+                                    <label htmlFor="frequency" className="block mb-2 text-xs font-medium text-gray-900 dark:text-white">
                                         Incremental Frequency
                                     </label>
-                                    <small className="text-gray-500 block mb-1 dark:text-gray-200">Choose the frequency type</small>
+                                    <small className="text-gray-500 block mb-1 dark:text-gray-200 text-[10px]">Choose the frequency type</small>
                                     <select
                                         id="incrementalFrequency"
                                         name="incrementalFrequency"
-                                        className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-sm focus:ring-blue-500 focus:border-blue-500 block w-full px-2.5 py-1.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                                        className="bg-gray-50 border border-gray-300 text-gray-900 text-xs rounded-sm focus:ring-blue-500 focus:border-blue-500 block w-full px-2.5 py-1.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                                         value={formData.incrementalFrequency}
                                         onChange={handleChange}
                                     >

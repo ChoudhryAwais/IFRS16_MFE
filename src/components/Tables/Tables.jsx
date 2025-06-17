@@ -68,9 +68,10 @@ export default function Tables(props) {
                             style={{ minWidth: `${columnWidth}vw` }}
                         >
                             <tr>
-                                {selectableRows && data.length > 0 ? <th className="p-2 px-4 border border-gray-300 text-left">
+                                {/* {selectableRows && data.length > 0 ? <th className="p-1 px-2 border border-gray-300 text-left">
                                     <input type="checkbox" onChange={(e) => selectableAllRowsFunc(e, data)} />
-                                </th> : null}
+                                </th> : null} */}
+                                <th></th>
 
                                 {Object.values(columns).map((col, i) => {
                                     return (
@@ -100,7 +101,7 @@ export default function Tables(props) {
                                                 }
                                             }}
                                         >
-                                            {selectableRows && data.length > 0 ? <td className="py-1 px-4 bg-white">
+                                            {selectableRows && data.length > 0 ? <td className="py-1 px-2 bg-white text-xs">
                                                 <input
                                                     type="checkbox"
                                                     checked={selectedRows.includes(row[selectItem])}

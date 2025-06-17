@@ -128,7 +128,7 @@ export default function BulkImport() {
                     Download Template
                 </button>
                 <div className="bg-white rounded-2xl shadow-2xl p-10 w-full max-w-md text-center transition-all duration-300 hover:shadow-indigo-300">
-                    <h2 className="text-xl font-bold mb-4">Upload Leases</h2>
+                    <h2 className="text-md font-bold mb-4">Upload Leases</h2>
                     <p className="text-xs text-gray-500 mb-6">XLSX, XLS, or CSV formats.</p>
 
                     <div
@@ -153,7 +153,7 @@ export default function BulkImport() {
                                 accept=".xlsx,.xls,.csv"
                                 onChange={handleFileChange}
                             />
-                            <p className="mt-3">
+                            <p className="mt-3 text-xs">
                                 {fileName ? fileName : 'Click or drag file to upload'}
                             </p>
                         </label>

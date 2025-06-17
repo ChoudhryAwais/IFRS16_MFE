@@ -24,6 +24,7 @@ export const statusCodeMessage = {
     leaseModified: "Lease has been modified successfully!",
     allowPopup: "Please allow popups to view the PDF.",
     contractNotAvailable: "No contract available for this lease.",
+    limitedAccess: "You can select a maximum of 10 leases at a time."
 }
 
 export const apiResponses = {
