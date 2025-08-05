@@ -68,10 +68,9 @@ export default function Tables(props) {
                             style={{ minWidth: `${columnWidth}vw` }}
                         >
                             <tr>
-                                {/* {selectableRows && data.length > 0 ? <th className="p-1 px-2 border border-gray-300 text-left">
+                                {selectableRows && data.length > 0 ? <th className="p-1 px-2 border border-gray-300 text-left">
                                     <input type="checkbox" onChange={(e) => selectableAllRowsFunc(e, data)} />
-                                </th> : null} */}
-                                <th></th>
+                                </th> : null}
 
                                 {Object.values(columns).map((col, i) => {
                                     return (
