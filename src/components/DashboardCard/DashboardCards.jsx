@@ -69,10 +69,7 @@ export default function DashboardCards({ allLeases }) {
             subTitle: 'Year to Date (YTD)',
             color: "text-green-600",
             value: leaseSummary.data?.amortization || 0
-        }
-    ]
-    const bottomCards = [
-
+        },
         {
             title: "PAYMENTS DUE",
             subTitle: 'Year to Date (YTD)',
@@ -86,6 +83,21 @@ export default function DashboardCards({ allLeases }) {
             value: exchangeGainLoss(leaseSummary.data?.exchange_Gain_Loss || 0) || 0
         }
     ]
+    // const bottomCards = [
+
+    //     {
+    //         title: "PAYMENTS DUE",
+    //         subTitle: 'Year to Date (YTD)',
+    //         color: "text-green-600",
+    //         value: leaseSummary.data?.payment || 0
+    //     },
+    //     {
+    //         title: "EXCHANGE GAIN / (LOSS)",
+    //         subTitle: 'Year to Date (YTD)',
+    //         color: "text-green-600",
+    //         value: exchangeGainLoss(leaseSummary.data?.exchange_Gain_Loss || 0) || 0
+    //     }
+    // ]
 
     return (
         <>
@@ -102,16 +114,16 @@ export default function DashboardCards({ allLeases }) {
             </div>
             <div className="flex">
                 {/* 70% Left Side */}
-                <div className="w-[40%] p-4">
+                {/* <div className="w-[40%] p-4">
                     <h2 className="text-sm font-semibold dark:text-white">AMORTIZATION EXPENSE</h2>
                     <BarChart />
                 </div>
                 <div className="w-[40%] p-4">
                     <h2 className="text-sm font-semibold dark:text-white">PAYMENTS DUE</h2>
                     <BarChart />
-                </div>
+                </div> */}
                 {/* 30% Right Side - Split into 3 Rows */}
-                <div className="w-[20%] flex flex-col mt-4">
+                {/* <div className="w-[20%] flex flex-col mt-4">
                     {
                         bottomCards.map((card, i) => {
                             return (
@@ -121,11 +133,11 @@ export default function DashboardCards({ allLeases }) {
                             )
                         })
                     }
-                </div>
+                </div> */}
             </div>
             <div className="flex">
                 {/* 70% Left Side */}
-                <div className="w-[33%] p-4">
+                {/* <div className="w-[33%] p-4">
                     <h2 className="text-sm font-semibold dark:text-white">INTEREST EXPENSE</h2>
                     <BarChart />
                 </div>
@@ -133,11 +145,10 @@ export default function DashboardCards({ allLeases }) {
                     <h2 className="text-sm font-semibold dark:text-white">RIGHT OF USE ASSET</h2>
                     <BarChart />
                 </div>
-                {/* 30% Right Side - Split into 3 Rows */}
-                 <div className="w-[33%] p-4">
+                <div className="w-[33%] p-4">
                     <h2 className="text-sm font-semibold dark:text-white">LEASE LIABILITY</h2>
                     <BarChart />
-                </div>
+                </div> */}
             </div>
         </>
     )

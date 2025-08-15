@@ -9,6 +9,9 @@ export const getCompanyProfile = () => {
 export const getSelectLease = () => {
 return JSON.parse(getSessionStorage({ key: sessionVariable.selectLease }))
 }
+export const getAppFlow = () => {
+return JSON.parse(getSessionStorage({ key: sessionVariable.flow }))
+}
 
 export const setSessionStorage = ({ key, value }) => {
     sessionStorage.setItem(key, JSON.stringify(value));

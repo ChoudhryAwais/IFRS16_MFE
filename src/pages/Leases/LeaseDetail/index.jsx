@@ -5,7 +5,7 @@ import LeaseLiability from './LeaseLiability';
 import ROUSchedule from './ROUSchedule';
 import JournalEntires from './JournalEntries';
 import CommonButton from '../../../components/common/commonButton';
-import { CommonButtonTypes } from '../../../utils/enums/common';
+import { CommonButtonTypes, flow } from '../../../utils/enums/common';
 import { CustomModal } from '../../../components/common/commonModal';
 import TerminateLease from './TerminateLease';
 import { useNavigate } from 'react-router-dom';
@@ -20,6 +20,8 @@ import { getAllLeaseLiabilityForLease } from '../../../apis/Cruds/LeaseLiability
 import { getAllRouScheduleForLease } from '../../../apis/Cruds/RouSchedule';
 import { initialRecognitionExcelCols, JEReportExcelCol, leaseExelCols, leaseLiabilityExcelCols, leaseWorkSheetsExcelCol, rouScheduleExcelCols } from '../../../utils/tableCols/tableColForExcelExport';
 import { handleMultiExcelExport } from '../../../utils/exportService/excelExportService';
+import { setSessionStorage } from '../../../apis/Cruds/sessionCrud';
+import { sessionVariable } from '../../../utils/enums/sessionStorage';
 
 export default function LeaseDetail(props) {
     const navigate = useNavigate();
@@ -251,7 +253,7 @@ export default function LeaseDetail(props) {
                         Preview Contract
                     </h2>
                 </div>
-                <div>
+                <div className='flex gap-1'>
                     <div className="relative inline-block text-left" >
                         <CommonButton
                             onSubmit={() => setIsExportOpen(!isExportOpen)}
@@ -264,7 +266,7 @@ export default function LeaseDetail(props) {
                                 </>
 
                             }
-                            extandedClass="inline-flex justify-center items-center text-xs font-medium text-white bg-green-600 hover:bg-green-700"
+                            extandedClass="inline-flex justify-center items-center hover:bg-indigo-700 hover:text-white text-xs text-black bg-white border border-gray-300 rounded-md px-2 py-1 focus:outline-none"
                         />
 
                         {isExportOpen && (
@@ -289,7 +291,7 @@ export default function LeaseDetail(props) {
                         <CommonButton
                             onSubmit={() => { navigate(`/Leases?id=${selectedLease.leaseId}`); }}
                             text={CommonButtonTypes.MODIFY_LEASE}
-                            extandedClass="bg-gray-600 hover:bg-gray-700 hover:text-white text-xs text-white hover:text-white"
+                        // extandedClass="bg-gray-600 hover:bg-gray-700 hover:text-white text-xs text-white hover:text-white"
                         />
                     }
                     {
@@ -297,7 +299,18 @@ export default function LeaseDetail(props) {
                         <CommonButton
                             onSubmit={() => { setShowTerminateModal(true); }}
                             text={CommonButtonTypes.TERMINATE_LEASE}
-                            extandedClass="bg-red-600 hover:bg-red-700 hover:text-white text-xs text-white hover:text-white"
+                        // extandedClass="bg-red-600 hover:bg-red-700 hover:text-white text-xs text-white hover:text-white"
+                        />
+                    }
+                    {
+                        selectedLease.isActive &&
+                        <CommonButton
+                            onSubmit={() => {
+                                setSessionStorage({ key: sessionVariable.flow, value: flow.EDIT });
+                                navigate(`/Leases?id=${selectedLease.leaseId}`);
+                            }}
+                            text={CommonButtonTypes.EDIT}
+                        // extandedClass="bg-yellow-600 hover:bg-yellow-700 hover:text-white text-xs text-white hover:text-white"
                         />
                     }
                 </div>

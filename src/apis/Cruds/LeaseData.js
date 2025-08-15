@@ -81,3 +81,24 @@ export const getLeaseContract = async (leaseId) => {
     const response = await callApiForFile(`/LeaseFormData/GetLeaseContract/${leaseId}`, "GET")
     return response
 }
+
+export const updateLeaseFormData = async (leaseId, leaseFormData) => {
+    try {
+        const response = await callApi(`/LeaseFormData/UpdateLease/${leaseId}`, "PUT", leaseFormData);
+        return response;
+    } catch (error) {
+        return error;
+    }
+};
+
+export const updateLeaseContract = async (leaseId, contractDto) => {
+    try {
+        const formData = new FormData();
+        formData.append('LeaseId', leaseId);
+        formData.append('ContractDoc', contractDto);
+        const response = await callApiForFile(`/LeaseFormData/UpdateLeaseContract/${leaseId}`, "PUT", formData);
+        return response;
+    } catch (error) {
+        return error;
+    }
+};

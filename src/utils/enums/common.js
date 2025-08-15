@@ -4,6 +4,11 @@ export const CommonButtonTypes = {
     EXPORT_ALL_LEASE: 'EXPORT ALL',
     EXPORT_LEASE: 'EXPORT VIEW',
     EXPORT: 'EXPORTS',
-
+    EDIT: 'EDIT',
 };
+
+export const flow ={
+    EDIT: 'EDIT',
+    VIEW: 'VIEW',
+}
 

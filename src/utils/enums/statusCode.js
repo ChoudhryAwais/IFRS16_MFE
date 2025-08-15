@@ -22,6 +22,7 @@ export const statusCodeMessage = {
     inValidExcelFileExtension: 'Invalid file type. Please upload an .xlsx, .csv, or .xls file.',
     inValidPDFFileExtension: 'Invalid file type. Please upload a .pdf file.',
     leaseModified: "Lease has been modified successfully!",
+    leaseUpdated: "Lease has been updated successfully!",
     allowPopup: "Please allow popups to view the PDF.",
     contractNotAvailable: "No contract available for this lease.",
     limitedAccess: "You can select a maximum of 10 leases at a time."

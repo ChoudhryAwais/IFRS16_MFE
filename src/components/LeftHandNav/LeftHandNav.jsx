@@ -112,6 +112,7 @@ export default function LeftHandNav({ isCollapsed, onCollapse }) {
                             <li key={item.path}>
                                 <Link to={item.path} className={getTabClasses(item.path)} onClick={() => {
                                     removeSessionStorageVariable({ key: sessionVariable.selectLease })
+                                    removeSessionStorageVariable({ key: sessionVariable.flow })
                                 }}>
                                     <span>{item.icon}</span>
                                     {!isCollapsed && <span className="ms-2">{item.label}</span>}
