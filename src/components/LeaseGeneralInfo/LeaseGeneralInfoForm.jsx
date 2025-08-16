@@ -26,7 +26,6 @@ export default function LeaseGeneralInfoForm({ otherTabs, increment }) {
     const [currencies, setCurrencies] = useState([])
     const [customSchedule, setCustomSchedule] = useState(false)
     const [contractPDF, setContractPdf] = useState(null);
-    const [contractBase64, setContractBase64] = useState(null);
     const activeLease = getSelectLease()
     // leaseTypes is a string of comma separated values
     const frequencies = leaseTypes?.split(",").map(item => item.trim().toLowerCase());
@@ -105,20 +104,31 @@ export default function LeaseGeneralInfoForm({ otherTabs, increment }) {
             if (formData.lastModifiedDate === null || formData.lastModifiedDate === '')
                 return true
         }
-        if (
-            (
-                (!activeLease?.id && contractPDF === null) ||
-                formData.leaseName === '' ||
-                formData.rental === '' ||
-                formData.commencementDate === '' ||
-                formData.endDate === '' ||
-                formData.ibr === '' ||
-                formData.currencyID === '')
-
-        ) {
-            return true
+        // Contract validation logic
+        let contractInvalid = false;
+        if (appFlow === flow.EDIT) {
+            // Edit flow
+            if (!contractPDF) {
+                contractInvalid = true;
+            }
+        } else if (!activeLease?.leaseId) {
+            // Normal flow
+            if (!contractPDF) {
+                contractInvalid = true;
+            }
         }
-        return false
+        if (
+            contractInvalid ||
+            formData.leaseName === '' ||
+            formData.rental === '' ||
+            formData.commencementDate === '' ||
+            formData.endDate === '' ||
+            formData.ibr === '' ||
+            formData.currencyID === ''
+        ) {
+            return true;
+        }
+        return false;
     }
     // Submit the new lease along with initialRecognition, LeaseLiability, ROUSchedule Table
     const submitLease = async () => {
@@ -228,7 +238,7 @@ export default function LeaseGeneralInfoForm({ otherTabs, increment }) {
                     setLoading(true);
                     const response = await getLeaseContract(activeLease.leaseId);
                     if (response && isMounted) {
-                        setContractBase64(response);
+                        setContractPdf(response)
                     }
                 }
                 catch (error) {
@@ -390,23 +400,26 @@ export default function LeaseGeneralInfoForm({ otherTabs, increment }) {
                             : null
                     }
                     {/* PDF Upload */}
-                    <div className='border'>
-                        {appFlow === flow.EDIT && contractBase64 ? (
+
+                    {appFlow === flow.EDIT && contractPDF ? (
+                        <div className='border'>
                             <CommonFileInput
                                 content={"Edit Contract"}
                                 handleFileChange={handlePdfUpload}
                                 fileName={contractPDF?.name || null}
                                 acceptableFileType={".pdf"}
                             />
-                        ) : (activeLease?.leaseId && appFlow !== flow.EDIT) ? null : (
+                        </div>
+                    ) : (activeLease?.leaseId && appFlow !== flow.EDIT) ? null : (
+                        <div className='border'>
                             <CommonFileInput
                                 content={"Upload Contract"}
                                 handleFileChange={handlePdfUpload}
                                 fileName={contractPDF?.name || null}
                                 acceptableFileType={".pdf"}
                             />
-                        )}
-                    </div>
+                        </div>
+                    )}
                     {/* Lease Name */}
                     <div>
                         <label htmlFor="leaseName" className="block mb-2 text-xs font-medium text-gray-900 dark:text-white">
@@ -421,7 +434,12 @@ export default function LeaseGeneralInfoForm({ otherTabs, increment }) {
                             className="bg-gray-50 border border-gray-300 text-gray-900 text-xs rounded-sm focus:ring-blue-500 focus:border-blue-500 block w-full px-2.5 py-1.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                             placeholder="Enter the lease ID"
                             value={formData.leaseName}
-                            onChange={handleChange}
+                            onChange={(e) => {
+                                setFormData({
+                                    ...formData,
+                                    leaseName: e.target.value,
+                                });
+                            }}
                         />
                     </div>
                     {/* Rental */}
@@ -621,7 +639,6 @@ export default function LeaseGeneralInfoForm({ otherTabs, increment }) {
                             className="bg-gray-50 border border-gray-300 text-gray-900 text-xs rounded-sm focus:ring-blue-500 focus:border-blue-500 block w-full px-2.5 py-1.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                             value={formData.assetType}
                             onChange={handleChange}
-                            disabled={appFlow === flow.EDIT}
                         >
                             {assetTypesValues.map((type, i) => {
                                 return (
