@@ -5,7 +5,11 @@ export function IRformatCurrency(value) {
     if (value < 0) {
         return 0
     }
-    return `${(value?.toLocaleString('en-US') || "")} ${value ? (selectedLease?.currencyCode || "") : ""}`;
+    const isInt = Number.isInteger(value);
+    const formatted = isInt
+        ? value.toLocaleString('en-US', { maximumFractionDigits: 0 })
+        : value.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+    return `${formatted} ${value ? (selectedLease?.currencyCode || "") : ""}`;
 }
 
 export const formatDateForInput = (dateString) => {
@@ -14,11 +18,16 @@ export const formatDateForInput = (dateString) => {
 };
 
 export function formatCurrency(value) {
-    const companyProfile = getCompanyProfile()
+    const companyProfile = getCompanyProfile();
     if (value < 0) {
-        return 0
+        return 0;
     }
-    return `${(Number(value?.toFixed(2))?.toLocaleString('en-US') || "")} ${value ? (companyProfile?.reportingCurrencyCode || "") : ""}`;
+    const num = Number(value);
+    const isInt = Number.isInteger(num);
+    const formatted = isInt
+        ? num.toLocaleString('en-US', { maximumFractionDigits: 0 })
+        : num.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+    return `${formatted} ${value ? (companyProfile?.reportingCurrencyCode || "") : ""}`;
 }
 
 export function UnsignedformatCurrency(value) {
@@ -35,12 +44,14 @@ export function SimpleformatCurrency(value) {
 }
 
 export function exchangeGainLoss(value) {
-    const companyProfile = getCompanyProfile()
+    const companyProfile = getCompanyProfile();
     const threshold = 1e-8; // Adjust this based on precision requirements
     const thresholdCheck = Math.abs(value) < threshold;
-    const finalValue = thresholdCheck ? "0" : value?.toFixed(2).toLocaleString('en-US')
-    const retunedValue = `${(finalValue < 0 ? `(${Math.abs(finalValue)})` : Math.abs(finalValue))} ${(value && !thresholdCheck) ? (companyProfile?.reportingCurrencyCode || "") : ""}`
-    return retunedValue;
+    if (thresholdCheck) return `0 ${companyProfile?.reportingCurrencyCode || ""}`;
+    const absValue = Math.abs(value);
+    const formatted = absValue.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+    const result = value < 0 ? `(${formatted})` : formatted;
+    return `${result} ${companyProfile?.reportingCurrencyCode || ""}`;
 }
 
 export function formatDate(dateString) {

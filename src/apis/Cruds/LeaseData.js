@@ -19,10 +19,16 @@ export const addBulkLeases = async (leases) => {
         return error
     }
 }
-export const getAllLeases = async (pageNumber, pageSize) => {
+export const getAllLeases = async (pageNumber, pageSize, leaseName) => {
     const companyProfile = getCompanyProfile()
+    const payload = {
+        pageNumber: pageNumber,
+        pageSize: pageSize,
+        companyId: companyProfile.companyID,
+        leaseName: leaseName
+    }
     try {
-        const response = await callApi(`/LeaseFormData/GetAllLeases?pageNumber=${pageNumber}&pageSize=${pageSize}&companyID=${companyProfile.companyID}`, "GET")
+        const response = await callApi(`/LeaseFormData/GetAllLeases`, "POST", payload)
         return response
     } catch (error) {
         return error

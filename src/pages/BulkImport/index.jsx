@@ -11,6 +11,7 @@ import { LoadingSpinner } from '../../components/LoadingBar/LoadingBar';
 import { handleExcelExport } from '../../utils/exportService/excelExportService';
 import { excelDateToJSDate } from '../../helper/getDate';
 import { LeaseTemplateEnum as LTE } from '../../utils/enums/leaseTemplateEnum';
+import { getAllCurrencies } from '../../apis/Cruds/Currencies';
 
 export default function BulkImport() {
     const [loading, setLoading] = useState(false)
@@ -21,8 +22,10 @@ export default function BulkImport() {
     const user = getUserInfo()
     const company = getCompanyProfile()
 
-    const handleFileChange = (event) => {
+    const handleFileChange = async(event) => {
         event.preventDefault();
+        const currencies = await getAllCurrencies();
+        console.log("currencies", currencies)
         const file = (event?.target?.files || "")[0] ? event.target.files[0] : event.dataTransfer.files[0]; // Get the selected file
         const validExtensions = ['.xlsx', '.csv', '.xls']; // Allowed extensions
         if (file && validExtensions.some((ext) => file.name.toLowerCase().endsWith(ext))) {
@@ -42,6 +45,7 @@ export default function BulkImport() {
                     // Remove the first row (headers)
                     for (let i = 1; i < data.length; i++) { // Start from index 1 to skip the header
                         const row = data[i];
+                        const currencyId = currencies.filter(currency => currency.currencyCode.toLowerCase() === row[LTE.currencyCode].toLowerCase())[0]?.currencyID || company.reportingCurrencyId; // Get currency ID from the code or use default
                         if (row.length == 0) break;
                         if (row[LTE.leaseName] && allowFrequencies(row[LTE.frequency]?.toLowerCase()) && (allowFrequencies(row[LTE.incrementalFrequency]?.toLowerCase()) || row[LTE.incrementalFrequency] === undefined) && allowAnnuity(row[LTE.annuity]?.toLowerCase())) {
                             formattedData.push({
@@ -57,7 +61,7 @@ export default function BulkImport() {
                                 grv: row[LTE.grv] ?? null,  // Null if empty
                                 incrementalFrequency: row[LTE.incrementalFrequency] ?? null,  // Null if empty
                                 companyID: company.companyID,
-                                currencyID: row[LTE.currencyID] ?? company.reportingCurrencyId,
+                                currencyID: currencyId,
                                 assetType: row[LTE.assetType] ?? null, // Null if empty
                                 userID: user.userID,
                                 rouOpening: row[LTE.rouOpening] ?? null, // Null if empty
@@ -76,6 +80,7 @@ export default function BulkImport() {
                         setError("");
                     }
                 } catch (error) {
+                    debugger
                     setError("Incorrect File");
                     setFileName('');
                     formattedData = []

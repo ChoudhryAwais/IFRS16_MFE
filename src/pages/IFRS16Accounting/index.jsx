@@ -20,6 +20,7 @@ import { DisclosureMaturity, LLDisclosure, ROUDisclosure } from '../../utils/enu
 
 export default function IFRS16Accounting() {
   const [loader, setloader] = useState(false)
+  const [leaseSearchName, setLeaseSearchName] = useState("");
   const [selectedRows, setSelectedRows] = useState([]); // State to manage selected rows
   const [report, setReport] = useState({
     leaseReport: [],
@@ -44,16 +45,16 @@ export default function IFRS16Accounting() {
   const [selectedLease, setSelectedLease] = useState(null)
 
   useEffect(() => {
-    getLeases(1, 10)
+    getLeases(1, 10, leaseSearchName)
   }, [])
 
-  const getLeases = async (pageNumber, pageSize) => {
+  const getLeases = async (pageNumber, pageSize, leaseName = null) => {
     setAllLeases({
       ...allLeases,
       loading: true
     })
     setloader(true)
-    const response = await getAllLeases(pageNumber, pageSize)
+    const response = await getAllLeases(pageNumber, pageSize, leaseName)
     setAllLeases({
       ...allLeases,
       loading: false,
@@ -139,7 +140,7 @@ export default function IFRS16Accounting() {
         statusCodeMessage.leasesDeleted,
         "success",
         () => {
-          getLeases(1, 10)
+          getLeases(1, 10, leaseSearchName)
           setSelectedRows([])
         }
       )
@@ -272,6 +273,18 @@ export default function IFRS16Accounting() {
           </button>
         </div>
       </div>
+      <div className="relative mb-2">
+        <input
+          type="search"
+          id="leaseName"
+          name="leaseName"
+          className="bg-gray-50 border border-gray-300 text-gray-900 text-xs rounded-sm focus:ring-blue-500 focus:border-blue-500 block w-full py-1 px-2.5 pr-8 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+          placeholder="Search by Lease Name"
+          value={leaseSearchName}
+          onChange={e => setLeaseSearchName(e.target.value)}
+          onBlur={() => getLeases(1, 10, leaseSearchName)}
+        />
+      </div>
       <Tables
         extandedTableFunc={extandedTableFunc}
         data={allLeases?.data || []}
@@ -279,7 +292,7 @@ export default function IFRS16Accounting() {
         calcHeight="170px"
         isLoading={allLeases.loading}
         totalRecord={allLeases.totalRecord}
-        getPaginatedData={getLeases}
+        getPaginatedData={(pageNumber, pageSize) => getLeases(pageNumber, pageSize, leaseSearchName)}
         selectableRows={true}
         selectableRowsFunc={handleSelectRow}
         selectableAllRowsFunc={handleSelectAll}

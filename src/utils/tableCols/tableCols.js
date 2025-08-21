@@ -40,7 +40,7 @@ export const leaseCols = {
     ibr: [
         "Interest Rate",
         (cell) => {
-            return (cell + "%")
+            return (cell.toFixed(2) + "%")
         }
     ],
     frequency: [
@@ -347,7 +347,7 @@ export const DisclosureReport = {
     value: [
         " ",
         (cell) => {
-            return cell
+            return formatCurrency(cell)
         }
     ]
 };

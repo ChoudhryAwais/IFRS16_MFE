@@ -15,7 +15,7 @@ export const leaseTemp = [
         incrementalFrequency: "annual, bi-annual, quarterly, monthly, irregular",
         rouOpening: null,
         rouExRate: null,
-        currencyID: 1,
+        currencyCode: "USD",
         assetType: "BTS Sites,Land and buildings"
     },
     {
@@ -32,7 +32,7 @@ export const leaseTemp = [
         incrementalFrequency: "annual, bi-annual, quarterly, monthly, irregular",
         rouOpening: null,
         rouExRate: null,
-        currencyID: 1,
+        currencyCode: "USD",
         assetType: "BTS Sites,Land and buildings"
     }
 ];
