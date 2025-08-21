@@ -632,7 +632,7 @@ export default function LeaseGeneralInfoForm({ otherTabs, increment }) {
                         <label htmlFor="currency" className="block mb-2 text-xs font-medium text-gray-900 dark:text-white">
                             Asset Type
                         </label>
-                        <small className="text-gray-500 block mb-1 dark:text-gray-200 text-[10px]">Choose the lease Currency</small>
+                        <small className="text-gray-500 block mb-1 dark:text-gray-200 text-[10px]">Choose the asset type</small>
                         <select
                             id="assetType"
                             name="assetType"

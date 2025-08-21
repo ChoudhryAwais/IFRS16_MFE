@@ -7,6 +7,7 @@ import IFRS16Accounting from './pages/IFRS16Accounting';
 import Login from './pages/Login';
 import Register from './pages/Registration';
 import BulkImport from './pages/BulkImport';
+import Setting from './pages/Setting';
 
 function App() {
   return (
@@ -20,6 +21,7 @@ function App() {
           <Route path='/Leases/:id' element={<ProtectedRoute Component={Leases} />} />
           <Route path='/IFRS16Accounting' element={<ProtectedRoute Component={IFRS16Accounting} />} />
           <Route path='/BulkImport' element={<ProtectedRoute Component={BulkImport} />} />
+          <Route path='/Setting' element={<ProtectedRoute Component={Setting} />} />
         </Routes>
       </Router>
     </div>

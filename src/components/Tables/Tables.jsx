@@ -137,68 +137,70 @@ export default function Tables(props) {
 
             </div>
             <React.Fragment>
-                {pagination && data.length > 0 ?
+                {data.length > 0 ?
                     <div className="flex justify-between">
                         <div className="text-right mt-2">
                             <span className="text-xs text-gray-600 mt-2 p-2 mr-2 dark:text-gray-200">Total Records: {totalRecord}</span>
                         </div>
-                        <nav aria-label="Page navigation example" className='mt-2'>
-                            <ul className="inline-flex text-xs ">
-                                <li>
-                                    <select
-                                        id="pageSize"
-                                        value={pageSize}
-                                        onChange={handlePageSizeChange}
-                                        className="h-8 px-2 mr-1 text-sm text-gray-500 bg-white border border-gray-300 rounded-sm dark:bg-gray-800 dark:text-white"
-                                    >
-                                        <option value={10}>10</option>
-                                        <option value={20}>20</option>
-                                        <option value={50}>50</option>
-                                        <option value={100}>100</option>
-                                        <option value={500}>500</option>
+                        {pagination ?
+                            <nav aria-label="Page navigation example" className='mt-2'>
+                                <ul className="inline-flex text-xs ">
+                                    <li>
+                                        <select
+                                            id="pageSize"
+                                            value={pageSize}
+                                            onChange={handlePageSizeChange}
+                                            className="h-8 px-2 mr-1 text-sm text-gray-500 bg-white border border-gray-300 rounded-sm dark:bg-gray-800 dark:text-white"
+                                        >
+                                            <option value={10}>10</option>
+                                            <option value={20}>20</option>
+                                            <option value={50}>50</option>
+                                            <option value={100}>100</option>
+                                            <option value={500}>500</option>
 
-                                    </select>
-                                </li>
-                                <li>
-                                    <button
-                                        onClick={() => handlePageNumberChange(1)}
-                                        className="flex items-center justify-center px-3 h-8 leading-tight text-gray-500 bg-white border border-gray-300 rounded-s-lg hover:bg-gray-100 hover:text-gray-700 fa fa-backward dark:bg-gray-800 dark:text-white"
-                                        disabled={pageNumber === 1}
-                                    >
-                                    </button>
-                                </li>
-                                <li>
-                                    <button
-                                        className="flex items-center justify-center px-3 h-8 ms-0 leading-tight text-gray-500 bg-white border border-e-0 border-gray-300 rounded-s-lg hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:text-white"
-                                        disabled={pageNumber === 1}
-                                        onClick={() => handlePageNumberChange(pageNumber - 1)}
-                                    >
-                                        Previous
-                                    </button>
-                                </li>
-                                <li>
-                                    <button
-                                        className="flex items-center justify-center px-3 h-8 leading-tight text-gray-500 bg-white border border-gray-300 rounded-e-lg hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:text-white"
-                                        disabled={pageNumber === totalPages}
-                                        onClick={() => handlePageNumberChange(pageNumber + 1)}
-                                    >
-                                        Next
-                                    </button>
-                                </li>
-                                <li>
-                                    <button
-                                        onClick={() => handlePageNumberChange(totalPages)}
-                                        className="flex items-center justify-center px-3 h-8 leading-tight text-gray-500 bg-white border border-gray-300 rounded-e-lg hover:bg-gray-100 hover:text-gray-700 fa fa-forward dark:bg-gray-800 dark:text-white"
-                                        disabled={pageNumber === totalPages}
-                                    >
-                                    </button>
-                                </li>
+                                        </select>
+                                    </li>
+                                    <li>
+                                        <button
+                                            onClick={() => handlePageNumberChange(1)}
+                                            className="flex items-center justify-center px-3 h-8 leading-tight text-gray-500 bg-white border border-gray-300 rounded-s-lg hover:bg-gray-100 hover:text-gray-700 fa fa-backward dark:bg-gray-800 dark:text-white"
+                                            disabled={pageNumber === 1}
+                                        >
+                                        </button>
+                                    </li>
+                                    <li>
+                                        <button
+                                            className="flex items-center justify-center px-3 h-8 ms-0 leading-tight text-gray-500 bg-white border border-e-0 border-gray-300 rounded-s-lg hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:text-white"
+                                            disabled={pageNumber === 1}
+                                            onClick={() => handlePageNumberChange(pageNumber - 1)}
+                                        >
+                                            Previous
+                                        </button>
+                                    </li>
+                                    <li>
+                                        <button
+                                            className="flex items-center justify-center px-3 h-8 leading-tight text-gray-500 bg-white border border-gray-300 rounded-e-lg hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:text-white"
+                                            disabled={pageNumber === totalPages}
+                                            onClick={() => handlePageNumberChange(pageNumber + 1)}
+                                        >
+                                            Next
+                                        </button>
+                                    </li>
+                                    <li>
+                                        <button
+                                            onClick={() => handlePageNumberChange(totalPages)}
+                                            className="flex items-center justify-center px-3 h-8 leading-tight text-gray-500 bg-white border border-gray-300 rounded-e-lg hover:bg-gray-100 hover:text-gray-700 fa fa-forward dark:bg-gray-800 dark:text-white"
+                                            disabled={pageNumber === totalPages}
+                                        >
+                                        </button>
+                                    </li>
 
-                                <li>
-                                    <div className="ml-2 flex items-center justify-center px-5  h-8 leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:text-white"> {pageNumber + ' / ' + totalPages}</div>
-                                </li>
-                            </ul>
-                        </nav>
+                                    <li>
+                                        <div className="ml-2 flex items-center justify-center px-5  h-8 leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:text-white"> {pageNumber + ' / ' + totalPages}</div>
+                                    </li>
+                                </ul>
+                            </nav> : null
+                        }
                     </div> : null}
 
             </React.Fragment>

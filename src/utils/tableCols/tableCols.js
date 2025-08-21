@@ -352,3 +352,19 @@ export const DisclosureReport = {
     ]
 };
 
+
+export const exchangeRateCol = {
+    currencyName: "Currency Name",
+    exchangeRate: [
+        "Exchange Rate",
+        (cell) => {
+            return formatCurrency(cell)
+        }
+    ],
+    exchangeDate: [
+        "Exchange Date",
+        (cell) => {
+            return formatDate(cell)
+        }
+    ]
+};
