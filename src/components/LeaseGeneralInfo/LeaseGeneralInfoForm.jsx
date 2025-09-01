@@ -97,7 +97,9 @@ export default function LeaseGeneralInfoForm({ otherTabs, increment }) {
                 return true
         }
         if (formData.isChangeInScope) {
-            if (formData.rouOpening === null || formData.rouOpening === '' || formData.llOpening === null || formData.llOpening === '')
+            if (formData.rouOpening === null || formData.rouOpening === ''
+                //  || formData.llOpening === null || formData.llOpening === ''
+            )
                 return true
         }
         if (activeLease?.leaseId) {
@@ -118,7 +120,7 @@ export default function LeaseGeneralInfoForm({ otherTabs, increment }) {
             }
         }
         if (
-            contractInvalid ||
+            // contractInvalid ||
             formData.leaseName === '' ||
             formData.rental === '' ||
             formData.commencementDate === '' ||
@@ -142,7 +144,10 @@ export default function LeaseGeneralInfoForm({ otherTabs, increment }) {
         setLoading(true);
         const leaseResponse = await addNewLease(leaseModal);
         if (leaseResponse?.leaseId) {
-            uploadLeaseContract(leaseResponse?.leaseId)
+            if (contractPDF)
+                uploadLeaseContract(leaseResponse?.leaseId)
+            else
+                setLoading(false);
         } else {
             setLoading(false);
             SwalPopup(
@@ -361,7 +366,6 @@ export default function LeaseGeneralInfoForm({ otherTabs, increment }) {
             );
         }
     };
-    console.log("formData", formData)
     return (
         <React.Fragment>
             <LoadingSpinner isLoading={loading} />
@@ -532,7 +536,7 @@ export default function LeaseGeneralInfoForm({ otherTabs, increment }) {
                                     onChange={handleNumericChange}
                                 />
                             </div>
-                            <div>
+                            {/* <div>
                                 <label htmlFor="rouOpening" className="block mb-2 text-xs font-medium text-gray-900 dark:text-white">
                                     Lease Liability Opening
                                 </label>
@@ -546,7 +550,7 @@ export default function LeaseGeneralInfoForm({ otherTabs, increment }) {
                                     value={formData.llOpening}
                                     onChange={handleNumericChange}
                                 />
-                            </div>
+                            </div> */}
                         </>
                         : null}
                     {/* Annuity */}
@@ -596,7 +600,7 @@ export default function LeaseGeneralInfoForm({ otherTabs, increment }) {
                             className="bg-gray-50 border border-gray-300 text-gray-900 text-xs rounded-sm focus:ring-blue-500 focus:border-blue-500 block w-full px-2.5 py-1.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                             value={formData.frequency}
                             onChange={handleChange}
-                            disabled={appFlow === flow.EDIT}
+                            disabled={appFlow === flow.EDIT || (activeLease?.leaseId ? true : false)}
                         >
                             {frequencies.map((freq, i) => {
                                 return (
