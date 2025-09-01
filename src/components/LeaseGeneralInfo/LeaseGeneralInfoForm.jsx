@@ -146,8 +146,10 @@ export default function LeaseGeneralInfoForm({ otherTabs, increment }) {
         if (leaseResponse?.leaseId) {
             if (contractPDF)
                 uploadLeaseContract(leaseResponse?.leaseId)
-            else
+            else {
                 setLoading(false);
+                leaseSubmitPopup()
+            }
         } else {
             setLoading(false);
             SwalPopup(
@@ -350,12 +352,7 @@ export default function LeaseGeneralInfoForm({ otherTabs, increment }) {
             const response = await addLeaseContract(contractData)
             if (response.message == apiResponses.leaseContractUploaded) {
                 setLoading(false);
-                SwalPopup(
-                    "Lease Added",
-                    statusCodeMessage.leaseAdded,
-                    "success",
-                    () => navigate("/IFRS16Accounting")
-                );
+                leaseSubmitPopup()
             }
         } catch (error) {
             setLoading(false);
@@ -366,6 +363,15 @@ export default function LeaseGeneralInfoForm({ otherTabs, increment }) {
             );
         }
     };
+
+    const leaseSubmitPopup = () => {
+        SwalPopup(
+            "Lease Added",
+            statusCodeMessage.leaseAdded,
+            "success",
+            () => navigate("/IFRS16Accounting")
+        );
+    }
     return (
         <React.Fragment>
             <LoadingSpinner isLoading={loading} />
