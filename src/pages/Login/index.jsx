@@ -150,12 +150,12 @@ export default function Login() {
                         Login
                     </button>
 
-                    <p className="text-center text-gray-600 mt-4">
+                    {/* <p className="text-center text-gray-600 mt-4">
                         Don’t have an account?{" "}
                         <Link to="/Registration" className="text-blue-500 hover:underline">
                             Sign up
                         </Link>
-                    </p>
+                    </p> */}
                 </div>
             </div>
         </>
