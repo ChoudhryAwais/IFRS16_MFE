@@ -15,7 +15,7 @@ function ViewExchangeRates() {
     useEffect(() => {
         async function fetchCurrencies() {
             const res = await getAllCurrencies();
-            const foreignCurrencies = res.filter(c => c.currencyID !== companyProfile?.reportingCurrencyId);
+            const foreignCurrencies = res?.filter(c => c.currencyID !== companyProfile?.reportingCurrencyId) || [];
             if (Array.isArray(foreignCurrencies)) {
                 setCurrencies(foreignCurrencies);
                 if (foreignCurrencies.length > 0) setCurrencyId(foreignCurrencies[0].currencyID);

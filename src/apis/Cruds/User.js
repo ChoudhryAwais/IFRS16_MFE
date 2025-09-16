@@ -1,4 +1,20 @@
 import { callApi } from "./../callApi"
+export const updateUser = async (userData) => {
+    try {
+        const response = await callApi(`/User/Update`, "PUT", userData);
+        return response;
+    } catch (error) {
+        return error;
+    }
+}
+export const verifyPassword = async ({ userId, password }) => {
+    try {
+        const response = await callApi(`/User/VerifyPassword`, "POST", { userId, password });
+        return response;
+    } catch (error) {
+        return error;
+    }
+}
 
 export const registerUser = async (userModal) => {
     try {

@@ -9,6 +9,8 @@ export const statusCodeMessage = {
     somethingWentWrong: "Something went Wrong",
     alreadyExist: "User already exis",
     userCreated: "New user has been created!",
+    userUpdated: "User has been updated successfully!",
+    userUpdatedFail: "Failed to update user!",
     leaseAdded: "New lease has been added!",
     bulkleasesAdded: "Leases Imported Successfully!",
     leasesDeleted: "Leases Deleted Successfully!",

@@ -17,6 +17,7 @@ export default function ProtectedRoute({ Component }) {
         {/* Toggle Button */}
 
         <div className='flex-1'>
+          
           <LeftHandNav isCollapsed={isCollapsed} onCollapse={() => setIsCollapsed(!isCollapsed)} />
         </div>
         <div>
