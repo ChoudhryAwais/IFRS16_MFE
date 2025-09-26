@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { getAllCurrencies } from "../../../apis/Cruds/Currencies";
 import AddExchangeRateModal from "./AddExchangeRateModal";
+import RemeasureAllLeasesModal from "./RemeasureAllLeasesModal";
 import { CustomModal } from "../../../components/common/commonModal";
 import ExchangeRatesTable from "../../../components/ExchangeRate/ExchangeRate";
 import CommonButton from "../../../components/common/commonButton";
@@ -11,7 +12,9 @@ function ViewExchangeRates() {
     const [currencies, setCurrencies] = useState([]);
     const [selectedDate, setSelectedDate] = useState("");
     const [showAddModal, setShowAddModal] = useState(false);
+    const [showRemeasureModal, setShowRemeasureModal] = useState(false);
     const companyProfile = getCompanyProfile();
+
     useEffect(() => {
         async function fetchCurrencies() {
             const res = await getAllCurrencies();
@@ -23,6 +26,10 @@ function ViewExchangeRates() {
         }
         fetchCurrencies();
     }, []);
+
+    const RemeasureConfirmation = () => {
+        setShowRemeasureModal(true);
+    }
 
     return (
         <div className="border rounded-md bg-white dark:bg-gray-800 p-4 shadow-sm">
@@ -59,24 +66,45 @@ function ViewExchangeRates() {
                 </div>
 
             </div>
-            <div className="w-full lg:w-auto flex justify-end lg:mt-0">
+            <div className="w-full lg:w-auto flex justify-end lg:mt-0 mb-1">
                 <CommonButton
                     handleValidateForm={() => { return false }}
                     onSubmit={() => {
                         setCurrencyId(currencies[0]?.currencyID || 0);
                         setSelectedDate("");
                     }}
-                    extandedClass={"bg-gray-500 hover:bg-gray-700 text-white hover:text-white"}
+                    extandedClass={"text-black dark:bg-gray-800 dark:text-white dark:hover:text-black dark:hover:bg-gray-200"}
                     text="Reset Filter"
                 />
                 <CommonButton
                     handleValidateForm={() => { return false }}
                     onSubmit={() => setShowAddModal(true)}
-                    extandedClass={"bg-indigo-600 hover:bg-indigo-700 text-white hover:text-white"}
+                    extandedClass={"text-black border ml-1 dark:bg-gray-800 dark:text-white dark:hover:text-black dark:hover:bg-gray-200"}
                     text="Add New"
                 />
             </div>
             <ExchangeRatesTable currencyId={currencyId} selectedDate={selectedDate} />
+            <div className="w-full flex justify-end mt-2">
+                <CommonButton
+                    handleValidateForm={() => { return false }}
+                    onSubmit={() => RemeasureConfirmation()}
+                    extandedClass={"text-black border ml-2 shadow-sm dark:bg-gray-800 dark:text-white dark:hover:text-black dark:hover:bg-gray-200"}
+                    text="Remeasure All Leases"
+                />
+            </div>
+            <CustomModal
+                openModal={showRemeasureModal}
+                closeModal={() => setShowRemeasureModal(false)}
+                modalTitle="Remeasure All Leases"
+                mainContent={
+                    <RemeasureAllLeasesModal
+                        onClose={() => setShowRemeasureModal(false)}
+                        currencies={currencies}
+                        defaultCurrencyId={currencyId}
+                        defaultDate={selectedDate}
+                    />
+                }
+            />
             <CustomModal
                 openModal={showAddModal}
                 closeModal={() => setShowAddModal(false)}

@@ -13,7 +13,7 @@ export default function CommonButton(
             type="button"
             className={
                 (handleValidateForm() ?
-                    "cursor-no-drop " : " ") + extandedClass + " py-1.5 px-1.5 text-xs focus:outline-none border border-gray-200"
+                    "cursor-no-drop " : " ") + extandedClass + " py-1.5 px-1.5 text-xs focus:outline-none border border-gray-300"
             }>
             {text}
         </button>

@@ -39,7 +39,7 @@ export default function ExchangeRatesTable({ currencyId, selectedDate }) {
             <Tables
                 data={filteredData}
                 columns={exchangeRateCol}
-                calcHeight="280px"
+                calcHeight="290px"
                 isLoading={isLoading}
                 totalRecord={totalRecord}
                 getPaginatedData={fetchRates}
