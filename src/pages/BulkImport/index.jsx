@@ -80,7 +80,6 @@ export default function BulkImport() {
                         setError("");
                     }
                 } catch (error) {
-                    debugger
                     setError("Incorrect File");
                     setFileName('');
                     formattedData = []

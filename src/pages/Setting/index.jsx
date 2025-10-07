@@ -33,10 +33,8 @@ export default function Setting() {
     ].filter(Boolean); // Filter out false values
 
     return (
-        <div className="p-2">
-            <div className="mt-2">
-                <Tabs tabs={tabs} active={activeTab} />
-            </div>
-        </div>
+
+        <Tabs tabs={tabs} active={activeTab} />
+
     );
 }

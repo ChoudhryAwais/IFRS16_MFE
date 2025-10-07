@@ -17,3 +17,13 @@ export const addExchangeRate = async (payload) => {
         return error;
     }
 };
+
+// Batch endpoint to send selected exchange rate IDs as a comma-separated string
+export const batchExchangeRatesByIds = async (idsString) => {
+    try {
+        const response = await callApi(`/ExchangeRate/batch/${idsString}`, "DELETE");
+        return response;
+    } catch (error) {
+        return error;
+    }
+};

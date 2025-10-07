@@ -8,6 +8,7 @@ import CommonButton from "../../../components/common/commonButton";
 import { getCompanyProfile } from "../../../apis/Cruds/sessionCrud";
 
 function ViewExchangeRates() {
+    const [refresh, setRefresh] = useState(true); // State to trigger refresh
     const [currencyId, setCurrencyId] = useState(0);
     const [currencies, setCurrencies] = useState([]);
     const [selectedDate, setSelectedDate] = useState("");
@@ -83,7 +84,11 @@ function ViewExchangeRates() {
                     text="Add New"
                 />
             </div>
-            <ExchangeRatesTable currencyId={currencyId} selectedDate={selectedDate} />
+            <ExchangeRatesTable
+                refresh={refresh}
+                currencyId={currencyId}
+                selectedDate={selectedDate}
+            />
             <div className="w-full flex justify-end mt-2">
                 <CommonButton
                     handleValidateForm={() => { return false }}
@@ -116,6 +121,7 @@ function ViewExchangeRates() {
                         currencies={currencies}
                         defaultCurrencyId={currencyId}
                         defaultDate={selectedDate}
+                        refreshExchangeRates={() => setRefresh(!refresh)} // Toggle refresh state to trigger data reload
                     />
                 }
             />

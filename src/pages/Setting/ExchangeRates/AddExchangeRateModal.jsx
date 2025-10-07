@@ -4,7 +4,7 @@ import CommonButton from "../../../components/common/commonButton";
 import { allowDecimalNumbers } from "../../../helper/checkForAllowVal";
 import { addExchangeRate } from "../../../apis/Cruds/ExchangeRates";
 
-export default function AddExchangeRateModal({ open, onClose, currencies, defaultCurrencyId, defaultDate }) {
+export default function AddExchangeRateModal({ open, onClose, currencies, defaultCurrencyId, defaultDate, refreshExchangeRates }) {
     const [formData, setFormData] = useState({
         currencyID: defaultCurrencyId || (currencies[0]?.currencyID || ""),
         exchangeDate: defaultDate || "",
@@ -18,6 +18,7 @@ export default function AddExchangeRateModal({ open, onClose, currencies, defaul
         await addExchangeRate(formData);
         setIsLoading(false);
         onClose && onClose();
+        refreshExchangeRates();
     };
     const handleNumericChange = (e) => {
         const { name, value } = e.target;

@@ -69,7 +69,7 @@ export default function Tables(props) {
                         >
                             <tr>
                                 {selectableRows && data.length > 0 ? <th className="p-1 px-2 border border-gray-300 text-left">
-                                    <input type="checkbox" onChange={(e) => selectableAllRowsFunc(e, data)} />
+                                    {/* <input type="checkbox" onChange={(e) => selectableAllRowsFunc(e, data)} /> */}
                                 </th> : null}
 
                                 {Object.values(columns).map((col, i) => {
@@ -104,7 +104,10 @@ export default function Tables(props) {
                                                 <input
                                                     type="checkbox"
                                                     checked={selectedRows.includes(row[selectItem])}
-                                                    onChange={(event) => selectableRowsFunc(event, row[selectItem])}
+                                                    onChange={(event) => {
+                                                        selectableRowsFunc(event, row[selectItem])
+
+                                                    }}
                                                 />
                                             </td> : null}
 

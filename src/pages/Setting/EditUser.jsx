@@ -103,7 +103,6 @@ export default function EditUserTab() {
                         userInfo.username = formData.username;
                         userInfo.phoneNumber = formData.phoneNumber;
                         userInfo.userAddress = formData.userAddress;
-                        debugger
                         setSessionStorage({ key: sessionVariable.userInfo, value: userInfo });
                         navigate("/Dashboard")
                     }
@@ -167,29 +166,29 @@ export default function EditUserTab() {
 
                 {showNewPassword && (
                     <>
-                    <div className="mt-4">
-                        <label className="block text-xs font-semibold mb-2 text-gray-700 dark:text-gray-200">New Password</label>
-                        <input
-                            type="password"
-                            value={newPassword}
-                            onChange={handleNewPasswordChange}
-                            className="w-full border border-gray-300 dark:border-gray-600 rounded px-3 py-2 text-xs focus:ring-2 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:text-white transition"
-                            placeholder="Enter new password"
-                        />
-                    </div>
-                    <div className="mt-4">
-                        <label className="block text-xs font-semibold mb-2 text-gray-700 dark:text-gray-200">Confirm Password</label>
-                        <input
-                            type="password"
-                            value={confirmPassword}
-                            onChange={handleConfirmPasswordChange}
-                            className="w-full border border-gray-300 dark:border-gray-600 rounded px-3 py-2 text-xs focus:ring-2 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:text-white transition"
-                            placeholder="Confirm new password"
-                        />
-                    </div>
-                    {passwordError && (
-                        <span className="text-xs text-red-500">{passwordError}</span>
-                    )}
+                        <div className="mt-4">
+                            <label className="block text-xs font-semibold mb-2 text-gray-700 dark:text-gray-200">New Password</label>
+                            <input
+                                type="password"
+                                value={newPassword}
+                                onChange={handleNewPasswordChange}
+                                className="w-full border border-gray-300 dark:border-gray-600 rounded px-3 py-2 text-xs focus:ring-2 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:text-white transition"
+                                placeholder="Enter new password"
+                            />
+                        </div>
+                        <div className="mt-4">
+                            <label className="block text-xs font-semibold mb-2 text-gray-700 dark:text-gray-200">Confirm Password</label>
+                            <input
+                                type="password"
+                                value={confirmPassword}
+                                onChange={handleConfirmPasswordChange}
+                                className="w-full border border-gray-300 dark:border-gray-600 rounded px-3 py-2 text-xs focus:ring-2 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:text-white transition"
+                                placeholder="Confirm new password"
+                            />
+                        </div>
+                        {passwordError && (
+                            <span className="text-xs text-red-500">{passwordError}</span>
+                        )}
                     </>
                 )}
 

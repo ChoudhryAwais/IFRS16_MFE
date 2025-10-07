@@ -15,6 +15,7 @@ export const statusCodeMessage = {
     bulkleasesAdded: "Leases Imported Successfully!",
     leasesDeleted: "Leases Deleted Successfully!",
     deleteConfirm: "Are you sure you want to delete this lease?",
+    deleteConfirmExchange: "Are you sure you want to delete selected rates?",
     yesDelete: "Yes, delete it!",
     terminateLease: "Are you sure you want to terminate this lease?",
     termiated: "Yes, Terminate!",
