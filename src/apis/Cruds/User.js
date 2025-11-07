@@ -33,3 +33,12 @@ export const loginUser = async (loginModal) => {
         return error
     }
 }
+// Call logout API on server to invalidate session/token
+export const logoutUser = async () => {
+    try {
+        const response = await callApi(`/Logout`, "POST");
+        return response;
+    } catch (error) {
+        return error;
+    }
+}

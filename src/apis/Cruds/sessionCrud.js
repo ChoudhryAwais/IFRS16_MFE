@@ -23,3 +23,6 @@ export const getSessionStorage = ({ key }) => {
 export const removeSessionStorageVariable = ({ key }) => {
     sessionStorage.removeItem(key);
 }
+export const clearAllSessionStorage = () => {
+    sessionStorage.clear();
+}

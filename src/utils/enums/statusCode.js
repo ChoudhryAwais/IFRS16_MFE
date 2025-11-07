@@ -33,4 +33,5 @@ export const statusCodeMessage = {
 
 export const apiResponses = {
     leaseContractUploaded: "Lease contract uploaded successfully.",
+    logoutSuccess: "Logged out successfully."
 }

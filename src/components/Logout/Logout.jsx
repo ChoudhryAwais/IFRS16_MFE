@@ -1,23 +1,27 @@
-import React from 'react'
-import { removeSessionStorageVariable } from '../../apis/Cruds/sessionCrud'
-import { sessionVariable } from '../../utils/enums/sessionStorage'
+import React, { useState } from 'react'
+import { clearAllSessionStorage } from '../../apis/Cruds/sessionCrud'
 import { useNavigate } from 'react-router-dom'
+import { logoutUser } from '../../apis/Cruds/User'
+import { apiResponses } from '../../utils/enums/statusCode'
+import { LoadingSpinner } from '../LoadingBar/LoadingBar'
 
 export default function Logout({ isCollapsed }) {
     const navigate = useNavigate()
+    const [loading, setLoading] = useState(false)
 
-    const logout = () => {
-        removeSessionStorageVariable({ key: sessionVariable.token })
-        removeSessionStorageVariable({ key: sessionVariable.userInfo })
-        removeSessionStorageVariable({ key: sessionVariable.companyProfile })
-        removeSessionStorageVariable({ key: sessionVariable.selectLease })
-        removeSessionStorageVariable({ key: sessionVariable.flow })
-
-        navigate("/")
+    const logout = async () => {
+        setLoading(true)
+        const response = await logoutUser();
+        setLoading(false)
+        if (response && response.message === apiResponses.logoutSuccess) {
+            clearAllSessionStorage()
+            navigate("/")
+        }
     }
 
     return (
-        <div>
+        <React.Fragment>
+            <LoadingSpinner isLoading={loading} />
             <button
                 onClick={logout}
                 className="text-xs w-full flex items-center justify-center text-white bg-gray-600 hover:bg-gray-700 rounded-lg p-2"
@@ -28,6 +32,7 @@ export default function Logout({ isCollapsed }) {
                 {!isCollapsed ? <span>Logout</span> : null}
 
             </button>
-        </div>
+        </React.Fragment>
+
     )
 }

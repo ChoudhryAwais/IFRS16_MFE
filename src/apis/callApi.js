@@ -1,12 +1,14 @@
 import axios from "axios";
+import { sessionVariable } from "../utils/enums/sessionStorage";
+import { getSessionStorage } from "./Cruds/sessionCrud";
+import { logoutSession } from "../middlewares/SingleSession/SingleSession";
 export const callApi = (endpoint, method, payload = null, username = "11214033", password = "60-dayfreetrial") => {
-  // let token =
-  //   Store.getState().Login && Store.getState().Login.logIn.payload.token;
-  // const authHeaders = token
-  //   ? {
-  //       Authorization: `Bearer ${token}`,
-  //     }
-  //   : {};
+  // read jwt token from session storage
+  const jwtToken = JSON.parse(getSessionStorage({ key: sessionVariable.token }));
+  // build auth headers if token exists
+  const authHeaders = jwtToken
+    ? { Authorization: `Bearer ${jwtToken}` }
+    : {};
   const configaxios = {
     method,
     url: `${process.env.REACT_APP_URL}${endpoint}`,
@@ -17,8 +19,10 @@ export const callApi = (endpoint, method, payload = null, username = "11214033",
       "Content-Type": "application/json",
       "Access-Control-Max-Age": "6000",
       "Access-Control-Allow-Headers": "*",
+      // include Authorization when available
+      ...authHeaders,
     },
-    ...(username && password ? { auth: { username, password } } : {}),
+    // ...(username && password ? { auth: { username, password } } : {}),
   };
   return new Promise((resolve, reject) => {
     axios(configaxios)
@@ -26,6 +30,7 @@ export const callApi = (endpoint, method, payload = null, username = "11214033",
         resolve(res.data);
       })
       .catch((error) => {
+        logoutSession(error)
         reject(error);
       });
   });
@@ -33,6 +38,8 @@ export const callApi = (endpoint, method, payload = null, username = "11214033",
 
 export const callApiForFile = (endpoint, method, payload = null, username = "11214033", password = "60-dayfreetrial") => {
   const contentType = method === "GET" ? "application/json" : "multipart/form-data";
+  const jwtToken = JSON.parse(getSessionStorage({ key: sessionVariable.token }));
+  const authHeaders = jwtToken ? { Authorization: `Bearer ${jwtToken}` } : {};
   const configaxios = {
     method,
     url: `${process.env.REACT_APP_URL}${endpoint}`,
@@ -44,8 +51,9 @@ export const callApiForFile = (endpoint, method, payload = null, username = "112
       'Content-Type': contentType,
       "Access-Control-Max-Age": "6000",
       "Access-Control-Allow-Headers": "*",
+      ...authHeaders,
     },
-    ...(username && password ? { auth: { username, password } } : {}),
+    // ...(username && password ? { auth: { username, password } } : {}),
   };
   return new Promise((resolve, reject) => {
     axios(configaxios)
@@ -53,6 +61,7 @@ export const callApiForFile = (endpoint, method, payload = null, username = "112
         resolve(res.data);
       })
       .catch((error) => {
+        logoutSession(error)
         reject(error);
       });
   });
