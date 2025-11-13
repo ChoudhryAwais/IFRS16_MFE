@@ -28,7 +28,8 @@ export const statusCodeMessage = {
     leaseUpdated: "Lease has been updated successfully!",
     allowPopup: "Please allow popups to view the PDF.",
     contractNotAvailable: "No contract available for this lease.",
-    limitedAccess: "You can select a maximum of 10 leases at a time."
+    limitedAccess: "You can select a maximum of 10 leases at a time.",
+    licenseExpired: "Your license has expired. Please contact support to renew your license."
 }
 
 export const apiResponses = {

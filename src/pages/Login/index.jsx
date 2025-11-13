@@ -48,6 +48,7 @@ export default function Login() {
     const handleSubmit = async () => {
         setLoading(true)
         const response = await loginUser(formData)
+        debugger
         setLoading(false)
         if (response?.token) {
             setSessionStorage({
@@ -70,7 +71,15 @@ export default function Login() {
                 statusCodeMessage.unauthorized,
                 "error"
             )
-        } else {
+
+        } else if (response && response.response && response.response?.data?.message) {
+            SwalPopup(
+                response.response?.data?.message,
+                statusCodeMessage.licenseExpired,
+                "error"
+            )
+        }
+        else {
             SwalPopup(
                 "Sorry!",
                 statusCodeMessage.somethingWentWrong,
