@@ -48,7 +48,6 @@ export default function Login() {
     const handleSubmit = async () => {
         setLoading(true)
         const response = await loginUser(formData)
-        debugger
         setLoading(false)
         if (response?.token) {
             setSessionStorage({
