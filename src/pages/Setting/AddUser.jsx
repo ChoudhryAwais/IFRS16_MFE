@@ -68,7 +68,6 @@ export default function AddUserTab() {
         setLoading(true)
         const response = await registerUser(user)
         setLoading(false)
-        debugger
         if (response?.userID) {
             SwalPopup(
                 "User Created",
