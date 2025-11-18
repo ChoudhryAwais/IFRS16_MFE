@@ -1,10 +1,11 @@
-import { callApi, callApiForFile } from "../callApi"
+import { ifrsServieForFile } from "../Gateways/ifrsServiceForFile"
+import { ifrsService } from "../Gateways/ifrsService"
 import { getCompanyProfile } from "./sessionCrud"
 
 
 export const addNewLease = async (leaseModal) => {
     try {
-        const response = await callApi(`/LeaseFormData`, "POST", leaseModal)
+        const response = await ifrsService(`/LeaseFormData`, "POST", leaseModal)
         return response
     } catch (error) {
         return error
@@ -13,7 +14,7 @@ export const addNewLease = async (leaseModal) => {
 
 export const addBulkLeases = async (leases) => {
     try {
-        const response = await callApi(`/LeaseFormData/BulkImport`, "POST", leases)
+        const response = await ifrsService(`/LeaseFormData/BulkImport`, "POST", leases)
         return response
     } catch (error) {
         return error
@@ -28,7 +29,7 @@ export const getAllLeases = async (pageNumber, pageSize, leaseName) => {
         leaseName: leaseName
     }
     try {
-        const response = await callApi(`/LeaseFormData/GetAllLeases`, "POST", payload)
+        const response = await ifrsService(`/LeaseFormData/GetAllLeases`, "POST", payload)
         return response
     } catch (error) {
         return error
@@ -36,7 +37,7 @@ export const getAllLeases = async (pageNumber, pageSize, leaseName) => {
 }
 export const getLeaseById = async (leaseId) => {
     try {
-        const response = await callApi(`/LeaseFormData/GetLeaseById/${leaseId}`, "GET")
+        const response = await ifrsService(`/LeaseFormData/GetLeaseById/${leaseId}`, "GET")
         return response
     } catch (error) {
         return error
@@ -46,7 +47,7 @@ export const getLeaseById = async (leaseId) => {
 export const getAllLeasesforCompany = async () => {
     const companyProfile = getCompanyProfile()
     try {
-        const response = await callApi(`/LeaseFormData/GetAllLeasesForCompany?companyId=${companyProfile.companyID}`, "GET")
+        const response = await ifrsService(`/LeaseFormData/GetAllLeasesForCompany?companyId=${companyProfile.companyID}`, "GET")
         return response
     } catch (error) {
         return error
@@ -54,7 +55,7 @@ export const getAllLeasesforCompany = async () => {
 }
 export const deleteLeases = async (leasesId) => {
     try {
-        const response = await callApi(`/LeaseFormData/Delete`, "POST", leasesId)
+        const response = await ifrsService(`/LeaseFormData/Delete`, "POST", leasesId)
         return response
     } catch (error) {
         return error
@@ -62,7 +63,7 @@ export const deleteLeases = async (leasesId) => {
 }
 export const terminateLease = async (payload) => {
     try {
-        const response = await callApi(`/LeaseFormData/TerminateLease`, "POST", payload)
+        const response = await ifrsService(`/LeaseFormData/TerminateLease`, "POST", payload)
         return response
     } catch (error) {
         return error
@@ -71,7 +72,7 @@ export const terminateLease = async (payload) => {
 
 export const modifyLease = async (payload) => {
     try {
-        const response = await callApi(`/LeaseFormData/ModifyLease`, "POST", payload)
+        const response = await ifrsService(`/LeaseFormData/ModifyLease`, "POST", payload)
         return response
     } catch (error) {
         return error
@@ -79,18 +80,18 @@ export const modifyLease = async (payload) => {
 }
 
 export const addLeaseContract = async (leaseContractModal) => {
-    const response = await callApiForFile(`/LeaseFormData/UploadLeaseContract`, "POST", leaseContractModal)
+    const response = await ifrsServieForFile(`/LeaseFormData/UploadLeaseContract`, "POST", leaseContractModal)
     return response
 }
 
 export const getLeaseContract = async (leaseId) => {
-    const response = await callApiForFile(`/LeaseFormData/GetLeaseContract/${leaseId}`, "GET")
+    const response = await ifrsServieForFile(`/LeaseFormData/GetLeaseContract/${leaseId}`, "GET")
     return response
 }
 
 export const updateLeaseFormData = async (leaseId, leaseFormData) => {
     try {
-        const response = await callApi(`/LeaseFormData/UpdateLease/${leaseId}`, "PUT", leaseFormData);
+        const response = await ifrsService(`/LeaseFormData/UpdateLease/${leaseId}`, "PUT", leaseFormData);
         return response;
     } catch (error) {
         return error;
@@ -102,7 +103,7 @@ export const updateLeaseContract = async (leaseId, contractDto) => {
         const formData = new FormData();
         formData.append('LeaseId', leaseId);
         formData.append('ContractDoc', contractDto);
-        const response = await callApiForFile(`/LeaseFormData/UpdateLeaseContract/${leaseId}`, "PUT", formData);
+        const response = await ifrsServieForFile(`/LeaseFormData/UpdateLeaseContract/${leaseId}`, "PUT", formData);
         return response;
     } catch (error) {
         return error;

@@ -1,6 +1,6 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { emailRegex, numberRegex } from '../../helper/inputValidation';
+import { emailRegex, numberRegex, isStrongPassword } from '../../helper/inputValidation';
 import { registerUser } from '../../apis/Cruds/User';
 import { SwalPopup } from '../../middlewares/SwalPopup/SwalPopup';
 import { statusCodeMessage } from '../../utils/enums/statusCode';
@@ -20,6 +20,10 @@ export default function Register() {
         IsActive: true,
     });
     const [isValidEmail, setIsValidEmail] = useState(true);
+    // password strength state (debounced slow error)
+    const [isPwdStrong, setIsPwdStrong] = useState(true);
+    const [pwdError, setPwdError] = useState('');
+    const pwdValidateTimer = useRef(null);
     // Handle Inputs
     const handleInputChange = (event) => {
         const { name, value } = event.target
@@ -32,6 +36,28 @@ export default function Register() {
             [name]: value
         })
     }
+    
+    // Debounced password strength validation (shows a slow error)
+    useEffect(() => {
+        if (pwdValidateTimer.current) {
+            clearTimeout(pwdValidateTimer.current);
+        }
+        // if empty, clear error
+        if (!userData.PasswordHash) {
+            setIsPwdStrong(true);
+            setPwdError('');
+            return;
+        }
+        pwdValidateTimer.current = setTimeout(() => {
+            const ok = isStrongPassword(userData.PasswordHash);
+            setIsPwdStrong(ok);
+            setPwdError(ok ? '' : 'Password must be at least 8 characters and include uppercase, lowercase, number and special character.');
+        }, 700);
+
+        return () => {
+            if (pwdValidateTimer.current) clearTimeout(pwdValidateTimer.current);
+        }
+    }, [userData.PasswordHash]);
     // validate the form 
     const handleValidateForm = () => {
         if (
@@ -40,7 +66,8 @@ export default function Register() {
             userData.Username === "" ||
             userData.PhoneNumber === "" ||
             userData.UserAddress === "" ||
-            isValidEmail === false
+            isValidEmail === false ||
+            isPwdStrong === false
         ) {
             return true
         }
@@ -139,6 +166,10 @@ export default function Register() {
                                 value={userData.PasswordHash}
                                 onChange={handleInputChange}
                             />
+                            {/* slow error shown under password field */}
+                            {!isPwdStrong && (
+                                <p className="mt-2 text-sm text-red-600">{pwdError}</p>
+                            )}
                         </div>
                         <div className="mb-4 w-1/2">
                             <label htmlFor="phoneNumber" className="block text-gray-700 font-medium mb-2">

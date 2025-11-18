@@ -139,7 +139,9 @@ export default function LeaseGeneralInfoForm({ otherTabs, increment }) {
         const leaseModal = {
             ...formData,
             userID: userInfo.userID,
+            userName: userInfo.username,
             companyID: companyProfile.companyID,
+            reportingCurrencyID: companyProfile.reportingCurrencyId,
         };
         setLoading(true);
         const leaseResponse = await addNewLease(leaseModal);

@@ -1,8 +1,8 @@
-import { callApi } from "../callApi"
+import { ifrsService } from "../Gateways/ifrsService"
 
 export const getLeaseLiabilityForLease = async (payload) => {
     try {
-        const response = await callApi(`/LeaseLiability/Get`, "POST", payload)
+        const response = await ifrsService(`/LeaseLiability/Get`, "POST", payload)
         return response
     } catch (error) {
         return error
@@ -11,7 +11,7 @@ export const getLeaseLiabilityForLease = async (payload) => {
 
 export const getAllLeaseLiabilityForLease = async (leaseId) => {
     try {
-        const response = await callApi(`/LeaseLiability/${leaseId}`, "GET")
+        const response = await ifrsService(`/LeaseLiability/${leaseId}`, "GET")
         return response
     } catch (error) {
         return error
@@ -20,7 +20,7 @@ export const getAllLeaseLiabilityForLease = async (leaseId) => {
 
 export const postLeaseLiabilityForLease = async (payload) => {
     try {
-        const response = await callApi(`/LeaseLiability/Add`, "POST", payload)
+        const response = await ifrsService(`/LeaseLiability/Add`, "POST", payload)
         return response
     } catch (error) {
         return error

@@ -1,8 +1,8 @@
-import { callApi } from "../callApi"
+import { ifrsService } from "../Gateways/ifrsService"
 
 export const getJournalEntriesForLease = async (payload) => {
     try {
-        const response = await callApi(`/JournalEntries/Get`, "POST", payload)
+        const response = await ifrsService(`/JournalEntries/Get`, "POST", payload)
         return response
     } catch (error) {
         return error
@@ -11,7 +11,7 @@ export const getJournalEntriesForLease = async (payload) => {
 
 export const getAllJournalEntriesForLease = async (leaseId) => {
     try {
-        const response = await callApi(`/JournalEntries/${leaseId}`, "GET")
+        const response = await ifrsService(`/JournalEntries/${leaseId}`, "GET")
         return response
     } catch (error) {
         return error

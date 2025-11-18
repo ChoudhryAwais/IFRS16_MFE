@@ -5,7 +5,7 @@ import { emailRegex } from '../../helper/inputValidation';
 import { SwalPopup } from '../../middlewares/SwalPopup/SwalPopup';
 import { statusCode, statusCodeMessage } from '../../utils/enums/statusCode';
 import { sessionVariable } from '../../utils/enums/sessionStorage';
-import { getSessionStorage, setSessionStorage } from '../../apis/Cruds/sessionCrud';
+import { getSessionStorage, setSessionStorage, upsertSession } from '../../apis/Cruds/sessionCrud';
 import { LoadingSpinner } from '../../components/LoadingBar/LoadingBar';
 
 export default function Login() {
@@ -47,9 +47,15 @@ export default function Login() {
     }
     const handleSubmit = async () => {
         setLoading(true)
+
         const response = await loginUser(formData)
-        setLoading(false)
+
         if (response?.token) {
+            const sessionUser = {
+                userId: response.user.userID,
+                token: response.token,
+            }
+
             setSessionStorage({
                 key: sessionVariable.token,
                 value: response.token
@@ -62,6 +68,7 @@ export default function Login() {
                 key: sessionVariable.companyProfile,
                 value: response.companyProfile
             })
+            await upsertSession(sessionUser)
 
             navigate("/Dashboard")
         } else if (response.status === statusCode.unauthorized) {
@@ -85,6 +92,7 @@ export default function Login() {
                 "error"
             )
         }
+        setLoading(false)
     };
     // check for login 
     useEffect(() => {

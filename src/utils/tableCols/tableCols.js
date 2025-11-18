@@ -49,7 +49,12 @@ export const leaseCols = {
             return cell.toUpperCase()
         }
     ],
-    username: "User Name",
+    username: [
+        "User Name",
+        (cell) => {
+            return cell.toUpperCase()
+        }
+    ],
 };
 export const initialRecognitionCols = {
     // serialNo: "No.",      // Equivalent to SerialNo (int)

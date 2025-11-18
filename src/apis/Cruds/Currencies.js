@@ -1,8 +1,8 @@
-import { callApi } from "../callApi"
+import { ifrsService } from "../Gateways/ifrsService"
 
 export const getAllCurrencies = async () => {
     try {
-        const response = await callApi(`/Currency/GetAllCurrencies`, "GET")
+        const response = await ifrsService(`/Currency/GetAllCurrencies`, "GET")
         return response
     } catch (error) {
         return error

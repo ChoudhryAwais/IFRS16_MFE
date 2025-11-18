@@ -1,8 +1,8 @@
-import { callApi } from "../callApi"
+import { ifrsService } from "../Gateways/ifrsService"
 
 export const getRouScheduleForLease = async (payload) => {
     try {
-        const response = await callApi(`/ROUSchedule/Get`, "POST", payload)
+        const response = await ifrsService(`/ROUSchedule/Get`, "POST", payload)
         return response
     } catch (error) {
         return error
@@ -11,7 +11,7 @@ export const getRouScheduleForLease = async (payload) => {
 
 export const getAllRouScheduleForLease = async (leaseId) => {
     try {
-        const response = await callApi(`/ROUSchedule/${leaseId}`, "GET")
+        const response = await ifrsService(`/ROUSchedule/${leaseId}`, "GET")
         return response
     } catch (error) {
         return error
@@ -20,7 +20,7 @@ export const getAllRouScheduleForLease = async (leaseId) => {
 
 export const postRouScheduleForLease = async (payload) => {
     try {
-        const response = await callApi(`/ROUSchedule/Add`, "POST", payload)
+        const response = await ifrsService(`/ROUSchedule/Add`, "POST", payload)
         return response
     } catch (error) {
         return error

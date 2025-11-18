@@ -1,9 +1,9 @@
-import React, { useState } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { getCompanyProfile } from "../../apis/Cruds/sessionCrud";
 import { registerUser } from "../../apis/Cruds/User";
 import { statusCodeMessage } from "../../utils/enums/statusCode";
 import { SwalPopup } from "../../middlewares/SwalPopup/SwalPopup";
-import { emailRegex } from "../../helper/inputValidation";
+import { emailRegex, isStrongPassword } from "../../helper/inputValidation";
 import { LoadingSpinner } from "../../components/LoadingBar/LoadingBar";
 import CommonButton from "../../components/common/commonButton";
 export default function AddUserTab() {
@@ -22,11 +22,36 @@ export default function AddUserTab() {
         IsActive: true,
     });
     const [isValidEmail, setIsValidEmail] = useState(true);
+    const [isPwdStrong, setIsPwdStrong] = useState(true);
+    const [pwdError, setPwdError] = useState("");
+    const pwdValidateTimer = useRef(null);
 
     const handleChange = e => {
         const { name, value } = e.target;
         setFormData(prev => ({ ...prev, [name]: value }));
     };
+
+    // Debounced password strength validation for Add User
+    useEffect(() => {
+        if (pwdValidateTimer.current) clearTimeout(pwdValidateTimer.current);
+
+        const pwd = formData.password || '';
+        if (!pwd) {
+            setIsPwdStrong(true);
+            setPwdError('');
+            return;
+        }
+
+        pwdValidateTimer.current = setTimeout(() => {
+            const ok = isStrongPassword(pwd);
+            setIsPwdStrong(ok);
+            setPwdError(ok ? '' : 'Password must be at least 8 characters and include uppercase, lowercase, number and special character.');
+        }, 700);
+
+        return () => {
+            if (pwdValidateTimer.current) clearTimeout(pwdValidateTimer.current);
+        };
+    }, [formData.password]);
     const handleSubmit = async (e) => {
         const user = {
             UserID: 0, // Assuming this will be set later
@@ -43,6 +68,7 @@ export default function AddUserTab() {
         setLoading(true)
         const response = await registerUser(user)
         setLoading(false)
+        debugger
         if (response?.userID) {
             SwalPopup(
                 "User Created",
@@ -53,7 +79,7 @@ export default function AddUserTab() {
         } else if (response.status === 400) {
             SwalPopup(
                 "Sorry!",
-                statusCodeMessage.alreadyExist,
+                response.response.data,
                 "error",
                 () => resetModal()
             )
@@ -74,7 +100,8 @@ export default function AddUserTab() {
             formData.username === "" ||
             formData.phoneNumber === "" ||
             formData.userAddress === "" ||
-            isValidEmail === false
+            isValidEmail === false ||
+            isPwdStrong === false
         ) {
             return true
         }
@@ -113,42 +140,7 @@ export default function AddUserTab() {
                         <input name="email" value={formData.email} onChange={handleChange} onBlur={handleValidEmail} className="w-full border border-gray-300 dark:border-gray-600 rounded px-3 py-2 text-xs focus:ring-2 focus:ring-green-500 focus:border-green-500 dark:bg-gray-700 dark:text-white transition" placeholder="Enter email" />
                         {!isValidEmail && <p className="text-xs" style={{ color: "red" }}>Invalid email address</p>}
                     </div>
-                    {/* Password with eye icon */}
-                    <div className="relative flex flex-col">
-                        <label className="block text-xs font-semibold mb-2 text-gray-700 dark:text-gray-200">Password</label>
-                        <input
-                            name="password"
-                            type={showPassword ? "text" : "password"}
-                            value={formData.password}
-                            onChange={handleChange}
-                            className="w-full border border-gray-300 dark:border-gray-600 rounded px-3 py-2 text-xs focus:ring-2 focus:ring-green-500 focus:border-green-500 dark:bg-gray-700 dark:text-white transition pr-10"
-                            placeholder="Enter password"
-                            autoComplete="new-password"
-                        />
-                        <button
-                            type="button"
-                            onClick={() => setShowPassword((prev) => !prev)}
-                            className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-700 dark:hover:text-gray-200 focus:outline-none flex items-center"
-                            tabIndex={-1}
-                            aria-label={showPassword ? "Hide password" : "Show password"}
-                        >
-                            <div
-                                className="absolute inset-y-0 right-2 flex items-center cursor-pointer text-gray-500 h-[24px]"
-                            // onClick={() => setShowPassword((prev) => !prev)}
-                            >
-                                {showPassword ? (
-                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="h-5 w-5">
-                                        <path strokeLinecap="round" strokeLinejoin="round" d="M3.98 8.223A10.477 10.477 0 0 0 1.934 12C3.226 16.338 7.244 19.5 12 19.5c.993 0 1.953-.138 2.863-.395M6.228 6.228A10.451 10.451 0 0 1 12 4.5c4.756 0 8.773 3.162 10.065 7.498a10.522 10.522 0 0 1-4.293 5.774M6.228 6.228 3 3m3.228 3.228 3.65 3.65m7.894 7.894L21 21m-3.228-3.228-3.65-3.65m0 0a3 3 0 1 0-4.243-4.243m4.242 4.242L9.88 9.88" />
-                                    </svg>
-                                ) : (
-                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="h-5 w-5">
-                                        <path strokeLinecap="round" strokeLinejoin="round" d="M2.036 12.322a1.012 1.012 0 0 1 0-.639C3.423 7.51 7.36 4.5 12 4.5c4.638 0 8.573 3.007 9.963 7.178.07.207.07.431 0 .639C20.577 16.49 16.64 19.5 12 19.5c-4.638 0-8.573-3.007-9.963-7.178Z" />
-                                        <path strokeLinecap="round" strokeLinejoin="round" d="M15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" />
-                                    </svg>
-                                )}
-                            </div>
-                        </button>
-                    </div>
+
                     <div className="flex flex-col">
                         <label className="block text-xs font-semibold mb-2 text-gray-700 dark:text-gray-200">Phone Number</label>
                         <input name="phoneNumber" value={formData.phoneNumber} onChange={handleChange} className="w-full border border-gray-300 dark:border-gray-600 rounded px-3 py-2 text-xs focus:ring-2 focus:ring-green-500 focus:border-green-500 dark:bg-gray-700 dark:text-white transition" placeholder="Enter phone number" />
@@ -174,8 +166,45 @@ export default function AddUserTab() {
                         </select>
                     </div>
                 </div>
+                {/* Password with eye icon */}
+                <div className="flex flex-col mt-5">
+                    <label className="block text-xs font-semibold mb-2 text-gray-700 dark:text-gray-200">Password</label>
+                    <div className="relative">
+                        <input
+                            name="password"
+                            type={showPassword ? "text" : "password"}
+                            value={formData.password}
+                            onChange={handleChange}
+                            className="w-full border border-gray-300 dark:border-gray-600 rounded px-3 py-2 text-xs focus:ring-2 focus:ring-green-500 focus:border-green-500 dark:bg-gray-700 dark:text-white transition pr-10"
+                            placeholder="Enter password"
+                            autoComplete="new-password"
+                        />
+                        <button
+                            type="button"
+                            onClick={() => setShowPassword((prev) => !prev)}
+                            className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-700 dark:hover:text-gray-200 focus:outline-none flex items-center"
+                            tabIndex={-1}
+                            aria-label={showPassword ? "Hide password" : "Show password"}
+                        >
+                            {showPassword ? (
+                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="h-5 w-5">
+                                    <path strokeLinecap="round" strokeLinejoin="round" d="M3.98 8.223A10.477 10.477 0 0 0 1.934 12C3.226 16.338 7.244 19.5 12 19.5c.993 0 1.953-.138 2.863-.395M6.228 6.228A10.451 10.451 0 0 1 12 4.5c4.756 0 8.773 3.162 10.065 7.498a10.522 10.522 0 0 1-4.293 5.774M6.228 6.228 3 3m3.228 3.228 3.65 3.65m7.894 7.894L21 21m-3.228-3.228-3.65-3.65m0 0a3 3 0 1 0-4.243-4.243m4.242 4.242L9.88 9.88" />
+                                </svg>
+                            ) : (
+                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="h-5 w-5">
+                                    <path strokeLinecap="round" strokeLinejoin="round" d="M2.036 12.322a1.012 1.012 0 0 1 0-.639C3.423 7.51 7.36 4.5 12 4.5c4.638 0 8.573 3.007 9.963 7.178.07.207.07.431 0 .639C20.577 16.49 16.64 19.5 12 19.5c-4.638 0-8.573-3.007-9.963-7.178Z" />
+                                    <path strokeLinecap="round" strokeLinejoin="round" d="M15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" />
+                                </svg>
+                            )}
+                        </button>
+                    </div>
+                    {/* password strength slow error */}
+                    {!isPwdStrong && (
+                        <p className="text-xs mt-1 text-red-600">{pwdError}</p>
+                    )}
+                </div>
 
-                <div className="flex justify-center mt-8 w-full">
+                <div className="flex justify-center mt-2 w-full">
                     <CommonButton
                         extandedClass={"bg-indigo-600 hover:bg-indigo-700 text-white hover:text-white w-full mt-3"}
                         text="Add User"

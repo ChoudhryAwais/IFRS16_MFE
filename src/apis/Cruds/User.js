@@ -1,7 +1,8 @@
-import { callApi } from "./../callApi"
+import { identityService } from "../Gateways/identityService";
+import { ifrsService } from "../Gateways/ifrsService"
 export const updateUser = async (userData) => {
     try {
-        const response = await callApi(`/User/Update`, "PUT", userData);
+        const response = await identityService(`/User/Update`, "PUT", userData);
         return response;
     } catch (error) {
         return error;
@@ -9,7 +10,7 @@ export const updateUser = async (userData) => {
 }
 export const verifyPassword = async ({ userId, password }) => {
     try {
-        const response = await callApi(`/User/VerifyPassword`, "POST", { userId, password });
+        const response = await identityService(`/User/VerifyPassword`, "POST", { userId, password });
         return response;
     } catch (error) {
         return error;
@@ -18,7 +19,7 @@ export const verifyPassword = async ({ userId, password }) => {
 
 export const registerUser = async (userModal) => {
     try {
-        const response = await callApi(`/Registration`, "POST", userModal)
+        const response = await identityService(`/Registration`, "POST", userModal)
         return response
     } catch (error) {
         return error
@@ -27,7 +28,7 @@ export const registerUser = async (userModal) => {
 
 export const loginUser = async (loginModal) => {
     try {
-        const response = await callApi(`/Login`, "POST", loginModal)
+        const response = await identityService(`/Login`, "POST", loginModal)
         return response
     } catch (error) {
         return error
@@ -36,7 +37,7 @@ export const loginUser = async (loginModal) => {
 // Call logout API on server to invalidate session/token
 export const logoutUser = async () => {
     try {
-        const response = await callApi(`/Logout`, "POST");
+        const response = await ifrsService(`/Logout`, "POST");
         return response;
     } catch (error) {
         return error;

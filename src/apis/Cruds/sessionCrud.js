@@ -1,4 +1,15 @@
 import { sessionVariable } from "../../utils/enums/sessionStorage";
+import { ifrsService } from "../Gateways/ifrsService";
+
+// Call logout API on server to invalidate session/token
+export const upsertSession = async (payload) => {
+    try {
+        const response = await ifrsService(`/SessionToken/Upsert`, "POST", payload);
+        return response;
+    } catch (error) {
+        return error;
+    }
+}
 
 export const getUserInfo = () => {
     return JSON.parse(getSessionStorage({ key: sessionVariable.userInfo }))
@@ -7,10 +18,10 @@ export const getCompanyProfile = () => {
     return JSON.parse(getSessionStorage({ key: sessionVariable.companyProfile })) || {}
 }
 export const getSelectLease = () => {
-return JSON.parse(getSessionStorage({ key: sessionVariable.selectLease }))
+    return JSON.parse(getSessionStorage({ key: sessionVariable.selectLease }))
 }
 export const getAppFlow = () => {
-return JSON.parse(getSessionStorage({ key: sessionVariable.flow }))
+    return JSON.parse(getSessionStorage({ key: sessionVariable.flow }))
 }
 
 export const setSessionStorage = ({ key, value }) => {
