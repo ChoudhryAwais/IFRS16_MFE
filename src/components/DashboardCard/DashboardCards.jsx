@@ -2,23 +2,23 @@ import React, { useEffect, useState } from 'react'
 import CustomCard from './Card'
 import { getLeaseReportSummary } from '../../apis/Cruds/Report';
 import { addOneDay, getDateForCards } from '../../helper/getDate';
-import { getCompanyProfile } from '../../apis/Cruds/sessionCrud';
 import { exchangeGainLoss } from '../../helper/FormateValues';
 import BarChart from '../Charts/BarChart';
+import { getAllLeasesforCompany } from '../../apis/Cruds/LeaseData';
 
-export default function DashboardCards({ allLeases }) {
+export default function DashboardCards() {
     const [leaseSummary, setLeaseSummary] = useState({
         data: [],
         loading: false
     })
-    const { currentDate } = getDateForCards();
-    const activeLeases = allLeases?.length > 0 ? allLeases.filter(lease => lease.isActive === true)?.length : 0
+    const { currentDate, startDate } = getDateForCards();
+    const [activeLeases, setActiveLease] = useState([])
+    // const activeLeases = allLeases?.length > 0 ? allLeases.filter(lease => lease.isActive === true)?.length : 0
     // Use it get the data on current date
     useEffect(() => {
         const cardsInfo = async () => {
-            const companyProfile = getCompanyProfile()
             const model = {
-                startDate: addOneDay(companyProfile?.financialYearEnd),
+                startDate: startDate,
                 endDate: currentDate,
             }
             setLeaseSummary({
@@ -37,6 +37,7 @@ export default function DashboardCards({ allLeases }) {
             }
 
         }
+        getAllLeasesforCompanyMethod()
         cardsInfo()
     }, [])
     const topCards = [
@@ -44,7 +45,7 @@ export default function DashboardCards({ allLeases }) {
             title: "TOTAL LEASES",
             color: "text-purple-600",
             subTitle: currentDate,
-            value: ("" + activeLeases) || 0
+            value: activeLeases ? ("" + activeLeases?.length) : 0
         },
         {
             title: "LEASE LIABILITY",
@@ -70,21 +71,6 @@ export default function DashboardCards({ allLeases }) {
             color: "text-green-600",
             value: leaseSummary.data?.amortization || 0
         },
-        // {
-        //     title: "PAYMENTS DUE",
-        //     subTitle: 'Year to Date (YTD)',
-        //     color: "text-green-600",
-        //     value: leaseSummary.data?.payment || 0
-        // },
-        // {
-        //     title: "EXCHANGE GAIN / (LOSS)",
-        //     subTitle: 'Year to Date (YTD)',
-        //     color: "text-green-600",
-        //     value: exchangeGainLoss(leaseSummary.data?.exchange_Gain_Loss || 0) || 0
-        // }
-    ]
-    const bottomCards = [
-
         {
             title: "PAYMENTS DUE",
             subTitle: 'Year to Date (YTD)',
@@ -98,6 +84,36 @@ export default function DashboardCards({ allLeases }) {
             value: exchangeGainLoss(leaseSummary.data?.exchange_Gain_Loss || 0) || 0
         }
     ]
+    // const bottomCards = [
+
+    //     {
+    //         title: "PAYMENTS DUE",
+    //         subTitle: 'Year to Date (YTD)',
+    //         color: "text-green-600",
+    //         value: leaseSummary.data?.payment || 0
+    //     },
+    //     {
+    //         title: "EXCHANGE GAIN / (LOSS)",
+    //         subTitle: 'Year to Date (YTD)',
+    //         color: "text-green-600",
+    //         value: exchangeGainLoss(leaseSummary.data?.exchange_Gain_Loss || 0) || 0
+    //     }
+    // ]
+
+    const getAllLeasesforCompanyMethod = async () => {
+        try {
+            let activeLeases = 0
+            const leaseResponse = await getAllLeasesforCompany()
+            if (leaseResponse.length > 0) {
+                activeLeases = leaseResponse.filter(lease => lease.isActive) || []
+            }
+            setActiveLease(activeLeases || [])
+        } catch {
+            setLeaseSummary({
+                loading: false
+            })
+        }
+    }
 
     return (
         <>
@@ -105,7 +121,7 @@ export default function DashboardCards({ allLeases }) {
                 {
                     topCards.map((card, i) => {
                         return (
-                            <div className='w-full md:w-1/5 ' key={i}>
+                            <div className='w-full lg:w-1/4 ' key={i}>
                                 <CustomCard card={card} loading={leaseSummary.loading} />
                             </div>
                         )
@@ -113,17 +129,15 @@ export default function DashboardCards({ allLeases }) {
                 }
             </div>
             <div className="flex">
-                {/* 70% Left Side */}
-                <div className="w-[40%] p-5">
+                {/* <div className="w-[40%] p-5">
                     <h2 className="text-xs font-semibold dark:text-white">AMORTIZATION EXPENSE</h2>
                     <BarChart />
                 </div>
                 <div className="w-[40%] p-5">
                     <h2 className="text-xs font-semibold dark:text-white">PAYMENTS DUE</h2>
                     <BarChart />
-                </div>
-                {/* 30% Right Side - Split into 3 Rows */}
-                <div className="w-[20%] flex flex-col mt-4">
+                </div> */}
+                {/* <div className="w-[20%] flex flex-col mt-4">
                     {
                         bottomCards.map((card, i) => {
                             return (
@@ -133,10 +147,9 @@ export default function DashboardCards({ allLeases }) {
                             )
                         })
                     }
-                </div>
+                </div> */}
             </div>
-            <div className="flex">
-                {/* 70% Left Side */}
+            {/* <div className="flex">
                 <div className="w-[33%] p-5">
                     <h2 className="text-xs font-semibold dark:text-white">INTEREST EXPENSE</h2>
                     <BarChart />
@@ -149,7 +162,7 @@ export default function DashboardCards({ allLeases }) {
                     <h2 className="text-xs font-semibold dark:text-white">LEASE LIABILITY</h2>
                     <BarChart />
                 </div>
-            </div>
+            </div> */}
         </>
     )
 }

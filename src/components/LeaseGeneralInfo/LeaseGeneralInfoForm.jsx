@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { addLeaseContract, addNewLease, getLeaseContract, modifyLease, updateLeaseContract, updateLeaseFormData } from '../../apis/Cruds/LeaseData';
+import { addLeaseContract, addNewLease, getAllLeasesforCompany, getLeaseContract, modifyLease, updateLeaseContract, updateLeaseFormData } from '../../apis/Cruds/LeaseData';
 import { ConfirmationSwalPopup, SwalPopup } from '../../middlewares/SwalPopup/SwalPopup';
 import { apiResponses, statusCodeMessage } from '../../utils/enums/statusCode';
 import { LoadingSpinner } from '../LoadingBar/LoadingBar';
@@ -52,6 +52,15 @@ export default function LeaseGeneralInfoForm({ otherTabs, increment }) {
         llOpening: null,
         isChangeInScope: false,
         assetType: activeLease?.assetType || assetTypesValues[0],
+    });
+
+    const [allLeases, setAllLeases] = useState({
+        data: [],
+        loading: false
+    })
+    const [leaseNameError, setLeaseNameError] = useState({
+        status: false,
+        message: ''
     });
 
     const handleChange = (e) => {
@@ -122,6 +131,7 @@ export default function LeaseGeneralInfoForm({ otherTabs, increment }) {
         if (
             // contractInvalid ||
             formData.leaseName === '' ||
+            leaseNameError.status ||
             formData.rental === '' ||
             formData.commencementDate === '' ||
             formData.endDate === '' ||
@@ -372,6 +382,46 @@ export default function LeaseGeneralInfoForm({ otherTabs, increment }) {
             () => navigate("/IFRS16Accounting")
         );
     }
+
+    useEffect(() => {
+        const getLeasesForCompany = async () => {
+            setAllLeases({
+                ...allLeases,
+                loading: true
+            })
+            const response = await getAllLeasesforCompany()
+
+            if (response.length > 0) {
+                setAllLeases({
+                    ...allLeases,
+                    loading: false,
+                    data: response
+                })
+            }
+        }
+        getLeasesForCompany()
+    }, [])
+
+
+    const setLeaseID = (e) => {
+        if (allLeases.data.length > 0) {
+            const isLeaseNameExists = allLeases.data.some((lease) => lease.leaseName.toLowerCase() === e.target.value.toLowerCase());
+            if (isLeaseNameExists)
+                setLeaseNameError({
+                    status: true,
+                    message: 'Given Lease ID already exists'
+                })
+            else {
+                setLeaseNameError({
+                    status: false,
+                    message: ''
+                })
+            }
+        }
+
+
+    }
+
     return (
         <React.Fragment>
             <LoadingSpinner isLoading={loading} />
@@ -450,7 +500,11 @@ export default function LeaseGeneralInfoForm({ otherTabs, increment }) {
                                     leaseName: e.target.value,
                                 });
                             }}
+                            onBlur={setLeaseID}
                         />
+                        {leaseNameError.status && (
+                            <p className="mt-2 text-xs text-red-600">{leaseNameError.message}</p>
+                        )}
                     </div>
                     {/* Rental */}
                     {!customSchedule ?
